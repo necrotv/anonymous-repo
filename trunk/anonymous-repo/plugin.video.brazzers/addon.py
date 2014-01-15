@@ -36,21 +36,10 @@ def CATEGORIES():
 	addDir('New Videos','http://brazzers.myporno.biz',1,addonfolder + artfolder + 'videos.png')
 	addDir('Most Watched','http://brazzers.myporno.biz/?v_sortby=views&v_orderby=desc',1,addonfolder + artfolder + 'videos.png')
 	addDir('Search','http://brazzers.myporno.biz',3,addonfolder + artfolder + 'search.png')
-	addDir('Anal','http://brazzers.myporno.biz/category/anal/',1,addonfolder + artfolder + 'anal.jpg')
-	addDir('Asian','http://brazzers.myporno.biz/category/asian/',1,addonfolder + artfolder + 'asian.jpg')
-	addDir('Baby Got Boobs','http://brazzers.myporno.biz/category/sites/baby-got-boobs/',1,addonfolder + artfolder + 'bgb.jpg')
-	addDir('Big Ass','http://brazzers.myporno.biz/category/big-ass/',1,addonfolder + artfolder + 'bigass.jpg')
-	addDir('Big Butts Like it Big','http://brazzers.myporno.biz/category/sites/big-butts-like-it-big/',1,addonfolder + artfolder + 'bblib.jpg')
-	addDir('Big Dick','http://brazzers.myporno.biz/category/big-dick/',1,addonfolder + artfolder + 'bigdick.jpg')
-	addDir('Big Tits','http://brazzers.myporno.biz/category/big-tits/',1,addonfolder + artfolder + 'bigtits.jpg')
-	addDir('Big Tits at School','http://brazzers.myporno.biz/category/sites/big-tits-at-school/',1,addonfolder + artfolder + 'btas.jpg')
-	addDir('Big Tits at Work','http://brazzers.myporno.biz/category/sites/big-tits-at-work/',1,addonfolder + artfolder + 'btaw.jpg')
-	addDir('Big Tits in Sports','http://brazzers.myporno.biz/category/sites/big-tits-in-sports/',1,addonfolder + artfolder + 'btasp.jpg')
-	addDir('Big Tits in Uniform','http://brazzers.myporno.biz/category/sites/big-tits-in-uniform/',1,addonfolder + artfolder + 'btiu.jpg')
-	addDir('Big Wet Butts','http://brazzers.myporno.biz/category/sites/big-wet-butts/',1,addonfolder + artfolder + 'bwb.jpg')
-	addDir('Blonde','http://brazzers.myporno.biz/category/blonde/',1,addonfolder + artfolder + 'blonde.jpg')
-	addDir('Blowjob','http://brazzers.myporno.biz/category/blowjob/',1,addonfolder + artfolder + 'blowjob.jpg')
-
+	codigo_fonte = abrir_url('http://brazzers.myporno.biz')
+	match = re.compile('<li class="cat-item cat-item-.+?"><a href="(.+?)" title=".+?">(.+?)</a>').findall(codigo_fonte)
+	for url, titulo in match:
+		addDir(titulo,url,1,addonfolder + artfolder + 'videos.png')
 
 	
 	

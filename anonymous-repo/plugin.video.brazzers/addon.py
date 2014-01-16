@@ -33,6 +33,14 @@ artfolder = '/resources/img/'
 #MENUS############################################
 
 def CATEGORIES():
+	addDir('Source 1','-',0,addonfolder + artfolder + 'videos.png')
+	addDir('Source 2','http://freehdporn.ws/brazzers.php',4,addonfolder + artfolder + 'videos.png')
+
+
+	
+###################################################################################
+#FUNCOES
+def fonte1():
 	addDir('New Videos','http://brazzers.myporno.biz',1,addonfolder + artfolder + 'videos.png')
 	addDir('Most Watched','http://brazzers.myporno.biz/?v_sortby=views&v_orderby=desc',1,addonfolder + artfolder + 'videos.png')
 	addDir('Search','http://brazzers.myporno.biz',3,addonfolder + artfolder + 'search.png')
@@ -41,18 +49,43 @@ def CATEGORIES():
 	for url, titulo in match:
 		addDir(titulo,url,1,addonfolder + artfolder + 'videos.png')
 
+def listar_videos2(url):
+	codigo_fonte = abrir_url(url)
+	match = re.compile('<iframe class="modal_video" src="(.+?)"').findall(codigo_fonte)
+	match2 = re.compile('data-description="(.+?)"').findall(codigo_fonte)
+	
+	a = []
+	for x in range(0, len(match)):
+		temp = [match[x],match2[x]]; 
+		a.append(temp);
+	
+	for url,titulo in a:
+		codigo_fonte2 = abrir_url(url)
+		img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)
+		#removed = re.compile('This video has been (.+?) from public access.').findall(codigo_fonte)
+		#for a in removed:
+			#if a == 'removed':
+				#img = ''
+				#continue
+		titulo = titulo.replace("&#8211;","-")
+		titulo = titulo.replace("&#8217;","'")
+		addDir(titulo,url,2,img[0])
+	
+	page = re.compile("<div class='pages'><a class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
+	for url_prox_pagina in page:
+		print url_prox_pagina
+		addDir('Next page >>','http://freehdporn.ws/brazzers.php' + str(url_prox_pagina),4,addonfolder + artfolder + 'next.png')
+		break
 	
 	
+	xbmc.executebuiltin("Container.SetViewMode(500)")
 	
-###################################################################################
-#FUNCOES
 
 def listar_videos(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('</header><iframe src="(.+?)"').findall(codigo_fonte)
 	match2 = re.compile('title="Permalink to (.+?)"').findall(codigo_fonte)
-	print match
-	print match2
+
 	a = []
 	for x in range(0, len(match)):
 		temp = [match[x],match2[x]]; 
@@ -199,9 +232,17 @@ if mode==None or url==None or len(url)<1:
         print ""
         CATEGORIES()
 		
+elif mode==0:
+		print ""
+		fonte1()
+		
 elif mode==1:
 		print ""
 		listar_videos(url)
+
+elif mode==4:
+		print ""
+		listar_videos2(url)
 		
 elif mode==2:
 		print ""

@@ -103,8 +103,8 @@ def pesquisa():
 		parametro_pesquisa=urllib.quote(search) #parametro_pesquisa faz o quote da expressao search, isto é, escapa os parametros necessarios para ser incorporado num endereço url
 		url = 'http://brazzers.myporno.biz/?s=' + str(parametro_pesquisa) #nova definicao de url. str força o parametro de pesquisa a ser uma string
 		listar_videos(url) #chama a função listar_videos com o url definido em cima
-	else:
-		CATEGORIES()
+	#else:
+		#CATEGORIES()
 	
 ###################################################################################
 

@@ -1,3 +1,2 @@
-Version 1.0.1
-* First addon release
+Version 1.0.0 - Primeira versão
 

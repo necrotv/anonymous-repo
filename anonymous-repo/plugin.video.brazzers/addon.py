@@ -65,7 +65,7 @@ def listar_videos(url):
 		#for a in removed:
 			#if a == 'removed':
 				#img = ''
-				#break
+				#continue
 		titulo = titulo.replace("&#8211;","-")
 		titulo = titulo.replace("&#8217;","'")
 		addDir(titulo,url,2,img[0])

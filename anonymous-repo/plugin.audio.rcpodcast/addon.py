@@ -43,9 +43,7 @@ def CATEGORIES():
 	addDir('Ouvintes no ar','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=26',1,addonfolder + artfolder + '26.jpg')
 	addDir('Primo','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=19',1,addonfolder + artfolder + '19.jpg')
 	#addDir('TNT - Todos no top','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=11',1,addonfolder + artfolder + '11.jpg')
-	addLink('teste','http://www.radiocomercial.iol.pt/player/silver/?wma=/rcomercial/8484GAJZ-3F1U-4N0G-PCP8-CRQJK6AQU2W6.wma','')
 	
-
 
 ###################################################################################
 #FUNCOES

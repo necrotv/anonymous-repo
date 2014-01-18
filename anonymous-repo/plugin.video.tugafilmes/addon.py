@@ -47,14 +47,6 @@ def CATEGORIES():
 
 ###################################################################################
 #FUNCOES
-def versao_disponivel():
-	try:
-		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.video.tugafilmes/addon.xml')		#ALTERAR NO FIM
-		match=re.compile('<addon id="plugin.video.tugafilmes" name="Tuga Filmes" version="(.+?)"').findall(codigo_fonte)[0]
-	except:
-		match='Erro ao verificar a versão!'
-	return match
-
 def categorias():
 	addDir('Acção','http://www.tuga-filmes.com/search/label/Ac%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
 	addDir('Comédia','http://www.tuga-filmes.com/search/label/com%C3%A9dia',2,artfolder + 'categorias.png')
@@ -66,6 +58,15 @@ def categorias():
 	addDir('Aventura','http://www.tuga-filmes.com/search/label/Aventura',2,artfolder + 'categorias.png')
 	addDir('Animação','http://www.tuga-filmes.com/search/label/Anima%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
 	addDir('Documentário','http://www.tuga-filmes.com/search/label/Document%C3%A1rio',2,artfolder + 'categorias.png')
+	
+	
+def versao_disponivel():
+	try:
+		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.video.tugafilmes/addon.xml')		#ALTERAR NO FIM
+		match=re.compile('<addon id="plugin.video.tugafilmes" name="Tuga Filmes" version="(.+?)"').findall(codigo_fonte)[0]
+	except:
+		match='Erro ao verificar a versão!'
+	return match
 	
 def listar_videos(url):
 	codigo_fonte = abrir_url(url)
@@ -87,7 +88,8 @@ def listar_videos(url):
 	
 def obtem_url_dropvideo(url):
 	codigo_fonte = abrir_url(url)
-	url_video = re.compile('var vurl = "(.+?)";').findall(codigo_fonte)[0]
+	try: url_video = re.compile('var vurl = "(.+?)";').findall(codigo_fonte)[0]
+	except: url_video = '-'
 	try: url_legendas =	re.compile('var vsubtitle = "(.+?)";').findall(codigo_fonte)[0]
 	except: url_legendas = '-'
 	return [url_video,url_legendas]
@@ -96,7 +98,8 @@ def obtem_url_videomega(url):
 	codigo_fonte = abrir_url(url)
 	code = re.compile('document.write\(unescape\("(.+?)"\)\)\;').findall(codigo_fonte)
 	texto = urllib.unquote(code[0])
-	url_video = re.compile('file: "(.+?)"').findall(texto)[0]
+	try: url_video = re.compile('file: "(.+?)"').findall(texto)[0]
+	except: url_video = '-'
 	try: url_legendas =	re.compile('"file": "(.+?)"').findall(texto)[0]
 	except: url_legendas = '-'
 	return [url_video,url_legendas]
@@ -108,8 +111,9 @@ def player(name,url,iconimage):
 	
 	matriz = []
 	codigo_fonte = abrir_url(url)
-	url_video = re.compile('<iframe frameborder=".+?" height=".+?" scrolling=".+?" src="(.+?)"').findall(codigo_fonte)[0]
-	
+	try: url_video = re.compile('<iframe frameborder=".+?" height=".+?" scrolling=".+?" src="(.+?)"').findall(codigo_fonte)[0]
+	except: return
+
 	mensagemprogresso.update(66)
 	
 	if 'videomega' in url_video: matriz = obtem_url_videomega(url_video)
@@ -117,6 +121,7 @@ def player(name,url,iconimage):
 	else: matriz[0] = matriz[1] = 'url desconhecido'
 	
 	url = matriz[0]
+	if url=='-': return
 	legendas = matriz[1]
 	
 	mensagemprogresso.update(100)
@@ -145,7 +150,7 @@ def pesquisa():
 		listar_videos(url) #chama a função listar_videos com o url definido em cima
 
 		###################################################################################
-#FUNCOES JÁ FEITAS
+
 def addDirPlayer(name,url,mode,iconimage):
 	codigo_fonte = abrir_url(url)
 	try: plot = re.compile('<b>SINOPSE:.+?</b><span style=".+?">(.+?)</span>').findall(codigo_fonte)[0]
@@ -270,5 +275,9 @@ elif mode==3:
 elif mode==4:
 	print ""
 	player(name,url,iconimage)
+	
+elif mode==5:
+	print ""
+	listar_videos_M18(url)
 	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

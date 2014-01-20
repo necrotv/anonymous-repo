@@ -39,9 +39,9 @@ def CATEGORIES():
 	
 	addLink("",'','-')
 	disponivel=versao_disponivel()
-	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','','')
+	if disponivel==versao: addLink('[B][COLOR white]Last version installed (' + versao + ')[/COLOR][/B]','','')
 	elif disponivel=='Error checking version!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','','')
-	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','','')
+	else: addLink('[B][COLOR white]New version available... ('+ disponivel + '). Please update![/COLOR][/B]','','')
 	
 ###################################################################################
 #FUNCOES

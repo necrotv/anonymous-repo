@@ -26,6 +26,7 @@ addon_id = 'plugin.video.brazzers'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = '/resources/img/'
+versao = '1.0.0'
 
 
 ################################################## 
@@ -35,11 +36,23 @@ artfolder = '/resources/img/'
 def CATEGORIES():
 	addDir('Source 1','-',0,addonfolder + artfolder + 'videos.png')
 	addDir('Source 2','http://freehdporn.ws/brazzers.php',4,addonfolder + artfolder + 'videos.png')
-
-
+	
+	addLink("",'','-')
+	disponivel=versao_disponivel()
+	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','','')
+	elif disponivel=='Error checking version!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','','')
+	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','','')
 	
 ###################################################################################
 #FUNCOES
+def versao_disponivel():
+	try:
+		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.video.brazzers/addon.xml')		#ALTERAR NO FIM
+		match=re.compile('<addon id="plugin.video.brazzers" name="Brazzers" version="(.+?)"').findall(codigo_fonte)[0]
+	except:
+		match='Error checking version!'
+	return match
+
 def fonte1():
 	addDir('New Videos','http://brazzers.myporno.biz',1,addonfolder + artfolder + 'videos.png')
 	addDir('Most Watched','http://brazzers.myporno.biz/?v_sortby=views&v_orderby=desc',1,addonfolder + artfolder + 'videos.png')

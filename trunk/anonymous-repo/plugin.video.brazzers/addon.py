@@ -61,7 +61,8 @@ def fonte1():
 	match = re.compile('<li class="cat-item cat-item-.+?"><a href="(.+?)" title=".+?">(.+?)</a>').findall(codigo_fonte)
 	for url, titulo in match:
 		addDir(titulo,url,1,addonfolder + artfolder + 'videos.png')
-
+	xbmc.executebuiltin("Container.SetViewMode(50)")
+	
 def listar_videos2(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('<iframe class="modal_video" src="(.+?)"').findall(codigo_fonte)
@@ -74,15 +75,11 @@ def listar_videos2(url):
 	
 	for url,titulo in a:
 		codigo_fonte2 = abrir_url(url)
-		img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)
-		#removed = re.compile('This video has been (.+?) from public access.').findall(codigo_fonte)
-		#for a in removed:
-			#if a == 'removed':
-				#img = ''
-				#continue
+		try: img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)[0]
+		except: continue
 		titulo = titulo.replace("&#8211;","-")
 		titulo = titulo.replace("&#8217;","'")
-		addDir(titulo,url,2,img[0])
+		addDir(titulo,url,2,img)
 	
 	page = re.compile("<div class='pages'><a class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
 	for url_prox_pagina in page:
@@ -106,15 +103,11 @@ def listar_videos(url):
 	
 	for url,titulo in a:
 		codigo_fonte2 = abrir_url(url)
-		img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)
-		#removed = re.compile('This video has been (.+?) from public access.').findall(codigo_fonte)
-		#for a in removed:
-			#if a == 'removed':
-				#img = ''
-				#continue
+		try: img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)[0]
+		except: continue
 		titulo = titulo.replace("&#8211;","-")
 		titulo = titulo.replace("&#8217;","'")
-		addDir(titulo,url,2,img[0])
+		addDir(titulo,url,2,img)
 	
 	page = re.compile("<span class='current'>.+?</span><a href='(.+?)' class='page larger'>.+?").findall(codigo_fonte)
 	for url_prox_pagina in page:
@@ -125,11 +118,6 @@ def listar_videos(url):
 	
 def encontrar_fontes(url):
 	codigo_fonte = abrir_url(url)
-	#removed = re.compile('This video has been (.+?) from public access.').findall(codigo_fonte)
-	#for a in removed:
-		#if a == 'removed':
-			#addLink('Removed','','')
-			#return
 		
 	match = re.compile('cache720=(.+?)&amp').findall(codigo_fonte)
 	img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte)

@@ -71,7 +71,7 @@ def versao_disponivel():
 def listar_videos(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile("<a href='(.+?)' title='(.+?)'><div style='.+?'>.+?</div>.+?<div id='.+?'></div></a>").findall(codigo_fonte) 
-	img = re.compile('<div style="text-align: center;"><img alt="" border="0" src="(.+?)"').findall(codigo_fonte)
+	img = re.compile('<img alt="" border="0" src="(.+?)"').findall(codigo_fonte) #<div style="text-align: center;"><img alt="" border="0" src="(.+?)"
 
 	a = [] # url titulo img
 	for x in range(0, len(match)):

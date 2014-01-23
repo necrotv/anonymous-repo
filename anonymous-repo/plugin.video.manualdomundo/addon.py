@@ -103,7 +103,7 @@ def encontrar_fontes(url):
 		
 	i = 1
 	for id in id_video:
-		addDir('Video ' + str(i),'plugin://plugin.video.youtube/?action=play_video&videoid=' + id,4,'DefaultVideo.png',False)
+		addDir('Vídeo ' + str(i),'plugin://plugin.video.youtube/?action=play_video&videoid=' + id,4,'DefaultVideo.png',False)
 		i = i + 1
 
 

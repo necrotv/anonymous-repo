@@ -79,6 +79,7 @@ def listar_videos(url):
 		a.append(temp);
 	
 	for url2, titulo, img in a:
+		titulo = titulo.replace('&#39;',"'")
 		addDirPlayer(titulo,url2,4,img)
 		
 	page = re.compile("<a class='blog-pager-older-link' href='(.+?)'").findall(codigo_fonte)

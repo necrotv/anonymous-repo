@@ -81,7 +81,7 @@ def listar_videos2(url):
 		titulo = titulo.replace("&#8217;","'")
 		addDir(titulo,url,2,img)
 	
-	page = re.compile("<div class='pages'><a class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
+	page = re.compile("class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
 	for url_prox_pagina in page:
 		print url_prox_pagina
 		addDir('Next page >>','http://freehdporn.ws/brazzers.php' + str(url_prox_pagina),4,addonfolder + artfolder + 'next.png')

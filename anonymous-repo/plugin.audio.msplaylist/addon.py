@@ -41,11 +41,13 @@ def CATEGORIES():
 	addDir('Playlist','-',5,artfolder + 'Playlist.png')
 	
 	addLink('','-','-')
+	addDir('[B][COLOR white]Aviso[/COLOR][/B]','-',11,artfolder + 'aviso.png',False)
+	addDir('[B][COLOR blue]Definições do addon[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
+	addLink('','-','-')
 	disponivel=versao_disponivel()
 	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','-',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','-',artfolder + 'versao.png')
 	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','-',artfolder + 'versao.png')
-	addDir('[B][COLOR blue]Definições do addon[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
 
 ###################################################################################
 #FUNCOES
@@ -124,6 +126,15 @@ def download(name,url):
 	except:
 		dialog = xbmcgui.Dialog()
 		dialog.ok(" Erro:", "Download interrompido!")
+		
+def mensagemaviso():
+    try:
+        xbmc.executebuiltin("ActivateWindow(10147)")
+        window = xbmcgui.Window(10147)
+        xbmc.sleep(100)
+        window.getControl(1).setLabel( "%s - %s" % ('AVISO','Mp3 Skull Playlist',))
+        window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.")
+    except: pass
 
 ############################################## PLAYLIST #################################		
 		
@@ -339,5 +350,8 @@ elif mode==9:
 
 elif mode==10:
 	apaga_playlist()
+
+elif mode==11:
+	mensagemaviso()
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -30,7 +30,6 @@ artfolder = addonfolder + '/resources/img/'
 playlist = addonfolder + '/resources/playlist/playlist.txt'
 fanart = addonfolder + '/fanart.jpg'
 download_path = selfAddon.getSetting('download-folder')
-print "DOWNLOAD: " + str(download_path)
 
 ################################################## 
 
@@ -46,7 +45,7 @@ def CATEGORIES():
 	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','-',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','-',artfolder + 'versao.png')
 	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','-',artfolder + 'versao.png')
-	addDir('[B][COLOR blue]Definições[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
+	addDir('[B][COLOR blue]Definições do addon[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
 
 ###################################################################################
 #FUNCOES
@@ -170,6 +169,19 @@ def le_playlist():
 	for line in lines:
 		match = re.compile('name="(.+?)" url="(.+?)"').findall(line)
 		addMusicaPlaylist(match[0][0],match[0][1],'DefaultAudio.png')
+	
+	addLink('','-','-')
+	addDir('[B][COLOR white]Apagar Playlist[/B][/COLOR]','-',10,artfolder + 'delete.png')
+		
+def apaga_playlist():
+	dialog = xbmcgui.Dialog()
+	if dialog.yesno("Aviso!", "Tem a certeza que deseja apagar a Playlist?"):
+		try: 
+			f = open(playlist,"w")
+			f.close()
+		except: return
+	else: return
+
 
 ###################################################################################
 #FUNCOES JÁ FEITAS
@@ -323,5 +335,9 @@ elif mode==8:
 	download(name,url)
 	
 elif mode==9:
-      selfAddon.openSettings()
+	selfAddon.openSettings()
+
+elif mode==10:
+	apaga_playlist()
+
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -29,6 +29,8 @@ addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
 playlist = addonfolder + '/resources/playlist/playlist.txt'
 fanart = addonfolder + '/fanart.jpg'
+download_path = selfAddon.getSetting('download-folder')
+print "DOWNLOAD: " + str(download_path)
 
 ################################################## 
 
@@ -44,6 +46,7 @@ def CATEGORIES():
 	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','-',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','-',artfolder + 'versao.png')
 	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','-',artfolder + 'versao.png')
+	addDir('[B][COLOR blue]Definições[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
 
 ###################################################################################
 #FUNCOES
@@ -107,6 +110,21 @@ def play(url):
 		dialog = xbmcgui.Dialog()
 		dialog.ok(" Erro:", " Impossível abrir música! ")
 		pass
+		
+def download(name,url):
+	if download_path == '':
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Pasta de Download não definida!","Defina-a nas definições.")
+		return
+	try:
+		f = urllib2.urlopen(url)
+		with open(download_path + name + '.mp3', "wb") as code:
+			code.write(f.read())
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Download:", "Download bem sucedido!")
+	except:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Download interrompido!")
 
 ############################################## PLAYLIST #################################		
 		
@@ -161,6 +179,7 @@ def addMusicaPlaylist(name,url,iconimage):
 	cm = []
 	cm.append(('Adicionar à playlist', 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append(('Remover da playlist', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setInfo( type="Audio", infoLabels={ "Title": name } )
 	liz.setProperty('fanart_image', fanart)
@@ -175,6 +194,7 @@ def addMusica(name,url,mode,iconimage):
 	cm = []
 	cm.append(('Adicionar à playlist', 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append(('Remover da playlist', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setProperty('fanart_image', fanart)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
@@ -297,4 +317,11 @@ elif mode==6:
 elif mode==7:
 	print ""
 	encontrar_fontes(url)
+
+elif mode==8:
+	print ""
+	download(name,url)
+	
+elif mode==9:
+      selfAddon.openSettings()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

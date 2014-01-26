@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket
@@ -38,7 +37,7 @@ download_path = selfAddon.getSetting('download-folder')
 def CATEGORIES():
 	addDir('Top 20','http://mp3skull.com/',2,artfolder + 'top.png')
 	addDir('Pesquisar','-',1,artfolder + 'Search.png')
-	addDir('Playlist','-',5,artfolder + 'Playlist.png')
+	addDir('Playlist','-',5,artfolder + 'Playlist.png',True,True)
 	
 	addLink('','-','-')
 	addDir('[B][COLOR white]Aviso[/COLOR][/B]','-',11,artfolder + 'aviso.png',False)
@@ -48,9 +47,10 @@ def CATEGORIES():
 	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','-',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','-',artfolder + 'versao.png')
 	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','-',artfolder + 'versao.png')
-
+	
 ###################################################################################
 #FUNCOES
+
 def listar_musicas(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('<div id="topright"><a href="(.+?)" title=".+?">(.+?)</a>').findall(codigo_fonte)
@@ -135,9 +135,63 @@ def mensagemaviso():
         window.getControl(1).setLabel( "%s - %s" % ('AVISO','Mp3 Skull Playlist',))
         window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.")
     except: pass
-
+	
 ############################################## PLAYLIST #################################		
-		
+
+def importar():
+	try:
+		f = open(playlist,"r")
+		lines = f.readlines()
+		f.close()
+		if lines:
+			dialog = xbmcgui.Dialog()
+			if not dialog.yesno("Aviso!", "Já existe uma playlist!","Deseja substituí-la?"): return
+	except: pass
+	dialog = xbmcgui.Dialog()
+	file = dialog.browse(1,"Importar Playlist","myprograms")
+	if not file: return
+	if 'playlist.txt' not in file:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Seleccione o ficheiro playlist.txt",)
+		return
+	lines = []
+	try:
+		f = open(file,"r")
+		lines = f.readlines()
+		f.close()
+	except:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Impossível importar Playlist!",)
+		return
+	f = open(playlist,"w")
+	for line in lines:
+		try:
+			match = re.compile('name="(.+?)" url="(.+?)"').findall(line)
+			f.write('name="' + match[0][0] + '" url="' + match[0][1] + '"\n')
+		except: pass
+	f.close()
+	dialog = xbmcgui.Dialog()
+	dialog.ok(" Aviso:", "Playlist importada com sucesso!")
+	
+def exportar():
+	dialog = xbmcgui.Dialog()
+	dir = dialog.browse(0,"Exportar Playlist","myprograms")
+	if not dir: return
+	try:
+		f = open(playlist,"r")
+		lines = f.readlines()
+		f.close()
+		f = open(dir + 'playlist.txt',"w")
+		for line in lines:
+			f.write(line)
+		f.close()
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Aviso:", "Playlist exportada com sucesso!")
+	except:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Permissão negada!",'Escolha outra directoria.')
+	
+	
 def save(name,url):
 	lines = []
 	try:
@@ -193,9 +247,9 @@ def apaga_playlist():
 		except: return
 	else: return
 
-
 ###################################################################################
 #FUNCOES JÁ FEITAS
+
 def addMusicaPlaylist(name,url,iconimage):
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
@@ -236,14 +290,21 @@ def addLink(name,url,iconimage):
 	liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', fanart)
 	liz.setInfo( type="Video", infoLabels={ "Title": name } )
+	cm = []
+	liz.addContextMenuItems(cm, replaceItems=True)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 
-def addDir(name,url,mode,iconimage,pasta = True):
+def addDir(name,url,mode,iconimage,pasta = True,playlist_dir = False):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', fanart)
+	cm = []
+	if playlist_dir:
+		cm.append(('Exportar playlist', 'XBMC.RunPlugin(%s?mode=12&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append(('Importar playlist', 'XBMC.RunPlugin(%s?mode=13&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	liz.addContextMenuItems(cm, replaceItems=True)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
 	return ok
 
@@ -266,16 +327,13 @@ def get_params():
                         splitparams=pairsofparams[i].split('=')
                         if (len(splitparams))==2:
                                 param[splitparams[0]]=splitparams[1]
-                                
         return param
 
-      
 params=get_params()
 url=None
 name=None
 mode=None
 iconimage=None
-
 
 try:
         url=urllib.unquote_plus(params["url"])
@@ -289,60 +347,45 @@ try:
         mode=int(params["mode"])
 except:
         pass
-
 try:        
         iconimage=urllib.unquote_plus(params["iconimage"])
 except:
         pass
-
 
 print "Mode: "+str(mode)
 print "URL: "+str(url)
 print "Name: "+str(name)
 print "Iconimage: "+str(iconimage)
 
-
-
-
 ###############################################################################################################
 #                                                   MODOS                                                     #
 ###############################################################################################################
 
-
 if mode==None or url==None or len(url)<1:
-        print ""
-        CATEGORIES()
+	CATEGORIES()
 
 elif mode==1:
-	print ""
 	pesquisa()
 	
 elif mode==2:
-	print ""
 	listar_musicas(url)
 	
 elif mode==3:
-	print ""
 	play(url)
 	
 elif mode==4:
-	print ""
 	save(name,url)
 
 elif mode==5:
-	print ""
 	le_playlist()
 	
 elif mode==6:
-	print ""
 	remove(name,url)
 	
 elif mode==7:
-	print ""
 	encontrar_fontes(url)
 
 elif mode==8:
-	print ""
 	download(name,url)
 	
 elif mode==9:
@@ -353,5 +396,11 @@ elif mode==10:
 
 elif mode==11:
 	mensagemaviso()
+	
+elif mode==12:
+	exportar()
 
+elif mode==13:
+	importar()
+	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

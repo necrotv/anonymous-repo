@@ -133,7 +133,7 @@ def mensagemaviso():
         window = xbmcgui.Window(10147)
         xbmc.sleep(100)
         window.getControl(1).setLabel( "%s - %s" % ('AVISO','Mp3 Skull Playlist',))
-        window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.")
+        window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.\n\n[COLOR red][B]Instruções:[/B][/COLOR]\nPara adicionar uma música à Playlist basta ir às opções da música e clicar em \"Adicionar à Playlist\".\n\nPode importar/exportar a Playlist nas opções da Playlist")
     except: pass
 	
 ############################################## PLAYLIST #################################		
@@ -304,6 +304,7 @@ def addDir(name,url,mode,iconimage,pasta = True,playlist_dir = False):
 	if playlist_dir:
 		cm.append(('Exportar playlist', 'XBMC.RunPlugin(%s?mode=12&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 		cm.append(('Importar playlist', 'XBMC.RunPlugin(%s?mode=13&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append(('Apagar playlist', 'XBMC.RunPlugin(%s?mode=10&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
 	return ok

@@ -24,3 +24,5 @@ name="Eagles - Hotel California" url="http://www3.ledamay.com/freebies/goodies/m
 name="PAPA ROACH - Papa Roach - Last Resort" url="http://a.tumblr.com/tumblr_lwj1gzWc641r8x2xao1_r2.mp3"
 name="01 - Shine On You Crazy Diamond (Parts 1 - 5) [2011 - Remaster]" url="http://hyperbolerecords.net/veeks/WYWH/01%20-%20Shine%20On%20You%20Crazy%20Diamond%20(Parts%201%20-%205)%20[2011%20-%20Remaster].mp3"
 name="Green Day - Give Me Novacaine" url="http://www.audiopoisk.com/files/green-day/give-me-novacaine-48260.mp3"
+name="My Chemical Romance - Teenagers" url="http://up1.zol.com.cn/bbs_upload/upload/2007/09_29/119102945871.mp3"
+name="The Red Hot Chili Peppers - By The Way" url="http://mp3ostrov.com/file_l/MTgwLjIxNC4yMzMuOTA0MTE0OTlvczZpZjNlbzlvczZpZjNlbzk=/1162998.mp3"

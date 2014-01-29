@@ -78,9 +78,10 @@ def listar_videos(url):
 		temp = [match[x][0],match[x][1],img[x]]; 
 		a.append(temp);
 	
+	total = len(a)
 	for url2, titulo, img in a:
 		titulo = titulo.replace('&#39;',"'")
-		addDirPlayer(titulo,url2,4,img)
+		addDirPlayer(titulo,url2,4,img,total)
 		
 	page = re.compile("<a class='blog-pager-older-link' href='(.+?)'").findall(codigo_fonte)
 	for prox_pagina in page:
@@ -152,7 +153,7 @@ def pesquisa():
 
 		###################################################################################
 
-def addDirPlayer(name,url,mode,iconimage):
+def addDirPlayer(name,url,mode,iconimage,total):
 	codigo_fonte = abrir_url(url)
 	try: plot = re.compile('<b>SINOPSE:.+?</b><span style=".+?">(.+?)</span>').findall(codigo_fonte)[0]
 	except: plot = 'Erro a obter sinopse...'
@@ -168,7 +169,7 @@ def addDirPlayer(name,url,mode,iconimage):
 	cm = []
 	cm.append(('Sinopse', 'XBMC.Action(Info)'))
 	liz.addContextMenuItems(cm, replaceItems=True)
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
+	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False,totalItems = total)
 	return ok
 
 def abrir_url(url):

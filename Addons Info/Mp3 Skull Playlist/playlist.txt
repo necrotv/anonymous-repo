@@ -17,7 +17,6 @@ name="Queen - It's A Kind Of Magic" url="http://radio.chez.com.br/mp3/apocalist_
 name="Green Day - When I Come Around" url="http://serveur.1smp1.free.fr/Musique/Green%20Day/1994%20-%20Dookie/10%20-%20When%20I%20Come%20Around.mp3"
 name="Joe Cocker - Up Where We Belong" url="http://www.ammiraglia88.it/SEZIONE_NORMALE/abordo_galeoni/ufficiale.mp3"
 name="Robbie Williams   Kylie Monogue - 05 Kids (Feat Kylie Monogue)" url="http://jimmywang.org/band/練團資料/做場歌音樂檔/合唱/K/Kids.mp3"
-name="Avenged Sevenfold - 04 Afterlife" url="http://a.tumblr.com/tumblr_lmslr3FDgs1qikbyeo1.mp3"
 name="Red Hot Chili Peppers - Otherside" url="http://guillaume.jacquette.free.fr/fichier/MUSIC/groupe/04.%20Otherside.mp3"
 name="Eagles - Hotel California" url="http://www3.ledamay.com/freebies/goodies/mp3/eagles/Eagles_-_Hotel_California.mp3"
 name="PAPA ROACH - Papa Roach - Last Resort" url="http://a.tumblr.com/tumblr_lwj1gzWc641r8x2xao1_r2.mp3"
@@ -27,3 +26,5 @@ name="My Chemical Romance - Teenagers" url="http://up1.zol.com.cn/bbs_upload/upl
 name="The Red Hot Chili Peppers - By The Way" url="http://mp3ostrov.com/file_l/MTgwLjIxNC4yMzMuOTA0MTE0OTlvczZpZjNlbzlvczZpZjNlbzk=/1162998.mp3"
 name="Green Day - American Idiot" url="http://www.umnet.com/pic/diy/ringtones/1f292da3-58ff.mp3"
 name="Wheatus - Teenage Dirtbag" url="http://www.neitherland.com/hyperballad/candy/files/mp3/Rogue/Wheatus-%20Teenage%20Dirtbag.mp3"
+name="Avanged Sevenfold - Afterlife" url="http://muzpace.com/mp3/save/Avanged_Sevenfold-Avanged_Sevenfold-Afterlife-e914272b.mp3"
+name="avanged sevenfold - nightmare" url="http://dc371.4shared.com/img/1097113803/af013187/dlink__2Fdownload_2Fsf96YDym_3Ftsid_3D20140129-80207-cff75910/preview.mp3"

@@ -119,6 +119,14 @@ def download(name,url):
 		return
 	try:
 		name = name.replace('/', '-')
+		name = name.replace('\\', '-')
+		name = name.replace(':', '-')
+		name = name.replace('*', '')
+		name = name.replace('"', '')
+		name = name.replace('?', '')
+		name = name.replace('>', '')
+		name = name.replace('<', '')
+		name = name.replace('|', '-')
 		f = urllib2.urlopen(url)
 		with open(download_path + name + '.mp3', "wb") as code:
 			code.write(f.read())

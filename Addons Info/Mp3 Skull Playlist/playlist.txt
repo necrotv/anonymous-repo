@@ -31,3 +31,5 @@ name="avanged sevenfold - nightmare" url="http://dc371.4shared.com/img/109711380
 name="Muse - Resistance" url="http://solarismoi.free.fr/music/Muse%20-%20Resistance.mp3"
 name="Muse - Plug In Baby" url="http://lichtemuziek.hku.nl/ClassicAlbums/Originofsymmetry_Muse/Muse%20-%20Plug%20In%20Baby.mp3"
 name="Muse - Hysteria" url="http://colineremy.free.fr/Muse%20Hits/Hysteria.mp3"
+name="Aerosmith - Aerosmith / Crazy" url="http://radiorockhit.com/playlist/Rock_Ballad/Aerosmith_06.mp3"
+name="AC/DC - Moneytalks" url="http://xflow.pwhitrow.com/galleries/ac-dc/moneytalks.mp3"

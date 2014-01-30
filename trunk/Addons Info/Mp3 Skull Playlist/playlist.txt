@@ -33,3 +33,4 @@ name="Muse - Plug In Baby" url="http://lichtemuziek.hku.nl/ClassicAlbums/Origino
 name="Muse - Hysteria" url="http://colineremy.free.fr/Muse%20Hits/Hysteria.mp3"
 name="Aerosmith - Aerosmith / Crazy" url="http://radiorockhit.com/playlist/Rock_Ballad/Aerosmith_06.mp3"
 name="AC/DC - Moneytalks" url="http://xflow.pwhitrow.com/galleries/ac-dc/moneytalks.mp3"
+name="Rise Against - Give It All" url="http://www.lkis.free.fr/music/playlist/Rise%20Against%20-%20Give%20it%20all.mp3"

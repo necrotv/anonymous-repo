@@ -17,7 +17,6 @@ name="Queen - It's A Kind Of Magic" url="http://radio.chez.com.br/mp3/apocalist_
 name="Green Day - When I Come Around" url="http://serveur.1smp1.free.fr/Musique/Green%20Day/1994%20-%20Dookie/10%20-%20When%20I%20Come%20Around.mp3"
 name="Joe Cocker - Up Where We Belong" url="http://www.ammiraglia88.it/SEZIONE_NORMALE/abordo_galeoni/ufficiale.mp3"
 name="Robbie Williams   Kylie Monogue - 05 Kids (Feat Kylie Monogue)" url="http://jimmywang.org/band/練團資料/做場歌音樂檔/合唱/K/Kids.mp3"
-name="Wheatus - Teenage Dirtbag" url="http://a.tumblr.com/tumblr_lc20swEUGw1qch8kno1.mp3"
 name="Avenged Sevenfold - 04 Afterlife" url="http://a.tumblr.com/tumblr_lmslr3FDgs1qikbyeo1.mp3"
 name="Red Hot Chili Peppers - Otherside" url="http://guillaume.jacquette.free.fr/fichier/MUSIC/groupe/04.%20Otherside.mp3"
 name="Eagles - Hotel California" url="http://www3.ledamay.com/freebies/goodies/mp3/eagles/Eagles_-_Hotel_California.mp3"
@@ -26,3 +25,5 @@ name="01 - Shine On You Crazy Diamond (Parts 1 - 5) [2011 - Remaster]" url="http
 name="Green Day - Give Me Novacaine" url="http://www.audiopoisk.com/files/green-day/give-me-novacaine-48260.mp3"
 name="My Chemical Romance - Teenagers" url="http://up1.zol.com.cn/bbs_upload/upload/2007/09_29/119102945871.mp3"
 name="The Red Hot Chili Peppers - By The Way" url="http://mp3ostrov.com/file_l/MTgwLjIxNC4yMzMuOTA0MTE0OTlvczZpZjNlbzlvczZpZjNlbzk=/1162998.mp3"
+name="Green Day - American Idiot" url="http://www.umnet.com/pic/diy/ringtones/1f292da3-58ff.mp3"
+name="Wheatus - Teenage Dirtbag" url="http://www.neitherland.com/hyperballad/candy/files/mp3/Rogue/Wheatus-%20Teenage%20Dirtbag.mp3"

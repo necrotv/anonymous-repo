@@ -118,6 +118,7 @@ def download(name,url):
 		dialog.ok(" Erro:", "Pasta de Download não definida!","Defina-a nas definições.")
 		return
 	try:
+		name = name.replace('/', '-')
 		f = urllib2.urlopen(url)
 		with open(download_path + name + '.mp3', "wb") as code:
 			code.write(f.read())

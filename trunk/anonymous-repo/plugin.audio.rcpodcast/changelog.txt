@@ -1,2 +1,6 @@
-Version 1.0.0 - Primeira versão
+Versão 1.0.0 -	Primeira versão
 
+
+Versão 1.0.1 -	Suporte a Gotham
+		Adicionado indicador de versão
+		Possibilidade de reproduzir item seguinte automaticamente ou não

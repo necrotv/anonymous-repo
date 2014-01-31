@@ -21,11 +21,13 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser
 h = HTMLParser.HTMLParser()
 
-
+versao = '1.0.1'
 addon_id = 'plugin.audio.rcpodcast'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = '/resources/img/'
+autoplay = False
+if selfAddon.getSetting('autoplay') == 'true': autoplay = True
 
 
 ################################################## 
@@ -43,10 +45,22 @@ def CATEGORIES():
 	addDir('Ouvintes no ar','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=26',1,addonfolder + artfolder + '26.jpg')
 	addDir('Primo','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=19',1,addonfolder + artfolder + '19.jpg')
 	#addDir('TNT - Todos no top','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=11',1,addonfolder + artfolder + '11.jpg')
-	
+	addLink('','','-')
+	addDir('[B][COLOR blue]Definições[/COLOR][/B]','-',3,'-',False)
+	disponivel=versao_disponivel() # nas categorias
+	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','',artfolder + 'versao.png')
+	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','',artfolder + 'versao.png')
+	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','',artfolder + 'versao.png')
 
 ###################################################################################
 #FUNCOES
+def versao_disponivel():
+	try:
+		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.audio.rcpodcast/addon.xml')		#ALTERAR NO FIM
+		match=re.compile('<addon id="plugin.audio.rcpodcast" name="Radio Comercial Podcast" version="(.+?)"').findall(codigo_fonte)[0]
+	except:
+		match='Erro ao verificar a versão!'
+	return match
 
 def listar_videos(url):
 	codigo_fonte = abrir_url(url)
@@ -72,12 +86,33 @@ def listar_videos(url):
 		titulo = titulo.replace("\xea","ê")
 		titulo = titulo.replace("\xe7","ç")
 		titulo = titulo.replace("\xf5","õ")
-		addLink(titulo + ' - ' + dia + '/' + mes + '/' + ano,url,'')
+		if autoplay: addLink(titulo + ' - ' + dia + '/' + mes + '/' + ano,url,'')
+		else: addDir(titulo + ' - ' + dia + '/' + mes + '/' + ano,url,2,'',False)
 	
 	for prox_pagina in page:
 		addDir('Página Seguinte >>','http://www.radiocomercial.iol.pt/podcast/' + prox_pagina,1,'')
 	
-
+def play(url):
+	print url
+	try: mp3file = urllib2.urlopen(url)
+	except: 
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", " Impossível abrir música! ")
+		return
+	playlst = xbmc.PlayList(1)
+	playlst.clear()
+	listitem = xbmcgui.ListItem()
+	listitem.setPath(url)
+	listitem.setProperty('mimetype', 'audio/mpeg')
+	listitem.setProperty('IsPlayable', 'true')
+	try:
+		xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+		xbmcPlayer.play(url)
+	except:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", " Impossível abrir música! ")
+		pass
+		
 ###################################################################################
 #FUNCOES JÁ FEITAS
 
@@ -98,12 +133,12 @@ def addLink(name,url,iconimage):
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 
-def addDir(name,url,mode,iconimage):
+def addDir(name,url,mode,iconimage,pasta=True):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
 	return ok
 
 ############################################################################################################
@@ -175,5 +210,12 @@ if mode==None or url==None or len(url)<1:
 elif mode==1:
 	print ""
 	listar_videos(url)
-       
+
+elif mode==2:
+	print ""
+	play(url)
+
+elif mode==3:
+	selfAddon.openSettings()
+	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

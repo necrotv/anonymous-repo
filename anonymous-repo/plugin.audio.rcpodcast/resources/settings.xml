@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
    <category label="Definicoes gerais">
-      <setting label="[B][COLOR green]Dados de conta:[/B][/COLOR]" type="lsep" />
-      <setting id="login_name" type="text" label="Username" default=""/>
-      <setting id="login_password" type="text" label="Password" default="" option="hidden" enable="!eq(-1,false)"/>
+      <setting id="autoplay" type="bool" label="Reproduzir item seguinte automaticamente" default="true"/>
    </category>
 </settings>

@@ -1,5 +1,7 @@
-﻿Versão 1.0.0 -	Primeira versão
+﻿Versão 1.0.1:
+Corrigido bug em que em algumas músicas o download falhava
+Suporte a Gotham
+Possibilidade de reproduzir item seguinte automaticamente ou não
 
-Versão 1.0.1 -	Corrigido bug em que em algumas músicas o download falhava
-		Suporte a Gotham
-		Possibilidade de reproduzir item seguinte automaticamente ou não
+Versão 1.0.0:
+Primeira versão

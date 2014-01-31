@@ -21,7 +21,7 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.0'
+versao = '1.0.1'
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -29,6 +29,8 @@ artfolder = addonfolder + '/resources/img/'
 playlist = addonfolder + '/resources/playlist/playlist.txt'
 fanart = addonfolder + '/fanart.jpg'
 download_path = selfAddon.getSetting('download-folder')
+autoplay = False
+if selfAddon.getSetting('autoplay') == 'true': autoplay = True
 
 ################################################## 
 
@@ -242,7 +244,8 @@ def le_playlist():
 	except: pass
 	for line in lines:
 		match = re.compile('name="(.+?)" url="(.+?)"').findall(line)
-		addMusicaPlaylist(match[0][0],match[0][1],'DefaultAudio.png')
+		if autoplay: addMusicaPlaylist(match[0][0],match[0][1],'DefaultAudio.png')
+		else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png')
 	
 	addLink('','-','-')
 	addDir('[B][COLOR white]Apagar Playlist[/B][/COLOR]','-',10,artfolder + 'delete.png')

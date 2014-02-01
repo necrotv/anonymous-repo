@@ -90,6 +90,7 @@
 	<extension point="xbmc.addon.metadata">
 		<summary>My XBMC addons</summary>
 		<description>My XBMC addons</description>
+		<disclaimer></disclaimer>
 		<platform>all</platform>
 	</extension>
 </addon>

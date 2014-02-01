@@ -49,6 +49,22 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.concertsvideos" name="Concerts Videos" version="1.0.0" provider-name="Anonymous">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <language>en</language>
+    <platform>all</platform>
+    <summary lang="en">Concerts Videos</summary>
+    <description lang="en">Watch full shows from your favourite band.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.manualdomundo" name="Manual do Mundo" version="1.0.0" provider-name="Anonymous">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>

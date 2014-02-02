@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
    <category label="Definicoes gerais">
-	  <setting id="download-folder" type="folder" label="[B]Pasta de Download[/B]" default=""/>
+	  <setting id="download-folder" type="folder" label="[B]Pasta de Download:[/B]" default=""/>
+	  <setting id="playlist" type="folder" label="[B]Pasta onde deseja guardar a playlist:[/B]" default=""/>
 	  <setting id="autoplay" type="bool" label="Reproduzir item seguinte automaticamente" default="true"/>
    </category>
 </settings>

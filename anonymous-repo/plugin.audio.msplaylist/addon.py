@@ -21,14 +21,15 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.1'
+versao = '1.0.2'
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
-playlist = addonfolder + '/resources/playlist/playlist.txt'
+#playlist = addonfolder + '/resources/playlist/playlist.txt'
 fanart = addonfolder + '/fanart.jpg'
 download_path = selfAddon.getSetting('download-folder')
+playlist = selfAddon.getSetting('playlist') + 'playlist.txt'
 autoplay = False
 if selfAddon.getSetting('autoplay') == 'true': autoplay = True
 
@@ -52,6 +53,28 @@ def CATEGORIES():
 	
 ###################################################################################
 #FUNCOES
+def procura_letra(name):
+	name2 = name.replace(' - ',' ')
+	name2 = urllib.quote(name2 + ' vagalume')
+	url = 'http://www.google.com/search?ie=UTF-8&oe=UTF-8&sourceid=navclient&gfns=1&q=' + name2
+	codigo_fonte = abrir_url(url)
+	print url
+	try:
+		letra = re.findall('<div itemprop=description>(.+?)</div>',codigo_fonte,re.DOTALL)[0]
+		letra = letra.replace('<br/>','\n')
+		xbmc.executebuiltin("ActivateWindow(10147)")
+		window = xbmcgui.Window(10147)
+		xbmc.sleep(100)
+		window.getControl(1).setLabel( "%s - %s" % ('LETRA',name))
+		window.getControl(5).setText('Sugestão de letra para "' + name + '":\n' + letra)
+	except:
+		dialog = xbmcgui.Dialog()
+		if dialog.yesno("Impossível obter letra!", "Deseja introduzir o nome da música manualmente?"):
+			keyb = xbmc.Keyboard('', 'Search') #Chama o keyboard do XBMC com a frase indicada
+			keyb.doModal() #Espera ate que seja confirmada uma determinada string
+			if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
+				search = keyb.getText() #Variavel search fica definida com o conteudo do formulario
+				procura_letra(search)
 
 def listar_musicas(url):
 	codigo_fonte = abrir_url(url)
@@ -144,12 +167,19 @@ def mensagemaviso():
         window = xbmcgui.Window(10147)
         xbmc.sleep(100)
         window.getControl(1).setLabel( "%s - %s" % ('AVISO','Mp3 Skull Playlist',))
-        window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.\n\n[COLOR red][B]Instruções:[/B][/COLOR]\nPara adicionar uma música à Playlist basta ir às opções da música e clicar em \"Adicionar à Playlist\".\n\nPode importar/exportar a Playlist nas opções da Playlist")
+        window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.\n\nNem sempre a pesquisa das letras funciona corretamente. Se uma pesquisa falhar, tente inserir o nome da música manualmente, tal como ela é.\n\n[COLOR red][B]Instruções:[/B][/COLOR]\nPara adicionar uma música à Playlist basta ir às opções da música e clicar em \"Adicionar à Playlist\".\n\nPode pesquisar a letra da música clicando em \"Letra\" nas opções da música.\n\nPode importar/exportar a Playlist nas opções da Playlist")
     except: pass
 	
 ############################################## PLAYLIST #################################		
-
+def verifica_path():
+	if playlist == 'playlist.txt': 
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Escolha a directoria da playlist nas definições do addon!")
+		return True
+	else: return False
+	
 def importar():
+	if verifica_path(): return
 	try:
 		f = open(playlist,"r")
 		lines = f.readlines()
@@ -163,7 +193,7 @@ def importar():
 	if not file: return
 	if 'playlist.txt' not in file:
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Seleccione o ficheiro playlist.txt",)
+		dialog.ok(" Erro:", "Seleccione o ficheiro playlist.txt")
 		return
 	lines = []
 	try:
@@ -185,6 +215,7 @@ def importar():
 	dialog.ok(" Aviso:", "Playlist importada com sucesso!")
 	
 def exportar():
+	if verifica_path(): return
 	dialog = xbmcgui.Dialog()
 	dir = dialog.browse(0,"Exportar Playlist","myprograms")
 	if not dir: return
@@ -204,12 +235,18 @@ def exportar():
 	
 	
 def save(name,url):
+	if verifica_path(): return
 	lines = []
 	try:
 		f = open(playlist,"r")
 		lines = f.readlines()
 		f.close()
-	except: open(playlist, 'a').close()
+	except: 
+		try:open(playlist, 'a').close()
+		except:
+			dialog = xbmcgui.Dialog()
+			dialog.ok(" Erro:", "Permissão negada!",'Escolha outra directoria para guardar a playlist.')
+			return
 	
 	flag = True
 	f = open(playlist,"w")
@@ -236,6 +273,7 @@ def remove(name,url):
 	f.close()
 	
 def le_playlist():
+	if verifica_path(): return
 	lines = []
 	try:
 		f = open(playlist,"r")
@@ -269,6 +307,7 @@ def addMusicaPlaylist(name,url,iconimage):
 	cm.append(('Adicionar à playlist', 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append(('Remover da playlist', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append(('Letra', 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setInfo( type="Audio", infoLabels={ "Title": name } )
 	liz.setProperty('fanart_image', fanart)
@@ -284,6 +323,7 @@ def addMusica(name,url,mode,iconimage):
 	cm.append(('Adicionar à playlist', 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append(('Remover da playlist', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append(('Letra', 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setProperty('fanart_image', fanart)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
@@ -415,5 +455,8 @@ elif mode==12:
 
 elif mode==13:
 	importar()
+
+elif mode==14:
+	procura_letra(name)
 	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -110,6 +110,9 @@ def listar_pesquisa(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('<li class="search-result">\s+<h3 class="title">\s+<a href="(.+?)">(.+?)</a>').findall(codigo_fonte)
 	for link, titulo in match:
+		titulo = titulo.replace('&#039;', '\'') 
+		titulo = titulo.replace('&quot;', '"')
+		titulo = titulo.replace('&amp;', '&') 
 		if 'artist' in link: addDir(titulo,link,2,'-')
 		elif 'video' in link: addDir(titulo,link,3,'-',False)
 	page = re.compile('<li class="pager-next"><a title="Go to next page" href="(.+?)">next ›</a></li>').findall(codigo_fonte)

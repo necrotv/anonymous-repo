@@ -41,3 +41,8 @@ name="System of a Down - Aerials" url="http://chaos-motr.sammael.org/Wrong/Aeria
 name="Sistem Of A Dow - kill rock and roll" url="http://a.tumblr.com/tumblr_l5033zEF6L1qb3k3zo1.mp3"
 name="Ozzy Osbourne - Crazy Train" url="http://66.147.244.212/~rushmus1/wp-content/uploads/2011/07/02-Crazy-Train.mp3"
 name="Offspring - Self Esteem" url="http://www.audiopoisk.com/files/offspring/self-esteem-473239.mp3"
+name="Opus - Life is life" url="http://lfn.source.free.fr/musique/1980/Opus%20-%20Life%20is%20life.mp3"
+name="The Black Eyed Peas - Where Is The Love" url="http://mp3ostrov.com/file/MTg2LjEyMi40NC4xMTczNDk3M29zNmlmM2VvOW9zNmlmM2VvOQ==/1149119.mp3"
+name="Avicii - Hey Brother" url="http://dl2.farskids417.com/Aria/92/06/24/Avicii%20-%20True%20[128]/03%20Hey%20Brother.mp3"
+name="The Police - Roxanne" url="http://www.lamusicaesopinion.cl/storage/album/70s/The%20Police%20-%20Roxanne.mp3"
+name="ABBA - Chiquitita" url="http://www.vinterhaven.net/Jenter/stage%20doll/ABBA%20-%20Chiquitita.mp3"

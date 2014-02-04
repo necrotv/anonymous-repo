@@ -62,6 +62,9 @@ def procura_letra(name):
 	try:
 		letra = re.findall('<div itemprop=description>(.+?)</div>',codigo_fonte,re.DOTALL)[0]
 		letra = letra.replace('<br/>','\n')
+		letra = letra.replace('\xe3','ã')
+		letra = letra.replace('\xe7','ç')
+		letra = letra.replace('\xed','í')
 		xbmc.executebuiltin("ActivateWindow(10147)")
 		window = xbmcgui.Window(10147)
 		xbmc.sleep(100)

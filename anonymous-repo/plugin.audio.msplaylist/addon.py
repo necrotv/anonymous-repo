@@ -127,17 +127,23 @@ def encontrar_fontes(url):
 		except: pass
 		
 def play(url):
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('Mp3 Skull', 'A resolver link','Por favor aguarde...')
 	try: mp3file = urllib2.urlopen(url)
 	except: 
+		mensagemprogresso.close()
 		dialog = xbmcgui.Dialog()
 		dialog.ok(" Erro:", " Impossível abrir música! ")
 		return
+	mensagemprogresso.update(50)
 	playlst = xbmc.PlayList(1)
 	playlst.clear()
 	listitem = xbmcgui.ListItem()
 	listitem.setPath(url)
 	listitem.setProperty('mimetype', 'audio/mpeg')
 	listitem.setProperty('IsPlayable', 'true')
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
 	try:
 		xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
 		xbmcPlayer.play(url)

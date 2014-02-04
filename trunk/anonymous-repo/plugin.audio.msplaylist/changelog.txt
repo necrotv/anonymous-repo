@@ -1,4 +1,8 @@
-﻿Versão 1.0.2:
+﻿Versão 1.0.3:
+Adicionada tradução para Inglês
+Corrigidos "minor-bugs"
+
+Versão 1.0.2:
 Corrigido erro em que a playlist desaparecia com actualizações
 Adicionada opção de ver a letra da música
 

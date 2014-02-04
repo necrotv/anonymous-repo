@@ -21,17 +21,20 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.2'
+versao = '1.0.3'
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
-#playlist = addonfolder + '/resources/playlist/playlist.txt'
 fanart = addonfolder + '/fanart.jpg'
 download_path = selfAddon.getSetting('download-folder')
 playlist = selfAddon.getSetting('playlist') + 'playlist.txt'
 autoplay = False
 if selfAddon.getSetting('autoplay') == 'true': autoplay = True
+traducaoma= selfAddon.getLocalizedString
+
+def traducao(texto):
+      return traducaoma(texto).encode('utf-8')
 
 ################################################## 
 
@@ -39,17 +42,17 @@ if selfAddon.getSetting('autoplay') == 'true': autoplay = True
 
 def CATEGORIES():
 	addDir('Top 20','http://mp3skull.com/',2,artfolder + 'top.png')
-	addDir('Pesquisar','-',1,artfolder + 'Search.png')
+	addDir(traducao(30000),'-',1,artfolder + 'Search.png')
 	addDir('Playlist','-',5,artfolder + 'Playlist.png',True,True)
 	
 	addLink('','-','-')
-	addDir('[B][COLOR white]Aviso[/COLOR][/B]','-',11,artfolder + 'aviso.png',False)
-	addDir('[B][COLOR blue]Definições do addon[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
+	addDir('[B][COLOR white]'+traducao(30001)+'[/COLOR][/B]','-',11,artfolder + 'aviso.png',False)
+	addDir('[B][COLOR blue]'+traducao(30002)+'[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
 	addLink('','-','-')
 	disponivel=versao_disponivel()
-	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','-',artfolder + 'versao.png')
-	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','-',artfolder + 'versao.png')
-	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','-',artfolder + 'versao.png')
+	if disponivel==versao: addLink('[B][COLOR white]'+traducao(30003)+' (' + versao + ')[/COLOR][/B]','-',artfolder + 'versao.png')
+	elif disponivel==traducao(30004): addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','-',artfolder + 'versao.png')
+	else: addLink('[B][COLOR white]'+traducao(30005)+' ('+ disponivel + '). '+traducao(30006)+'![/COLOR][/B]','-',artfolder + 'versao.png')
 	
 ###################################################################################
 #FUNCOES
@@ -74,12 +77,12 @@ def procura_letra(name):
 		xbmc.executebuiltin("ActivateWindow(10147)")
 		window = xbmcgui.Window(10147)
 		xbmc.sleep(100)
-		window.getControl(1).setLabel( "%s - %s" % ('LETRA',name))
-		window.getControl(5).setText('Sugestão de letra para "' + name + '":\n' + letra)
+		window.getControl(1).setLabel( "%s - %s" % (traducao(30007),name))
+		window.getControl(5).setText(traducao(30008)+' "' + name + '":\n' + letra)
 	except:
 		dialog = xbmcgui.Dialog()
-		if dialog.yesno("Impossível obter letra!", "Deseja introduzir o nome da música manualmente?"):
-			keyb = xbmc.Keyboard('', 'Search') #Chama o keyboard do XBMC com a frase indicada
+		if dialog.yesno(traducao(30009),traducao(30010)):
+			keyb = xbmc.Keyboard('',traducao(30000)) #Chama o keyboard do XBMC com a frase indicada
 			keyb.doModal() #Espera ate que seja confirmada uma determinada string
 			if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
 				search = keyb.getText() #Variavel search fica definida com o conteudo do formulario
@@ -97,11 +100,11 @@ def versao_disponivel():
 		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.audio.msplaylist/addon.xml')		#ALTERAR NO FIM
 		match=re.compile('<addon id="plugin.audio.msplaylist" name="Mp3 Skull Playlist" version="(.+?)"').findall(codigo_fonte)[0]
 	except:
-		match='Erro ao verificar a versão!'
+		match=traducao(30004)
 	return match
 	
 def pesquisa():
-	keyb = xbmc.Keyboard('', 'Search') #Chama o keyboard do XBMC com a frase indicada
+	keyb = xbmc.Keyboard('',traducao(30000)) #Chama o keyboard do XBMC com a frase indicada
 	keyb.doModal() #Espera ate que seja confirmada uma determinada string
 	if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
 		search = keyb.getText() #Variavel search fica definida com o conteudo do formulario
@@ -112,7 +115,7 @@ def pesquisa():
 
 def encontrar_fontes(url):
 	mensagemprogresso = xbmcgui.DialogProgress()
-	mensagemprogresso.create('Mp3 Skull Playlist', 'A encontrar fontes','Por favor aguarde...')
+	mensagemprogresso.create('Mp3 Skull Playlist', traducao(30011),traducao(30012))
 	mensagemprogresso.update(50)
 	codigo_fonte = abrir_url(url)
 	mp3 = re.compile('<div style="float:left;"><a href="(.+?)"').findall(codigo_fonte)
@@ -128,12 +131,12 @@ def encontrar_fontes(url):
 		
 def play(url):
 	mensagemprogresso = xbmcgui.DialogProgress()
-	mensagemprogresso.create('Mp3 Skull', 'A resolver link','Por favor aguarde...')
+	mensagemprogresso.create('Mp3 Skull',traducao(30013),traducao(30012))
 	try: mp3file = urllib2.urlopen(url)
 	except: 
 		mensagemprogresso.close()
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", " Impossível abrir música! ")
+		dialog.ok(traducao(30014),traducao(30015))
 		return
 	mensagemprogresso.update(50)
 	playlst = xbmc.PlayList(1)
@@ -149,13 +152,13 @@ def play(url):
 		xbmcPlayer.play(url)
 	except:
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", " Impossível abrir música! ")
+		dialog.ok(traducao(30014),traducao(30015))
 		pass
 		
 def download(name,url):
 	if download_path == '':
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Pasta de Download não definida!","Defina-a nas definições.")
+		dialog.ok(traducao(30014),traducao(30016),traducao(30017))
 		return
 	try:
 		name = name.replace('/', '-')
@@ -171,25 +174,25 @@ def download(name,url):
 		with open(download_path + name + '.mp3', "wb") as code:
 			code.write(f.read())
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Download:", "Download bem sucedido!")
+		dialog.ok(traducao(30038),traducao(30018))
 	except:
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Download interrompido!")
+		dialog.ok(traducao(30014),traducao(30019))
 		
 def mensagemaviso():
     try:
         xbmc.executebuiltin("ActivateWindow(10147)")
         window = xbmcgui.Window(10147)
         xbmc.sleep(100)
-        window.getControl(1).setLabel( "%s - %s" % ('AVISO','Mp3 Skull Playlist',))
-        window.getControl(5).setText("[COLOR red][B]Termos:[/B][/COLOR]\nEste addon não aloja quaisquer conteúdos. O conteúdo apresentado é da responsabilidade dos servidores e em nada está relacionado com este addon.\n\nEste addon não é, de maneira alguma, um incentivo à pirataria.\n\n[COLOR red][B]Dicas:[/B][/COLOR]\nEvite adicionar à Playlist músicas que sejam lentas a carregar e/ou na sua reprodução, para um bom funcionamento do addon.\n\nTenha em conta que alguns servidores são mais rápidos do que outros.\n\nNem sempre a pesquisa das letras funciona corretamente. Se uma pesquisa falhar, tente inserir o nome da música manualmente, tal como ela é.\n\n[COLOR red][B]Instruções:[/B][/COLOR]\nPara adicionar uma música à Playlist basta ir às opções da música e clicar em \"Adicionar à Playlist\".\n\nPode pesquisar a letra da música clicando em \"Letra\" nas opções da música.\n\nPode importar/exportar a Playlist nas opções da Playlist")
+        window.getControl(1).setLabel( "%s - %s" % (traducao(30020),'Mp3 Skull Playlist',))
+        window.getControl(5).setText("[COLOR red][B]"+traducao(30040)+":[/B][/COLOR]\n"+traducao(30041)+"\n\n"+traducao(30042)+"\n\n[COLOR red][B]"+traducao(30043)+"[/B][/COLOR]\n"+traducao(30044)+"\n\n"+traducao(30045)+"\n\n"+traducao(30046)+"\n\n[COLOR red][B]"+traducao(30047)+"[/B][/COLOR]\n"+traducao(30048)+"\n\n"+traducao(30049)+"\n\n"+traducao(30050))
     except: pass
 	
 ############################################## PLAYLIST #################################		
 def verifica_path():
 	if playlist == 'playlist.txt': 
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Escolha a directoria da playlist nas definições do addon!")
+		dialog.ok(traducao(30014),traducao(30021))
 		return True
 	else: return False
 	
@@ -201,14 +204,14 @@ def importar():
 		f.close()
 		if lines:
 			dialog = xbmcgui.Dialog()
-			if not dialog.yesno("Aviso!", "Já existe uma playlist!","Deseja substituí-la?"): return
+			if not dialog.yesno(traducao(30022),traducao(30023),traducao(30024)): return
 	except: pass
 	dialog = xbmcgui.Dialog()
-	file = dialog.browse(1,"Importar Playlist","myprograms")
+	file = dialog.browse(1,traducao(30025),"myprograms")
 	if not file: return
 	if 'playlist.txt' not in file:
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Seleccione o ficheiro playlist.txt")
+		dialog.ok(traducao(30014), traducao(30026))
 		return
 	lines = []
 	try:
@@ -217,7 +220,7 @@ def importar():
 		f.close()
 	except:
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Impossível importar Playlist!",)
+		dialog.ok(traducao(30014), traducao(30027))
 		return
 	f = open(playlist,"w")
 	for line in lines:
@@ -227,12 +230,12 @@ def importar():
 		except: pass
 	f.close()
 	dialog = xbmcgui.Dialog()
-	dialog.ok(" Aviso:", "Playlist importada com sucesso!")
+	dialog.ok(traducao(30022), traducao(30028))
 	
 def exportar():
 	if verifica_path(): return
 	dialog = xbmcgui.Dialog()
-	dir = dialog.browse(0,"Exportar Playlist","myprograms")
+	dir = dialog.browse(0,traducao(30029),"myprograms")
 	if not dir: return
 	try:
 		f = open(playlist,"r")
@@ -243,10 +246,10 @@ def exportar():
 			f.write(line)
 		f.close()
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Aviso:", "Playlist exportada com sucesso!")
+		dialog.ok(traducao(30022),traducao(30030))
 	except:
 		dialog = xbmcgui.Dialog()
-		dialog.ok(" Erro:", "Permissão negada!",'Escolha outra directoria.')
+		dialog.ok(traducao(30014), traducao(30031),traducao(30032))
 	
 	
 def save(name,url):
@@ -260,7 +263,7 @@ def save(name,url):
 		try:open(playlist, 'a').close()
 		except:
 			dialog = xbmcgui.Dialog()
-			dialog.ok(" Erro:", "Permissão negada!",'Escolha outra directoria para guardar a playlist.')
+			dialog.ok(traducao(30014),traducao(30031),traducao(30033))
 			return
 	
 	flag = True
@@ -301,11 +304,11 @@ def le_playlist():
 		else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png')
 	
 	addLink('','-','-')
-	addDir('[B][COLOR white]Apagar Playlist[/B][/COLOR]','-',10,artfolder + 'delete.png')
+	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png')
 		
 def apaga_playlist():
 	dialog = xbmcgui.Dialog()
-	if dialog.yesno("Aviso!", "Tem a certeza que deseja apagar a Playlist?"):
+	if dialog.yesno(traducao(30022),traducao(30035)):
 		try: 
 			f = open(playlist,"w")
 			f.close()
@@ -319,10 +322,10 @@ def addMusicaPlaylist(name,url,iconimage):
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	cm = []
-	cm.append(('Adicionar à playlist', 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append(('Remover da playlist', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append(('Letra', 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30036), 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30038), 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30039), 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setInfo( type="Audio", infoLabels={ "Title": name } )
 	liz.setProperty('fanart_image', fanart)
@@ -335,10 +338,10 @@ def addMusica(name,url,mode,iconimage):
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setInfo( type="Audio", infoLabels={ "Title": name } )
 	cm = []
-	cm.append(('Adicionar à playlist', 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append(('Remover da playlist', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append(('Letra', 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30036), 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30038), 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30039), 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setProperty('fanart_image', fanart)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
@@ -369,9 +372,9 @@ def addDir(name,url,mode,iconimage,pasta = True,playlist_dir = False):
 	liz.setProperty('fanart_image', fanart)
 	cm = []
 	if playlist_dir:
-		cm.append(('Exportar playlist', 'XBMC.RunPlugin(%s?mode=12&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-		cm.append(('Importar playlist', 'XBMC.RunPlugin(%s?mode=13&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-		cm.append(('Apagar playlist', 'XBMC.RunPlugin(%s?mode=10&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append((traducao(30029), 'XBMC.RunPlugin(%s?mode=12&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append((traducao(30025), 'XBMC.RunPlugin(%s?mode=13&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append((traducao(30034), 'XBMC.RunPlugin(%s?mode=10&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
 	return ok

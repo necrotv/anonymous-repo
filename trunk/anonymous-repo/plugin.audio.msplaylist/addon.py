@@ -107,7 +107,7 @@ def procura_letra(name):
 		window = xbmcgui.Window(10147)
 		xbmc.sleep(100)
 		window.getControl(1).setLabel( "%s - %s" % (traducao(30007),name))
-		window.getControl(5).setText(traducao(30008)+' "' + name + '"(Vagalume):\n' + letra)
+		window.getControl(5).setText(traducao(30008)+' "' + name + '" (Vagalume):\n' + letra)
 	except:
 		dialog = xbmcgui.Dialog()
 		if dialog.yesno(traducao(30009),traducao(30010)):

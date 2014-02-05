@@ -21,7 +21,7 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.3'
+versao = '1.0.4'
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -41,9 +41,9 @@ def traducao(texto):
 #MENUS############################################
 
 def CATEGORIES():
-	addDir('Top 20','http://mp3skull.com/',2,artfolder + 'top.png')
+	addDir(traducao(30056),'http://mp3skull.com/',2,artfolder + 'top.png')
 	addDir(traducao(30000),'-',1,artfolder + 'Search.png')
-	addDir('Playlist','-',5,artfolder + 'Playlist.png',True,True)
+	addDir(traducao(30057),'-',5,artfolder + 'Playlist.png',True,True)
 	
 	addLink('','-','-')
 	addDir('[B][COLOR white]'+traducao(30001)+'[/COLOR][/B]','-',11,artfolder + 'aviso.png',False)
@@ -56,12 +56,41 @@ def CATEGORIES():
 	
 ###################################################################################
 #FUNCOES
+def listar_videos(name):
+	name2 = name.replace(' - ',' ')
+	name2 = urllib.quote(name2)
+	url = 'http://www.youtube.com/results?filters=video&search_query=' + name2 + '&lclk=video'
+	codigo_fonte = abrir_url(url)
+	try: 
+		match = re.compile('title="(.+?)"\s+        data-sessionlink=".+?"\s+href="\/watch\?v\=(.+?)"').findall(codigo_fonte)
+	except: return
+	for titulo, id in match:
+		img = 'http://i1.ytimg.com/vi/' + id + '/mqdefault.jpg'
+		titulo = titulo.replace('&#039;', '\'') 
+		titulo = titulo.replace('&#39;', '\'') 
+		titulo = titulo.replace('&quot;', '"') 
+		titulo = titulo.replace('&amp;', '&') 
+		addDir(titulo,'plugin://plugin.video.youtube/?action=play_video&videoid=' + id,16,img,False)
+	xbmc.executebuiltin("Container.SetViewMode(500)")
+	
+def play_youtube(url):
+	listitem = xbmcgui.ListItem()
+	listitem.setPath(url)
+	listitem.setProperty('mimetype', 'video/x-msvideo')
+	listitem.setProperty('IsPlayable', 'true')
+	try:
+		xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+		xbmcPlayer.play(url)
+	except:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", " Impossível abrir vídeo! ")
+		pass
+	
 def procura_letra(name):
 	name2 = name.replace(' - ',' ')
 	name2 = urllib.quote(name2 + ' vagalume')
 	url = 'http://www.google.com/search?ie=UTF-8&oe=UTF-8&sourceid=navclient&gfns=1&q=' + name2
 	codigo_fonte = abrir_url(url)
-	print url
 	try:
 		letra = re.findall('<div itemprop=description>(.+?)</div>',codigo_fonte,re.DOTALL)[0]
 		letra = letra.replace('<br/>','\n')
@@ -78,7 +107,7 @@ def procura_letra(name):
 		window = xbmcgui.Window(10147)
 		xbmc.sleep(100)
 		window.getControl(1).setLabel( "%s - %s" % (traducao(30007),name))
-		window.getControl(5).setText(traducao(30008)+' "' + name + '":\n' + letra)
+		window.getControl(5).setText(traducao(30008)+' "' + name + '"(Vagalume):\n' + letra)
 	except:
 		dialog = xbmcgui.Dialog()
 		if dialog.yesno(traducao(30009),traducao(30010)):
@@ -131,7 +160,7 @@ def encontrar_fontes(url):
 		
 def play(url):
 	mensagemprogresso = xbmcgui.DialogProgress()
-	mensagemprogresso.create('Mp3 Skull',traducao(30013),traducao(30012))
+	mensagemprogresso.create('Mp3 Skull Playlist',traducao(30013),traducao(30012))
 	try: mp3file = urllib2.urlopen(url)
 	except: 
 		mensagemprogresso.close()
@@ -285,8 +314,6 @@ def remove(name,url):
 	try: f = open(playlist,"w")
 	except: return
 	for line in lines:
-		print line
-		print str('name="' + name + '" url="' + url + '"\n')
 		if line != str('name="' + name + '" url="' + url + '"\n'): f.write(line)
 	f.close()
 	
@@ -326,6 +353,7 @@ def addMusicaPlaylist(name,url,iconimage):
 	cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30038), 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30039), 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30055),  'XBMC.Container.Update(%s?mode=15&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setInfo( type="Audio", infoLabels={ "Title": name } )
 	liz.setProperty('fanart_image', fanart)
@@ -342,6 +370,7 @@ def addMusica(name,url,mode,iconimage):
 	cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30038), 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30039), 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	cm.append((traducao(30055),  'XBMC.Container.Update(%s?mode=15&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setProperty('fanart_image', fanart)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
@@ -476,5 +505,11 @@ elif mode==13:
 
 elif mode==14:
 	procura_letra(name)
+	
+elif mode==15:
+	listar_videos(name)
+	
+elif mode==16:
+	play_youtube(url)
 	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

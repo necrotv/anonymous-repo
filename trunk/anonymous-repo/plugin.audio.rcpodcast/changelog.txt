@@ -1,12 +1,11 @@
-Vers„o 1.0.2:
-Adicionada MixÛrdia de Tem·ticas - SÈrie Ribeiro
-Corrigido erro em que alguns caracteres especiais n„o apareciam
+ÔªøVers√£o 1.0.2:
+Adicionada Mix√≥rdia de Tem√°ticas - S√©rie Ribeiro
+Corrigido erro em que alguns caracteres especiais n√£o apareciam
 
-Vers„o 1.0.1:
+Vers√£o 1.0.1:
 Suporte a Gotham
-Adicionado indicador de vers„o
-Possibilidade de reproduzir item seguinte automaticamente ou n„o
+Adicionado indicador de vers√£o
+Possibilidade de reproduzir item seguinte automaticamente ou n√£o
 
-Vers„o 1.0.0:
-Primeira vers„o
-
+Vers√£o 1.0.0:
+Primeira vers√£o

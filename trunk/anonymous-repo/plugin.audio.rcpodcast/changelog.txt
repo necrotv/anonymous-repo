@@ -1,4 +1,8 @@
 Versão 1.0.1:
+Adicionada Mixórdia de Temáticas - Série Ribeiro
+Corrigido erro em que alguns caracteres especiais não apareciam
+
+Versão 1.0.1:
 Suporte a Gotham
 Adicionado indicador de versão
 Possibilidade de reproduzir item seguinte automaticamente ou não

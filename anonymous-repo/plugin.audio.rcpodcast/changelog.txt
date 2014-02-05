@@ -1,4 +1,4 @@
-Versão 1.0.1:
+Versão 1.0.2:
 Adicionada Mixórdia de Temáticas - Série Ribeiro
 Corrigido erro em que alguns caracteres especiais não apareciam
 

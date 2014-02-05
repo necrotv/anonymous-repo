@@ -1,4 +1,7 @@
-﻿Versão 1.0.3:
+﻿Versão 1.0.4:
+Adicionada opção para ver vídeos
+
+Versão 1.0.3:
 Adicionada tradução para Inglês
 Corrigidos "minor-bugs"
 

@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.1'
+versao = '1.0.2'
 addon_id = 'plugin.audio.rcpodcast'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -40,7 +40,8 @@ def CATEGORIES():
 	addDir('Caderneta de Cromos','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=17',1,addonfolder + artfolder + '17.jpg')
 	addDir('Grandiosa História Universal das Traquitanas','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=40',1,addonfolder + artfolder + '40.jpg')
 	addDir('Homem que mordeu o Cão','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=47',1,addonfolder + artfolder + '47.jpg')
-	addDir('Mixórdia de Temáticas','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=36',1,addonfolder + artfolder + '36.jpg')
+	addDir('Mixórdia de Temáticas - Série Miranda','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=36&sid=32',1,addonfolder + artfolder + '36.jpg')
+	addDir('Mixórdia de Temáticas - Série Ribeiro','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=36&sid=24',1,addonfolder + artfolder + '36.jpg')
 	addDir('Momentos da Manhã','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=25',1,addonfolder + artfolder + '25.jpg')
 	addDir('Ouvintes no ar','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=26',1,addonfolder + artfolder + '26.jpg')
 	addDir('Primo','http://www.radiocomercial.iol.pt/podcast/index.aspx?id=19',1,addonfolder + artfolder + '19.jpg')
@@ -70,13 +71,14 @@ def listar_videos(url):
 	url = re.compile('<a title="Download" href="(.+?)"').findall(codigo_fonte)
 	titulo = re.compile('<h2 style=".+?">(.+?)</h2>').findall(codigo_fonte)
 	page = re.compile('<li class="current">.+?</li><li><a href="(.+?)"').findall(codigo_fonte)
-	print titulo
 	a = []
 	for x in range(0, len(url)):
 		temp = [titulo[x],dia[x],mes[x],ano[x],url[x]]; 
 		a.append(temp);
 	
 	for titulo, dia, mes, ano, url in a:
+		titulo = titulo.replace("\xba","º")
+		titulo = titulo.replace("\xda","Ú")
 		titulo = titulo.replace("\xe9","é")
 		titulo = titulo.replace("\xe1","á")
 		titulo = titulo.replace("\xf3","ó")
@@ -86,6 +88,8 @@ def listar_videos(url):
 		titulo = titulo.replace("\xea","ê")
 		titulo = titulo.replace("\xe7","ç")
 		titulo = titulo.replace("\xf5","õ")
+		titulo = titulo.replace('\xe2','â')
+		titulo = titulo.replace('\xf4','ô')
 		if autoplay: addLink(titulo + ' - ' + dia + '/' + mes + '/' + ano,url,'')
 		else: addDir(titulo + ' - ' + dia + '/' + mes + '/' + ano,url,2,'',False)
 	
@@ -93,7 +97,6 @@ def listar_videos(url):
 		addDir('Página Seguinte >>','http://www.radiocomercial.iol.pt/podcast/' + prox_pagina,1,'')
 	
 def play(url):
-	print url
 	try: mp3file = urllib2.urlopen(url)
 	except: 
 		dialog = xbmcgui.Dialog()

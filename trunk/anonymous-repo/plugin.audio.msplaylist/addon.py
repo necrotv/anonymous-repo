@@ -55,7 +55,8 @@ def CATEGORIES():
 	else: addLink('[B][COLOR white]'+traducao(30005)+' ('+ disponivel + '). '+traducao(30006)+'![/COLOR][/B]','-',artfolder + 'versao.png')
 	
 ###################################################################################
-#FUNCOES
+#FUNCOES	
+
 def listar_videos(name):
 	name2 = name.replace(' - ',' ')
 	name2 = urllib.quote(name2)
@@ -103,10 +104,6 @@ def procura_letra(name):
 		letra = letra.replace('\xe9','é')
 		letra = letra.replace('\xf3','ó')
 		letra = letra.replace('\xf4','ô')
-		letra = letra.replace("\xba","º")
-		letra = letra.replace("\xda","Ú")
-		letra = letra.replace("\xca","Ê")
-		letra = letra.replace("\xf5","õ")
 		xbmc.executebuiltin("ActivateWindow(10147)")
 		window = xbmcgui.Window(10147)
 		xbmc.sleep(100)
@@ -221,7 +218,28 @@ def mensagemaviso():
         window.getControl(5).setText("[COLOR red][B]"+traducao(30040)+":[/B][/COLOR]\n"+traducao(30041)+"\n\n"+traducao(30042)+"\n\n[COLOR red][B]"+traducao(30043)+"[/B][/COLOR]\n"+traducao(30044)+"\n\n"+traducao(30045)+"\n\n"+traducao(30046)+"\n\n[COLOR red][B]"+traducao(30047)+"[/B][/COLOR]\n"+traducao(30048)+"\n\n"+traducao(30049)+"\n\n"+traducao(30050))
     except: pass
 	
-############################################## PLAYLIST #################################		
+############################################## PLAYLIST #################################
+def pesquisa_playlist():
+	if verifica_path(): return
+	keyb = xbmc.Keyboard('',traducao(30000)) #Chama o keyboard do XBMC com a frase indicada
+	keyb.doModal() #Espera ate que seja confirmada uma determinada string
+	if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
+		search = keyb.getText() #Variavel search fica definida com o conteudo do formulario
+		search = search.replace(' ','').replace('\'','').replace('-','').replace('/','').replace('\\','').lower()
+	else: return
+	lines = []
+	try:
+		f = open(playlist,"r")
+		lines = f.readlines()
+		f.close()
+	except: return
+	for line in lines:
+		match = re.compile('name="(.+?)" url="(.+?)"').findall(line)
+		titulo = match[0][0].replace(' ','').replace('-','').replace('\'','').replace('/','').replace('\\','').lower()
+		if titulo.find(search) != -1 : 
+			if autoplay: addMusicaPlaylist(match[0][0],match[0][1],'DefaultAudio.png')
+			else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png')
+	
 def verifica_path():
 	if playlist == 'playlist.txt': 
 		dialog = xbmcgui.Dialog()
@@ -335,6 +353,7 @@ def le_playlist():
 		else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png')
 	
 	addLink('','-','-')
+	addDir('[B][COLOR white]'+traducao(30058)+'[/B][/COLOR]','-',17,artfolder + 'Search.png')
 	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png')
 		
 def apaga_playlist():
@@ -465,55 +484,22 @@ print "Iconimage: "+str(iconimage)
 #                                                   MODOS                                                     #
 ###############################################################################################################
 
-if mode==None or url==None or len(url)<1:
-	CATEGORIES()
-
-elif mode==1:
-	pesquisa()
-	
-elif mode==2:
-	listar_musicas(url)
-	
-elif mode==3:
-	play(url)
-	
-elif mode==4:
-	save(name,url)
-
-elif mode==5:
-	le_playlist()
-	
-elif mode==6:
-	remove(name,url)
-	
-elif mode==7:
-	encontrar_fontes(url)
-
-elif mode==8:
-	download(name,url)
-	
-elif mode==9:
-	selfAddon.openSettings()
-
-elif mode==10:
-	apaga_playlist()
-
-elif mode==11:
-	mensagemaviso()
-	
-elif mode==12:
-	exportar()
-
-elif mode==13:
-	importar()
-
-elif mode==14:
-	procura_letra(name)
-	
-elif mode==15:
-	listar_videos(name)
-	
-elif mode==16:
-	play_youtube(url)
-	
+if mode==None or url==None or len(url)<1: CATEGORIES()
+elif mode==1: pesquisa()	
+elif mode==2: listar_musicas(url)
+elif mode==3: play(url)
+elif mode==4: save(name,url)
+elif mode==5: le_playlist()
+elif mode==6: remove(name,url)
+elif mode==7: encontrar_fontes(url)
+elif mode==8: download(name,url)
+elif mode==9: selfAddon.openSettings()
+elif mode==10: apaga_playlist()
+elif mode==11: mensagemaviso()
+elif mode==12: exportar()
+elif mode==13: importar()
+elif mode==14: procura_letra(name)
+elif mode==15: listar_videos(name)
+elif mode==16: play_youtube(url)
+elif mode==17: pesquisa_playlist()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

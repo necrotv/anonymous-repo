@@ -1,4 +1,7 @@
-﻿Versão 1.0.4:
+﻿Versão 1.0.5:
+Adicionada função de pesquisa na Playlist
+
+Versão 1.0.4:
 Adicionada opção para ver vídeos
 
 Versão 1.0.3:

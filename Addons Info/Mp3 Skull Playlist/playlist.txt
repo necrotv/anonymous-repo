@@ -53,3 +53,7 @@ name="Robert Palmer - Bad Case of Loving You" url="http://groovology.com.au/Song
 name="Queen - We Will Rock You" url="http://www.dreammedia.ru/music/Queen/1997%20-%20Queen%20Rocks/01%20We%20Will%20Rock%20You.mp3"
 name="System Of A Down - BYOB" url="http://a.tumblr.com/tumblr_m59qr8hD231qfofsko1.mp3"
 name="Muse - Resistance" url="http://sd-5.archive-host.com/membres/playlist/f823bbddee311969fb2c596fa0f5261806d02596/Muse/02_Resistance.mp3"
+name="Carlos Santana - Samba Pa Ti" url="http://www.essence2reve.fr/a4content/Carlos%20Santana%20-%20Samba%20Pati.mp3"
+name="Queen - Dont Stop Me Now" url="http://angelnaina.mobile9.com/download/media/3/queendonts_q3dm3ch3.mp3"
+name="Scorpions - Still lovin' you" url="http://a.tumblr.com/tumblr_m2zyg0TamX1r9b6cxo1.mp3"
+name="Pink Floyd - Time" url="http://recordedlight.com/music/Pink_Floyd/The%20Dark%20Side%20of%20the%20Moon/03%20Time.mp3"

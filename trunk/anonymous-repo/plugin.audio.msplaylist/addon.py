@@ -195,6 +195,7 @@ def download(name,url):
 	if download_path == '':
 		dialog = xbmcgui.Dialog()
 		dialog.ok(traducao(30014),traducao(30016),traducao(30017))
+		selfAddon.openSettings()
 		return
 	try:
 		name = name.replace('/', '-')
@@ -296,6 +297,7 @@ def verifica_path():
 	if playlist == 'playlist.txt': 
 		dialog = xbmcgui.Dialog()
 		dialog.ok(traducao(30014),traducao(30021))
+		selfAddon.openSettings()
 		return True
 	else: return False
 	

@@ -60,4 +60,6 @@
 	<string id="30056">Top 20</string>
 	<string id="30057">Playlist</string>
 	<string id="30058">Search in Playlist</string>
+	<string id="30059">Show Download progress</string>
+	<string id="30060">There is already a file with the same name!</string>
 </strings>

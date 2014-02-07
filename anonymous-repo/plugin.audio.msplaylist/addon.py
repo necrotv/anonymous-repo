@@ -17,7 +17,7 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket,time,os
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
@@ -31,6 +31,8 @@ download_path = selfAddon.getSetting('download-folder')
 playlist = selfAddon.getSetting('playlist') + 'playlist.txt'
 autoplay = False
 if selfAddon.getSetting('autoplay') == 'true': autoplay = True
+prog_down = False
+if selfAddon.getSetting('prog_down') == 'true': prog_down = True
 traducaoma= selfAddon.getLocalizedString
 
 def traducao(texto):
@@ -204,15 +206,61 @@ def download(name,url):
 		name = name.replace('>', '')
 		name = name.replace('<', '')
 		name = name.replace('|', '-')
-		f = urllib2.urlopen(url)
-		with open(download_path + name + '.mp3', "wb") as code:
-			code.write(f.read())
+		
+		mypath = download_path + name + '.mp3'
+		
+		if os.path.isfile(mypath) is True:
+			dialog = xbmcgui.Dialog()
+			dialog.ok(traducao(30014),traducao(30060))
+			return
+				  
+		if prog_down:
+			dp = xbmcgui.DialogProgress()
+			dp.create(traducao(30038))
+			start_time = time.time()
+			try: urllib.urlretrieve(url, mypath, lambda nb, bs, fs: dialogdown(nb, bs, fs, dp, start_time))
+			except:
+				while os.path.exists(mypath): 
+					try: os.remove(mypath); break 
+					except: pass
+				dp.close()
+				return
+			dp.close()
+		else:
+			f = urllib2.urlopen(url)
+			with open(mypath, "wb") as code:
+				code.write(f.read())
+				
 		dialog = xbmcgui.Dialog()
 		dialog.ok(traducao(30038),traducao(30018))
 	except:
 		dialog = xbmcgui.Dialog()
 		dialog.ok(traducao(30014),traducao(30019))
-		
+
+def dialogdown(numblocks, blocksize, filesize, dp, start_time):
+      try:
+            percent = min(numblocks * blocksize * 100 / filesize, 100)
+            currently_downloaded = float(numblocks) * blocksize / (1024 * 1024) 
+            kbps_speed = numblocks * blocksize / (time.time() - start_time) 
+            if kbps_speed > 0: eta = (filesize - numblocks * blocksize) / kbps_speed 
+            else: eta = 0 
+            kbps_speed = kbps_speed / 1024 
+            total = float(filesize) / (1024 * 1024) 
+            mbs = '%.02f MB de %.02f MB' % (currently_downloaded, total) 
+            e = ' (%.0f Kb/s) ' % kbps_speed 
+            tempo = traducao(40129) + ' %02d:%02d' % divmod(eta, 60) 
+            dp.update(percent, mbs + e,tempo)
+      except: 
+            percent = 100 
+            dp.update(percent) 
+      if dp.iscanceled(): 
+            dp.close()
+            raise StopDownloading('Stopped Downloading')
+
+class StopDownloading(Exception):
+      def __init__(self, value): self.value = value 
+      def __str__(self): return repr(self.value)
+	  
 def mensagemaviso():
     try:
         xbmc.executebuiltin("ActivateWindow(10147)")

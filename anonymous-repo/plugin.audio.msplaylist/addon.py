@@ -171,8 +171,6 @@ def encontrar_fontes(url):
 		dialog.ok(traducao(30022),traducao(30061))
 		url_sug = 'http://ac1.mp3skull.com/autocomplete/get.php?q=' + url.replace('http://mp3skull.com/mp3/','').replace('.html','')
 		sug = abrir_url(url_sug)
-		try: match = re.findall("frameElement, '.+?', new Array\((.+?)\)",sug,re.DOTALL)[0]
-		except: return
 		sugestoes = re.findall("'(.+?)'",sug,re.DOTALL)
 		if len(sugestoes)<=1: return
 		addLink('[COLOR white][B]'+traducao(30062)+'[/B][/COLOR]','',artfolder + 'sug.png')

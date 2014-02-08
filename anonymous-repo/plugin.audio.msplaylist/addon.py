@@ -21,7 +21,7 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket,tim
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.5'
+versao = '1.0.6'
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -158,6 +158,7 @@ def encontrar_fontes(url):
 	titulo = re.compile('<div style="font-size:15px;"><b>(.+?) mp3</b>').findall(codigo_fonte)
 	mensagemprogresso.update(100)
 	mensagemprogresso.close()
+		
 	for x in range(0,len(mp3)):
 		try:
 			mp3[x] = mp3[x].replace(' ','%20')
@@ -165,6 +166,23 @@ def encontrar_fontes(url):
 			addMusica(titulo[x],mp3[x],3,'DefaultAudio.png')
 		except: pass
 		
+	if len(mp3)==0:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(traducao(30022),traducao(30061))
+		url_sug = 'http://ac1.mp3skull.com/autocomplete/get.php?q=' + url.replace('http://mp3skull.com/mp3/','').replace('.html','')
+		sug = abrir_url(url_sug)
+		try: match = re.findall("frameElement, '.+?', new Array\((.+?)\)",sug,re.DOTALL)[0]
+		except: return
+		sugestoes = re.findall("'(.+?)'",sug,re.DOTALL)
+		if len(sugestoes)<=1: return
+		addLink('[COLOR white][B]'+traducao(30062)+'[/B][/COLOR]','',artfolder + 'sug.png')
+		addLink('','','')
+		for x in range(1,len(sugestoes)):
+			nsearch = sugestoes[x].replace(' ','_')
+			nsearch=urllib.quote(nsearch)
+			nsearch = 'http://mp3skull.com/mp3/' + str(nsearch) + '.html'
+			addDir(sugestoes[x],nsearch,7,artfolder + 'music.png')
+			
 def play(url):
 	mensagemprogresso = xbmcgui.DialogProgress()
 	mensagemprogresso.create('Mp3 Skull Playlist',traducao(30013),traducao(30012))

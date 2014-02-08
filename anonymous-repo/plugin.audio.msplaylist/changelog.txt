@@ -1,4 +1,8 @@
-﻿Versão 1.0.5:
+﻿Versão 1.0.6:
+Adicionadas sugestoes de pesquisas, para quando uma pesquisa nao tem resultados
+Melhorado o método de Download: Possível fazer download em background sem barra de progresso
+
+Versão 1.0.5:
 Adicionada função de pesquisa na Playlist
 
 Versão 1.0.4:

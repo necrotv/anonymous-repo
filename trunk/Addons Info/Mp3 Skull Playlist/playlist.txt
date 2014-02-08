@@ -57,3 +57,8 @@ name="Carlos Santana - Samba Pa Ti" url="http://www.essence2reve.fr/a4content/Ca
 name="Queen - Dont Stop Me Now" url="http://angelnaina.mobile9.com/download/media/3/queendonts_q3dm3ch3.mp3"
 name="Scorpions - Still lovin' you" url="http://a.tumblr.com/tumblr_m2zyg0TamX1r9b6cxo1.mp3"
 name="Pink Floyd - Time" url="http://recordedlight.com/music/Pink_Floyd/The%20Dark%20Side%20of%20the%20Moon/03%20Time.mp3"
+name="Passenger - Let Her Go" url="http://a.tumblr.com/tumblr_mcbijg2vkr1qe105bo1.mp3"
+name="Simon And Garfunkel - The Sound Of Silence" url="http://radio.chez.com.br/mp3/apocalist_pedrobonde/012-The%20Sound%20Of%20Silence.mp3"
+name="Guns N' Roses - Nightrain" url="http://buildingsandfood.com/files/2009/appetite/03%20-%20Nightrain.mp3"
+name="Guns N' Roses - knocking On Heavens Door" url="http://a.tumblr.com/tumblr_ls3mfq2Pnh1qjgjqio1.mp3"
+name="Queen - Killer Queen" url="http://www.dreammedia.ru/music/Queen/1974%20-%20Sheer%20Heart%20Attack/02%20Killer%20Queen.mp3"

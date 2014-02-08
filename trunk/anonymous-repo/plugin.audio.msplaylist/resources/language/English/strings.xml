@@ -62,4 +62,6 @@
 	<string id="30058">Search in Playlist</string>
 	<string id="30059">Show Download progress</string>
 	<string id="30060">There is already a file with the same name!</string>
+	<string id="30061">No results found.</string>
+	<string id="30062">Search suggestions</string>
 </strings>

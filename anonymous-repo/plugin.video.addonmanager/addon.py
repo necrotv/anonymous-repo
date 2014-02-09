@@ -250,6 +250,8 @@ def addLink(name,url,iconimage):
 	liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
 	liz.setInfo( type="Video", infoLabels={ "Title": name } )
+	cm = []
+	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 

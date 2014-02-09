@@ -88,6 +88,14 @@ def play_youtube(url):
 		dialog = xbmcgui.Dialog()
 		dialog.ok(" Erro:", " Impossível abrir vídeo! ")
 		pass
+
+def decode_car(titulo):
+	titulo = titulo.replace('\xc3', "Ã").replace('\xd3', "Ó").replace('\xda', "Ú").replace('\xca', "Ê");
+	titulo = titulo.replace('\xc9', "É").replace('\xc7', "Ç").replace('\xcd', "Í").replace('\xc2', "Â");
+	titulo = titulo.replace('\xc1', "Á").replace('\xc0', "À").replace('\xe9', "é").replace('\xed', "í");
+	titulo = titulo.replace('\xf3', "ó").replace('\xe7', "ç").replace('\xe3', "ã").replace('\xe2', "â");
+	titulo = titulo.replace('\xea', "ê").replace('\xe1', "á").replace('\xfa', "ú").replace('\xe0', "à");
+	return titulo
 	
 def procura_letra(name):
 	name2 = name.replace(' - ',' ')
@@ -97,19 +105,7 @@ def procura_letra(name):
 	try:
 		letra = re.findall('<div itemprop=description>(.+?)</div>',codigo_fonte,re.DOTALL)[0]
 		letra = letra.replace('<br/>','\n')
-		letra = letra.replace('\xe3','ã')
-		letra = letra.replace('\xe7','ç')
-		letra = letra.replace('\xed','í')
-		letra = letra.replace('\xe2','â')
-		letra = letra.replace('\xe1','à')
-		letra = letra.replace('\xea','ê')
-		letra = letra.replace('\xe9','é')
-		letra = letra.replace('\xf3','ó')
-		letra = letra.replace('\xf4','ô')
-		letra = letra.replace("\xba","º")
-		letra = letra.replace("\xda","Ú")
-		letra = letra.replace("\xca","Ê")
-		letra = letra.replace("\xf5","õ")
+		letra = decode_car(letra)
 		xbmc.executebuiltin("ActivateWindow(10147)")
 		window = xbmcgui.Window(10147)
 		xbmc.sleep(100)

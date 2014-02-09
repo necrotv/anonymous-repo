@@ -417,7 +417,7 @@ def le_playlist():
 	except: pass
 	if len(lines)==0: return
 	addDir('[B][COLOR white]'+traducao(30058)+'[/B][/COLOR]','-',17,artfolder + 'Search.png')
-	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png')
+	#addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png')
 	addLink('','','-')
 	for line in lines:
 		match = re.compile('name="(.+?)" url="(.+?)"').findall(line)

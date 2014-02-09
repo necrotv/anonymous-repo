@@ -274,6 +274,7 @@ def addDir(name,url,mode,iconimage,pasta = True,all = False,menu=False,other=Fal
 	if all:
 		cm.append(('Adicionar a Nova Pasta', 'XBMC.RunPlugin(%s?mode=3&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 		if nomes_pastas(): cm.append(('Adicionar a...', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append(('Configurações', 'XBMC.RunPlugin(%s?mode=10&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)

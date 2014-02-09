@@ -415,14 +415,14 @@ def le_playlist():
 		lines = f.readlines()
 		f.close()
 	except: pass
+	if len(lines)==0: return
+	addDir('[B][COLOR white]'+traducao(30058)+'[/B][/COLOR]','-',17,artfolder + 'Search.png')
+	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png')
+	addLink('','','-')
 	for line in lines:
 		match = re.compile('name="(.+?)" url="(.+?)"').findall(line)
 		if autoplay: addMusicaPlaylist(match[0][0],match[0][1],'DefaultAudio.png')
 		else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png',True)
-	
-	addLink('','-','-')
-	addDir('[B][COLOR white]'+traducao(30058)+'[/B][/COLOR]','-',17,artfolder + 'Search.png')
-	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png',False)
 		
 def apaga_playlist():
 	dialog = xbmcgui.Dialog()
@@ -432,7 +432,6 @@ def apaga_playlist():
 			f.close()
 		except: return
 	else: return
-	xbmc.executebuiltin("Container.Refresh")
 
 ###################################################################################
 #FUNCOES JÁ FEITAS

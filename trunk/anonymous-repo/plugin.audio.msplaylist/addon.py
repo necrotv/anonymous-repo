@@ -408,6 +408,7 @@ def remove(name,url):
 	for line in lines:
 		if line != str('name="' + name + '" url="' + url + '"\n'): f.write(line)
 	f.close()
+	xbmc.executebuiltin("Container.Refresh")
 	
 def le_playlist():
 	if verifica_path(): return
@@ -420,11 +421,11 @@ def le_playlist():
 	for line in lines:
 		match = re.compile('name="(.+?)" url="(.+?)"').findall(line)
 		if autoplay: addMusicaPlaylist(match[0][0],match[0][1],'DefaultAudio.png')
-		else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png')
+		else:addMusica(match[0][0],match[0][1],3,'DefaultAudio.png',True)
 	
 	addLink('','-','-')
 	addDir('[B][COLOR white]'+traducao(30058)+'[/B][/COLOR]','-',17,artfolder + 'Search.png')
-	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png')
+	addDir('[B][COLOR white]'+traducao(30034)+'[/B][/COLOR]','-',10,artfolder + 'delete.png',False)
 		
 def apaga_playlist():
 	dialog = xbmcgui.Dialog()
@@ -434,6 +435,7 @@ def apaga_playlist():
 			f.close()
 		except: return
 	else: return
+	xbmc.executebuiltin("Container.Refresh")
 
 ###################################################################################
 #FUNCOES JÁ FEITAS
@@ -442,7 +444,6 @@ def addMusicaPlaylist(name,url,iconimage):
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	cm = []
-	cm.append((traducao(30036), 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30038), 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30039), 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
@@ -453,14 +454,14 @@ def addMusicaPlaylist(name,url,iconimage):
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz,isFolder=False)
 	return ok
 
-def addMusica(name,url,mode,iconimage):
+def addMusica(name,url,mode,iconimage,playlist_dir = False):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setInfo( type="Audio", infoLabels={ "Title": name } )
 	cm = []
-	cm.append((traducao(30036), 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	if playlist_dir: cm.append((traducao(30037), 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	else: cm.append((traducao(30036), 'XBMC.RunPlugin(%s?mode=4&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30038), 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30039), 'XBMC.RunPlugin(%s?mode=14&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	cm.append((traducao(30055),  'XBMC.Container.Update(%s?mode=15&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))

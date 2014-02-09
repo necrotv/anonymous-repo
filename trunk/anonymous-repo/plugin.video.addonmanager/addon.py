@@ -232,7 +232,12 @@ def abrir_addon(url):
 		url = re.compile('id="(.+?)"').findall(url)[0]
 	except: pass
 	xbmc.executebuiltin("RunAddon("+url+")")
-	
+
+def abrir_settings(url):
+	try:
+		url = re.compile('id="(.+?)"').findall(url)[0]
+	except: pass
+	xbmc.executebuiltin("Addon.OpenSettings("+url+")")
 ###################################################################################
 #FUNCOES JÁ FEITAS
 
@@ -263,7 +268,9 @@ def addDir(name,url,mode,iconimage,pasta = True,all = False,menu=False,other=Fal
 	if menu:
 		cm.append(('Apagar Pasta', 'XBMC.RunPlugin(%s?mode=5&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 		cm.append(('Mudar nome', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
-	if other: cm.append(('Remover Add-on', 'XBMC.RunPlugin(%s?mode=7&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	if other: 
+		cm.append(('Remover Add-on', 'XBMC.RunPlugin(%s?mode=7&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append(('Configurações', 'XBMC.RunPlugin(%s?mode=10&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	if all:
 		cm.append(('Adicionar a Nova Pasta', 'XBMC.RunPlugin(%s?mode=3&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 		if nomes_pastas(): cm.append(('Adicionar a...', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
@@ -347,4 +354,5 @@ elif mode==6: add_to_folder2(name,url)
 elif mode==7:remover_addon(name,url)
 elif mode==8:mudar_nome_pasta(name)
 elif mode==9: selfAddon.openSettings()
+elif mode==10: abrir_settings(url)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -251,7 +251,7 @@ def addLink(name,url,iconimage):
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
 	liz.setInfo( type="Video", infoLabels={ "Title": name } )
 	cm = []
-	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
+	liz.addContextMenuItems(cm, replaceItems=True)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 

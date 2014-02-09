@@ -95,6 +95,7 @@ def decode_car(titulo):
 	titulo = titulo.replace('\xc1', "Á").replace('\xc0', "À").replace('\xe9', "é").replace('\xed', "í");
 	titulo = titulo.replace('\xf3', "ó").replace('\xe7', "ç").replace('\xe3', "ã").replace('\xe2', "â");
 	titulo = titulo.replace('\xea', "ê").replace('\xe1', "á").replace('\xfa', "ú").replace('\xe0', "à");
+	titulo = titulo.replace('\xf4', 'ô').replace("\xba", "º").replace("\xf5", "õ");
 	return titulo
 	
 def procura_letra(name):

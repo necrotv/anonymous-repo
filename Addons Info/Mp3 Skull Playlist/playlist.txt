@@ -62,3 +62,7 @@ name="Simon And Garfunkel - The Sound Of Silence" url="http://radio.chez.com.br/
 name="Guns N' Roses - Nightrain" url="http://buildingsandfood.com/files/2009/appetite/03%20-%20Nightrain.mp3"
 name="Guns N' Roses - knocking On Heavens Door" url="http://a.tumblr.com/tumblr_ls3mfq2Pnh1qjgjqio1.mp3"
 name="Queen - Killer Queen" url="http://www.dreammedia.ru/music/Queen/1974%20-%20Sheer%20Heart%20Attack/02%20Killer%20Queen.mp3"
+name="Limp Bizkit - Behind Blue Eyes" url="http://a.tumblr.com/tumblr_lq41g4i1Uv1qimq1ho1.mp3"
+name="One Republic - Counting Stars" url="http://a.tumblr.com/tumblr_mqfmwwaNTm1ros980o1.mp3"
+name="Guano Apes - Kumba Yo" url="http://maniaccrewjb.narod.ru/music/Guano_Apes_Kumba_Yo.mp3"
+name="Guano Apes - Open Your Eyes" url="http://absolution37.free.fr/mp3/guano%20apes%20-%20open%20your%20eyes.mp3"

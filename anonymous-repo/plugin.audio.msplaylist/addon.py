@@ -386,6 +386,7 @@ def save(name,url):
 	
 	flag = True
 	f = open(playlist,"w")
+	name = name.replace('"','\'')
 	for line in lines:
 		if line == 'name="' + name + '" url="' + url + '"\n': flag = False
 		f.write(line)

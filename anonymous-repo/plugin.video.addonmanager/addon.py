@@ -122,7 +122,7 @@ def mudar_nome_pasta(name):
 	if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
 		nome_pasta = keyb.getText() #Variavel search fica definida com o conteudo do formulario
 		if nome_pasta == '': return
-		nome_pasta = nome_pasta.replace('\'','').replace('"','')
+		nome_pasta = nome_pasta.replace('"','\'')
 	else: return
 	lines = []
 	try:
@@ -171,7 +171,7 @@ def add_to_folder(name,url):
 	if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
 		nome_pasta = keyb.getText() #Variavel search fica definida com o conteudo do formulario
 		if nome_pasta == '': return
-		nome_pasta = nome_pasta.replace('\'','').replace('"','')
+		nome_pasta = nome_pasta.replace('"','\'')
 	else: return
 	lines = []
 	try:

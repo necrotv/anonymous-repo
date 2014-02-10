@@ -144,7 +144,9 @@ def listaraddons():
 		addonxmlcaminho=os.path.join(pastadirecta,'addon.xml')
 		if os.path.exists(addonxmlcaminho):
 			conteudo=openfile(addonxmlcaminho)
-			if (re.search('<addon id="plugin.video.',conteudo) or re.search('<addon id="plugin.audio.',conteudo)) and not re.search('plugin.video.addonmanager',conteudo):
+			if re.search('id="script.navi-x"',conteudo):
+				addDir('Navi-X','script.navi-x',1,pastadirecta + '\icon.png',False,True)
+			if (re.search('id="plugin.video.',conteudo) or re.search('id="plugin.audio.',conteudo)) and not re.search('plugin.video.addonmanager',conteudo):
 				try: name = re.compile('name="(.+?)"').findall(conteudo)[0]
 				except: name = id
 				addDir(name,id,1,pastadirecta + '\icon.png',False,True)

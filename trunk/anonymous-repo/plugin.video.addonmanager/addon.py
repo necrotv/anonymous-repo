@@ -92,7 +92,10 @@ def listar_addons(name):
 		f.close()
 	except: return
 	for line in lines:
-		if 'pasta="' + name +'"' in line:
+		if 'pasta="' + name +'"' in line and 'id="script.navi-x"' in line:
+			pastadirecta = os.path.join(pastadeaddons,'Navi-X')
+			addDir('Navi-X','script.navi-x',1,pastadirecta + '\icon.png',False,other=True)
+		elif 'pasta="' + name +'"' in line:
 			id = re.compile('id="(.+?)"').findall(line)[0]
 			name_addon = re.compile('name="(.+?)"').findall(line)[0]
 			pastadirecta = os.path.join(pastadeaddons, id)

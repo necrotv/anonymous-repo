@@ -22,11 +22,12 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser
 h = HTMLParser.HTMLParser()
 
 
-addon_id = 'plugin.video.brazzers'
+addon_id = 'plugin.video.freehdporn'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
-artfolder = '/resources/img/'
+artfolder = addonfolder + '/resources/img/'
 versao = '1.0.0'
+base_url = 'http://www.freehdporn.ws/'
 
 
 ################################################## 
@@ -34,9 +35,10 @@ versao = '1.0.0'
 #MENUS############################################
 
 def CATEGORIES():
-	addDir('Source 1','-',0,addonfolder + artfolder + 'videos.png')
-	addDir('Source 2','http://freehdporn.ws/brazzers.php',4,addonfolder + artfolder + 'videos.png')
-	
+	addDir('Search','-',3,artfolder + 'search.png')
+	addDir('Studios','-',4,artfolder + 'videos.png')
+	addDir('Actresses','-',5,artfolder + 'videos.png')
+	addDir('Categories','-',6,artfolder + 'videos.png')
 	addLink("",'','-')
 	disponivel=versao_disponivel()
 	if disponivel==versao: addLink('[B][COLOR white]Last version installed (' + versao + ')[/COLOR][/B]','','')
@@ -45,25 +47,39 @@ def CATEGORIES():
 	
 ###################################################################################
 #FUNCOES
+def listar_estudios():
+	codigo_fonte = abrir_url('http://www.freehdporn.ws')
+	try: texto = re.findall('<h2>Studios</h2>(.+?)</ul>',codigo_fonte,re.DOTALL)[0]
+	except: return
+	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(texto)
+	for url,titulo in match:
+		addDir(titulo,base_url+url,1,artfolder + 'videos.png')
+
+def listar_actrizes():
+	codigo_fonte = abrir_url('http://www.freehdporn.ws')
+	try: texto = re.findall('<h2>Actresses</h2>(.+?)</ul>',codigo_fonte,re.DOTALL)[0]
+	except: return
+	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(texto)
+	for url,titulo in match:
+		addDir(titulo,base_url+url,1,artfolder + 'videos.png')
+
+def listar_categorias():
+	codigo_fonte = abrir_url('http://www.freehdporn.ws')
+	try: texto = re.findall('<h2>Category</h2>(.+?)</ul>',codigo_fonte,re.DOTALL)[0]
+	except: return
+	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(texto)
+	for url,titulo in match:
+		addDir(titulo,base_url+url,1,artfolder + 'videos.png')	
+		
 def versao_disponivel():
 	try:
-		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.video.brazzers/addon.xml')		#ALTERAR NO FIM
-		match=re.compile('<addon id="plugin.video.brazzers" name="Brazzers" version="(.+?)"').findall(codigo_fonte)[0]
+		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo-adults/plugin.video.freehdporn/addon.xml')		#ALTERAR NO FIM
+		match=re.compile('<addon id="plugin.video.freehdporn" name="Free HD Porn" version="(.+?)"').findall(codigo_fonte)[0]
 	except:
 		match='Error checking version!'
 	return match
-
-def fonte1():
-	addDir('New Videos','http://brazzers.myporno.biz',1,addonfolder + artfolder + 'videos.png')
-	addDir('Most Watched','http://brazzers.myporno.biz/?v_sortby=views&v_orderby=desc',1,addonfolder + artfolder + 'videos.png')
-	addDir('Search','http://brazzers.myporno.biz',3,addonfolder + artfolder + 'search.png')
-	codigo_fonte = abrir_url('http://brazzers.myporno.biz')
-	match = re.compile('<li class="cat-item cat-item-.+?"><a href="(.+?)" title=".+?">(.+?)</a>').findall(codigo_fonte)
-	for url, titulo in match:
-		addDir(titulo,url,1,addonfolder + artfolder + 'videos.png')
-	xbmc.executebuiltin("Container.SetViewMode(50)")
 	
-def listar_videos2(url):
+def listar_videos(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('<iframe class="modal_video" src="(.+?)"').findall(codigo_fonte)
 	match2 = re.compile('data-description="(.+?)"').findall(codigo_fonte)
@@ -72,48 +88,22 @@ def listar_videos2(url):
 	for x in range(0, len(match)):
 		temp = [match[x],match2[x]]; 
 		a.append(temp);
-	
+	total = len(a)
 	for url,titulo in a:
 		codigo_fonte2 = abrir_url(url)
 		try: img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)[0]
 		except: continue
 		titulo = titulo.replace("&#8211;","-")
 		titulo = titulo.replace("&#8217;","'")
-		addDir(titulo,url,2,img)
+		addDir(titulo,url,2,img,total)
 	
 	page = re.compile("class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
+	try: url_base = re.compile('<link rel="canonical" href="(.+?)"').findall(codigo_fonte)[0]
+	except: return
 	for url_prox_pagina in page:
 		print url_prox_pagina
-		addDir('Next page >>','http://freehdporn.ws/brazzers.php' + str(url_prox_pagina),4,addonfolder + artfolder + 'next.png')
+		addDir('Next page >>',url_base + str(url_prox_pagina),1,artfolder + 'next.png')
 		break
-	
-	
-	xbmc.executebuiltin("Container.SetViewMode(500)")
-	
-
-def listar_videos(url):
-	codigo_fonte = abrir_url(url)
-	match = re.compile('</header><iframe src="(.+?)"').findall(codigo_fonte)
-	match2 = re.compile('title="Permalink to (.+?)"').findall(codigo_fonte)
-
-	a = []
-	for x in range(0, len(match)):
-		temp = [match[x],match2[x]]; 
-		a.append(temp);
-	
-	for url,titulo in a:
-		codigo_fonte2 = abrir_url(url)
-		try: img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)[0]
-		except: continue
-		titulo = titulo.replace("&#8211;","-")
-		titulo = titulo.replace("&#8217;","'")
-		addDir(titulo,url,2,img)
-	
-	page = re.compile("<span class='current'>.+?</span><a href='(.+?)' class='page larger'>.+?").findall(codigo_fonte)
-	for url_prox_pagina in page:
-		addDir('Next page >>',url_prox_pagina,1,addonfolder + artfolder + 'next.png')
-		break
-	
 	xbmc.executebuiltin("Container.SetViewMode(500)")
 	
 def encontrar_fontes(url):
@@ -135,10 +125,8 @@ def pesquisa():
 	if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
 		search = keyb.getText() #Variavel search fica definida com o conteudo do formulario
 		parametro_pesquisa=urllib.quote(search) #parametro_pesquisa faz o quote da expressao search, isto é, escapa os parametros necessarios para ser incorporado num endereço url
-		url = 'http://brazzers.myporno.biz/?s=' + str(parametro_pesquisa) #nova definicao de url. str força o parametro de pesquisa a ser uma string
+		url = 'http://freehdporn.ws/hd_porn.php?s=' + str(parametro_pesquisa) #nova definicao de url. str força o parametro de pesquisa a ser uma string
 		listar_videos(url) #chama a função listar_videos com o url definido em cima
-	#else:
-		#CATEGORIES()
 	
 ###################################################################################
 
@@ -159,12 +147,12 @@ def addLink(name,url,iconimage):
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 
-def addDir(name,url,mode,iconimage):
+def addDir(name,url,mode,iconimage,total=1):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True,totalItems=total)
 	return ok
 
 ############################################################################################################
@@ -233,24 +221,10 @@ if mode==None or url==None or len(url)<1:
         print ""
         CATEGORIES()
 		
-elif mode==0:
-		print ""
-		fonte1()
-		
-elif mode==1:
-		print ""
-		listar_videos(url)
-
-elif mode==4:
-		print ""
-		listar_videos2(url)
-		
-elif mode==2:
-		print ""
-		encontrar_fontes(url)
-		
-elif mode==3:
-		print ""
-		pesquisa()
-
+elif mode==1: listar_videos(url)
+elif mode==2: encontrar_fontes(url)
+elif mode==3: pesquisa()
+elif mode==4: listar_estudios()
+elif mode==5: listar_actrizes()
+elif mode==6: listar_categorias()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

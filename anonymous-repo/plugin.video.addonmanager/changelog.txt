@@ -1,6 +1,6 @@
-Versão 1.0.1:
-Adicionada opção de mudar icons
+ï»¿VersÃ£o 1.0.1:
+Adicionada opÃ§Ã£o de mudar icons
 Outros melhoramentos
 
-Versão 1.0.0:
-Primeira versão
+VersÃ£o 1.0.0:
+Primeira versÃ£o

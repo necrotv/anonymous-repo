@@ -18,16 +18,16 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,time,os
 h = HTMLParser.HTMLParser()
-
 
 addon_id = 'plugin.video.freehdporn'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
-versao = '1.0.0'
+versao = '1.0.1'
 base_url = 'http://www.freehdporn.ws/'
+down_path = selfAddon.getSetting('download-folder')
 
 
 ################################################## 
@@ -40,13 +40,65 @@ def CATEGORIES():
 	addDir('Actresses','-',5,artfolder + 'videos.png')
 	addDir('Categories','-',6,artfolder + 'videos.png')
 	addLink("",'','-')
+	addDir('[B][COLOR red]Open settings[/COLOR][/B]','-',8,artfolder + 'settings.png',pasta=False)
 	disponivel=versao_disponivel()
-	if disponivel==versao: addLink('[B][COLOR white]Last version installed (' + versao + ')[/COLOR][/B]','','')
-	elif disponivel=='Error checking version!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','','')
-	else: addLink('[B][COLOR white]New version available... ('+ disponivel + '). Please update![/COLOR][/B]','','')
+	if disponivel==versao: addLink('[B][COLOR white]Last version installed (' + versao + ')[/COLOR][/B]','',artfolder + 'vesion.png')
+	elif disponivel=='Error checking version!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','',artfolder + 'version.png')
+	else: addLink('[B][COLOR white]New version available... ('+ disponivel + '). Please update![/COLOR][/B]','',artfolder + 'version.png')
 	
 ###################################################################################
 #FUNCOES
+def download(name,url):
+	if down_path == '':
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Error:", "Please set your download folder!")
+		selfAddon.openSettings()
+		return
+	
+	name = re.sub('[^-a-zA-Z0-9_.()\\\/ ]+', '',name)
+	name += '.mp4'
+	mypath=os.path.join(down_path,name)
+	if os.path.isfile(mypath) is True:
+		dialog = xbmcgui.Dialog()
+		dialog.ok('Error:','There is already a file with the same name!')
+		return
+			  
+	dp = xbmcgui.DialogProgress()
+	dp.create('Download')
+	start_time = time.time()		# url - url do ficheiro    mypath - localizacao ex: c:\file.mp3
+	try: urllib.urlretrieve(url, mypath, lambda nb, bs, fs: dialogdown(nb, bs, fs, dp, start_time))
+	except:
+		while os.path.exists(mypath): 
+			try: os.remove(mypath); break 
+			except: pass
+		dp.close()
+		return
+	dp.close()
+	
+def dialogdown(numblocks, blocksize, filesize, dp, start_time):
+      try:
+            percent = min(numblocks * blocksize * 100 / filesize, 100)
+            currently_downloaded = float(numblocks) * blocksize / (1024 * 1024) 
+            kbps_speed = numblocks * blocksize / (time.time() - start_time) 
+            if kbps_speed > 0: eta = (filesize - numblocks * blocksize) / kbps_speed 
+            else: eta = 0 
+            kbps_speed = kbps_speed / 1024 
+            total = float(filesize) / (1024 * 1024) 
+            mbs = '%.02f MB de %.02f MB' % (currently_downloaded, total) 
+            e = ' (%.0f Kb/s) ' % kbps_speed 
+            tempo = 'Download' + ' %02d:%02d' % divmod(eta, 60) 
+            dp.update(percent, mbs + e,tempo)
+      except: 
+            percent = 100 
+            dp.update(percent) 
+      if dp.iscanceled(): 
+            dp.close()
+            raise StopDownloading('Stopped Downloading')
+
+class StopDownloading(Exception):
+      def __init__(self, value): self.value = value 
+      def __str__(self): return repr(self.value)
+	  
 def listar_estudios():
 	codigo_fonte = abrir_url('http://www.freehdporn.ws')
 	try: texto = re.findall('<h2>Studios</h2>(.+?)</ul>',codigo_fonte,re.DOTALL)[0]
@@ -116,8 +168,8 @@ def encontrar_fontes(url):
 	id2 = re.compile("var video_vtag = '(.+?)'").findall(codigo_fonte)
 	res = re.compile("var video_max_hd = '(.+?)'").findall(codigo_fonte)
 
-	addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0])
-	addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0])
+	if res[0] == '3': addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
+	addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
 	
 def pesquisa():
 	keyb = xbmc.Keyboard('', 'Search') #Chama o keyboard do XBMC com a frase indicada
@@ -139,20 +191,25 @@ def abrir_url(url):
 	response.close()
 	return link
 
-def addLink(name,url,iconimage):
+def addLink(name,url,iconimage,video=False):
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
 	liz.setInfo( type="Video", infoLabels={ "Title": name } )
+	cm =[]
+	if video: cm.append(('Download', 'XBMC.RunPlugin(%s?mode=7&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+	liz.addContextMenuItems(cm, replaceItems=True) 	
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 
-def addDir(name,url,mode,iconimage,total=1):
+def addDir(name,url,mode,iconimage,total=1,pasta = True):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True,totalItems=total)
+	cm =[]
+	liz.addContextMenuItems(cm, replaceItems=True)
+	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta,totalItems=total)
 	return ok
 
 ############################################################################################################
@@ -227,4 +284,6 @@ elif mode==3: pesquisa()
 elif mode==4: listar_estudios()
 elif mode==5: listar_actrizes()
 elif mode==6: listar_categorias()
+elif mode==7: download(name,url)
+elif mode==8: selfAddon.openSettings()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

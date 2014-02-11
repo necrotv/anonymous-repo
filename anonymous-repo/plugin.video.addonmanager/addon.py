@@ -21,13 +21,16 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.0'
+versao = '1.0.1'
 addon_id = 'plugin.video.addonmanager'
 selfAddon = xbmcaddon.Addon(id=addon_id)
+addonmanager = selfAddon.getAddonInfo('path').decode('utf-8')
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
 pastadeaddons = os.path.join(xbmc.translatePath('special://home/addons'), '')
 db = selfAddon.getSetting('lib') + 'db_addonmanager.txt'
+vista = selfAddon.getSetting('vista')
+esconde_indicador = selfAddon.getSetting('indicador')
 
 ################################################## 
 #MENUS############################################
@@ -36,13 +39,15 @@ def CATEGORIES():
 	addDir('Todos os Add-ons','-',2,artfolder + 'all.png')
 	listar_pastas()
 	
-	addLink('','-','-')
-	addDir('[B][COLOR blue]'+'Definições do Addon'+'[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
-	disponivel=versao_disponivel() # nas categorias
-	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','',artfolder + 'versao.png')
-	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','',artfolder + 'versao.png')
-	else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','',artfolder + 'versao.png')
-	xbmc.executebuiltin("Container.SetViewMode(50)")
+	if esconde_indicador == 'false':
+		if vista == '1': addLink('','-','-')
+		addDir('[B][COLOR blue]'+'Definições do Addon'+'[/COLOR][/B]','-',9,artfolder + 'Settings.png',False)
+		disponivel=versao_disponivel() # nas categorias
+		if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','',artfolder + 'versao.png')
+		elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','',artfolder + 'versao.png')
+		else: addLink('[B][COLOR white]Versão nova disponível ('+ disponivel + '). Por favor actualize![/COLOR][/B]','',artfolder + 'versao.png')
+	if vista == '0': xbmc.executebuiltin("Container.SetViewMode(500)")
+	elif vista == '1': xbmc.executebuiltin("Container.SetViewMode(50)")
 
 ###################################################################################
 #FUNCOES
@@ -140,6 +145,64 @@ def mudar_nome_pasta(name):
 	f.close()
 	xbmc.executebuiltin("Container.Refresh")
 
+def mudar_icon(pasta,icon_novo):
+	lines = []
+	try:
+		f = open(db,"r")
+		lines = f.readlines()
+		f.close()
+	except: return
+	f = open(db,"w")
+	for line in lines:
+		if re.search('pasta="'+pasta+'"',line):
+			try: icon = re.compile('icon="(.+?)"').findall(line)[0]
+			except: icon = ''
+			line = line.replace('icon="'+icon+'"','icon="'+icon_novo+'.png"')
+		f.write(line)
+	f.close()
+	xbmc.executebuiltin("Container.Refresh")
+	
+class janelaicons(xbmcgui.WindowXMLDialog):
+	def __init__( self, *args, **kwargs ):
+		xbmcgui.WindowXML.__init__(self)
+		self.pasta = kwargs[ "pasta" ]
+
+	def onInit(self):
+		listControl = self.getControl(500)
+		listControl.reset()
+		self.addicon('icon1',artfolder + 'icon1.png')
+		self.addicon('icon2',artfolder + 'icon2.png')
+		self.addicon('icon3',artfolder + 'icon3.png')
+		self.addicon('icon4',artfolder + 'icon4.png')
+		self.addicon('icon5',artfolder + 'icon5.png')
+		self.addicon('icon6',artfolder + 'icon6.png')
+		self.addicon('icon7',artfolder + 'icon7.png')
+		self.addicon('icon8',artfolder + 'icon8.png')
+		self.addicon('icon9',artfolder + 'icon9.png')
+		self.addicon('icon10',artfolder + 'icon10.png')
+
+	def onClick(self,controlId):
+		if controlId == 500:
+			listControl = self.getControl(500)
+			seleccionado=listControl.getSelectedItem()
+			nome=seleccionado.getProperty('nome')
+			self.close()
+			mudar_icon(self.pasta,nome)
+		elif controlId == 801:
+			self.close()
+			
+	def addicon(self,nome,thumb):
+		listControl = self.getControl(500)
+		item = xbmcgui.ListItem(nome, iconImage = thumb)
+		item.setProperty('thumb', thumb)
+		item.setProperty('nome', nome)
+		listControl.addItem(item)
+	
+def menu_icons(name):
+	janela = janelaicons("janelaicons.xml",addonmanager, "Default",pasta=name)
+	janela.doModal()
+	del janela
+	  
 def listaraddons():
 	directories = os.listdir(pastadeaddons)
 	for id in directories:
@@ -274,6 +337,7 @@ def addDir(name,url,mode,iconimage,pasta = True,all = False,menu=False,other=Fal
 	if menu:
 		cm.append(('Apagar Pasta', 'XBMC.RunPlugin(%s?mode=5&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 		cm.append(('Mudar nome', 'XBMC.RunPlugin(%s?mode=8&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
+		cm.append(('Mudar icon', 'XBMC.RunPlugin(%s?mode=11&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	if other: 
 		cm.append(('Remover Add-on', 'XBMC.RunPlugin(%s?mode=7&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 		cm.append(('Configurações', 'XBMC.RunPlugin(%s?mode=10&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
@@ -358,4 +422,5 @@ elif mode==7:remover_addon(name,url)
 elif mode==8:mudar_nome_pasta(name)
 elif mode==9: selfAddon.openSettings()
 elif mode==10: abrir_settings(url)
+elif mode==11: menu_icons(name)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

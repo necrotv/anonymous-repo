@@ -42,7 +42,7 @@ def CATEGORIES():
 	addLink("",'','-')
 	addDir('[B][COLOR red]Open settings[/COLOR][/B]','-',8,artfolder + 'settings.png',pasta=False)
 	disponivel=versao_disponivel()
-	if disponivel==versao: addLink('[B][COLOR white]Last version installed (' + versao + ')[/COLOR][/B]','',artfolder + 'vesion.png')
+	if disponivel==versao: addLink('[B][COLOR white]Last version installed (' + versao + ')[/COLOR][/B]','',artfolder + 'version.png')
 	elif disponivel=='Error checking version!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','',artfolder + 'version.png')
 	else: addLink('[B][COLOR white]New version available... ('+ disponivel + '). Please update![/COLOR][/B]','',artfolder + 'version.png')
 	

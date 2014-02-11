@@ -177,7 +177,7 @@ def encontrar_fontes(url):
 	id2 = re.compile("var video_vtag = '(.+?)'").findall(codigo_fonte)
 	res = re.compile("var video_max_hd = '(.+?)'").findall(codigo_fonte)
 
-	addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
+	if res[0] == '3': addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
 	addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
 	
 def pesquisa():

@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.1'
+versao = '1.0.1a'
 addon_id = 'plugin.video.addonmanager'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonmanager = selfAddon.getAddonInfo('path').decode('utf-8')
@@ -138,6 +138,11 @@ def mudar_nome_pasta(name):
 		lines = f.readlines()
 		f.close()
 	except: return
+	for line in lines:
+		if re.search('pasta="'+nome_pasta+'"',line):
+			dialog = xbmcgui.Dialog()
+			dialog.ok('Erro!','Já existe uma pasta com o mesmo nome!')
+			return
 	f = open(db,"w")
 	for line in lines:
 		line = line.replace('pasta="'+name+'"','pasta="'+nome_pasta+'"')
@@ -250,7 +255,7 @@ def add_to_folder(name,url):
 	flag = True
 	f = open(db,"w")
 	for line in lines:
-		if re.search('pasta="' + nome_pasta + '" name="' + name + '" id="' + url,line): flag = False
+		if re.search('pasta="' + nome_pasta + '"',line): flag = False
 		f.write(line)
 	if flag: f.write('pasta="' + nome_pasta + '" name="' + name + '" id="' + url + '" icon=""\n')
 	else:
@@ -269,12 +274,19 @@ def add_to_folder2(name,url): # name=nome addon url=id
 	tab = nomes_pastas()
 	index = xbmcgui.Dialog().select('Nome da pasta:', tab)
 	if index == -1: return
+	icon = ''
+	for line in lines:
+		if re.search('pasta="' + tab[index] + '"',line):
+			try: icon = re.compile('icon="(.+?)"').findall(line)[0]
+			except: icon = ''
+			break
+			
 	flag = True
 	f = open(db,"w")
 	for line in lines:
 		if re.search('pasta="' + tab[index] + '" name="' + name + '" id="' + url,line): flag = False
 		f.write(line)
-	if flag: f.write('pasta="' + tab[index] + '" name="' + name + '" id="' + url + '" icon=""\n')
+	if flag: f.write('pasta="' + tab[index] + '" name="' + name + '" id="' + url + '" icon="'+icon+'"\n')
 	else:
 		dialog = xbmcgui.Dialog()
 		dialog.ok('Erro!','A pasta já contém o Add-on.')

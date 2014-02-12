@@ -86,7 +86,7 @@ def dialogdown(numblocks, blocksize, filesize, dp, start_time):
             total = float(filesize) / (1024 * 1024) 
             mbs = '%.02f MB de %.02f MB' % (currently_downloaded, total) 
             e = ' (%.0f Kb/s) ' % kbps_speed 
-            tempo = 'Download' + ' %02d:%02d' % divmod(eta, 60) 
+            tempo = 'Estimated time:' + ' %02d:%02d' % divmod(eta, 60) 
             dp.update(percent, mbs + e,tempo)
       except: 
             percent = 100 

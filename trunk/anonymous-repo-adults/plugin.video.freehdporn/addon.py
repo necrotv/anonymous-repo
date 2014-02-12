@@ -135,7 +135,6 @@ def listar_videos(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('<iframe class="modal_video" src="(.+?)"').findall(codigo_fonte)
 	match2 = re.compile('data-description="(.+?)"').findall(codigo_fonte)
-	print match2
 	
 	a = []
 	for x in range(0, len(match)):
@@ -158,7 +157,6 @@ def listar_videos(url):
 	try: url_base = re.compile('<link rel="canonical" href="(.+?)"').findall(codigo_fonte)[0]
 	except: return
 	for url_prox_pagina in page:
-		print url_prox_pagina
 		addDir('Next page >>',url_base + str(url_prox_pagina),1,artfolder + 'next.png')
 		break
 	xbmc.executebuiltin("Container.SetViewMode(500)")
@@ -265,24 +263,16 @@ try:
 except:
         pass
 
-
 print "Mode: "+str(mode)
 print "URL: "+str(url)
 print "Name: "+str(name)
 print "Iconimage: "+str(iconimage)
 
-
-
-
 ###############################################################################################################
 #                                                   MODOS                                                     #
 ###############################################################################################################
 
-
-if mode==None or url==None or len(url)<1:
-        print ""
-        CATEGORIES()
-		
+if mode==None or url==None or len(url)<1: CATEGORIES()
 elif mode==1: listar_videos(url)
 elif mode==2: encontrar_fontes(url)
 elif mode==3: pesquisa()

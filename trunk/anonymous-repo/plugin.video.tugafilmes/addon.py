@@ -18,15 +18,17 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,time,os
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.0'
+versao = '1.0.1'
 addon_id = 'plugin.video.tugafilmes'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
 fanart = addonfolder + '/fanart.jpg'
+down_path = selfAddon.getSetting('download-folder')
+subs = selfAddon.getSetting('subs')
 
 ################################################## 
 
@@ -39,6 +41,7 @@ def CATEGORIES():
 	addDir('Pesquisar','-',3,artfolder + 'pesquisar.png')
 	
 	addLink("",'',artfolder + '-')
+	addDir('[B][COLOR blue]Definições do Add-on[/COLOR][/B]','-',7,artfolder + 'definicoes.png',False)
 	disponivel=versao_disponivel()
 	if disponivel==versao: addLink('[B][COLOR white]Última versão instalada (' + versao + ')[/COLOR][/B]','',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + disponivel + '[/COLOR][/B]','',artfolder + 'versao.png')
@@ -59,7 +62,77 @@ def categorias():
 	addDir('Animação','http://www.tuga-filmes.com/search/label/Anima%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
 	addDir('Documentário','http://www.tuga-filmes.com/search/label/Document%C3%A1rio',2,artfolder + 'categorias.png')
 	
+def download(name,url):
+	if down_path == '':
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Erro:", "Por favor defina a pasta de Download!")
+		selfAddon.openSettings()
+		return
+	name = re.sub('[^-a-zA-Z0-9_.()\\\/ ]+', '',name)
+	mypath=os.path.join(down_path,name+'.mp4')
+	mypath_legendas=os.path.join(down_path,name+'.srt')
 	
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('Tuga-Filmes', 'A resolver link','Por favor aguarde...')
+	mensagemprogresso.update(33)
+	matriz = []
+	codigo_fonte = abrir_url(url)
+	try: url_video = re.compile('<iframe frameborder=".+?" height=".+?" scrolling=".+?" src="(.+?)"').findall(codigo_fonte)[0]
+	except: return
+	mensagemprogresso.update(66)
+	if 'videomega' in url_video: matriz = obtem_url_videomega(url_video)
+	elif 'dropvideo' in url_video: matriz = obtem_url_dropvideo(url_video)
+	else: matriz[0] = matriz[1] = '-'
+	url = matriz[0]
+	if url=='-': return
+	legendas = matriz[1]
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
+	
+	if os.path.isfile(mypath) is True:
+		dialog = xbmcgui.Dialog()
+		dialog.ok('Erro','Já existe um ficheiro com o mesmo nome')
+		return
+			  
+	dp = xbmcgui.DialogProgress()
+	dp.create('Download')
+	start_time = time.time()		# url - url do ficheiro    mypath - localizacao ex: c:\file.mp3
+	try:
+		if legendas != '-': urllib.urlretrieve(legendas, mypath_legendas, lambda nb, bs, fs: dialogdown(nb, bs, fs, dp, start_time))
+		urllib.urlretrieve(url, mypath, lambda nb, bs, fs: dialogdown(nb, bs, fs, dp, start_time))
+	except:
+		while os.path.exists(mypath): 
+			try: os.remove(mypath); break 
+			except: pass
+		dp.close()
+		return
+	dp.close()
+	
+def dialogdown(numblocks, blocksize, filesize, dp, start_time):
+	try:
+		percent = min(numblocks * blocksize * 100 / filesize, 100)
+		print percent
+		currently_downloaded = float(numblocks) * blocksize / (1024 * 1024) 
+		kbps_speed = numblocks * blocksize / (time.time() - start_time) 
+		if kbps_speed > 0: eta = (filesize - numblocks * blocksize) / kbps_speed 
+		else: eta = 0 
+		kbps_speed = kbps_speed / 1024 
+		total = float(filesize) / (1024 * 1024) 
+		mbs = '%.02f MB de %.02f MB' % (currently_downloaded, total) 
+		e = ' (%.0f Kb/s) ' % kbps_speed 
+		tempo = 'Tempo estimado:' + ' %02d:%02d' % divmod(eta, 60) 
+		dp.update(percent, mbs + e,tempo)
+	except: 
+		percent = 100 
+		dp.update(percent) 
+	if dp.iscanceled(): 
+		dp.close()
+		raise StopDownloading('Stopped Downloading')
+
+class StopDownloading(Exception):
+      def __init__(self, value): self.value = value 
+      def __str__(self): return repr(self.value)
+	  
 def versao_disponivel():
 	try:
 		codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo/plugin.video.tugafilmes/addon.xml')		#ALTERAR NO FIM
@@ -120,7 +193,7 @@ def player(name,url,iconimage):
 	
 	if 'videomega' in url_video: matriz = obtem_url_videomega(url_video)
 	elif 'dropvideo' in url_video: matriz = obtem_url_dropvideo(url_video)
-	else: matriz[0] = matriz[1] = 'url desconhecido'
+	else: matriz[0] = matriz[1] = '-'
 	
 	url = matriz[0]
 	if url=='-': return
@@ -136,7 +209,8 @@ def player(name,url,iconimage):
 	try:
 		xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
 		xbmcPlayer.play(url)
-		if legendas != '-': xbmcPlayer.setSubtitles(legendas)
+		if subs == 'true':
+			if legendas != '-': xbmcPlayer.setSubtitles(legendas)
 	except:
 		dialog = xbmcgui.Dialog()
 		dialog.ok(" Erro:", " Impossível abrir vídeo! ")
@@ -168,6 +242,7 @@ def addDirPlayer(name,url,mode,iconimage,total):
 											 } )
 	cm = []
 	cm.append(('Sinopse', 'XBMC.Action(Info)'))
+	cm.append(('Download', 'XBMC.RunPlugin(%s?mode=6&url=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(url),name)))
 	liz.addContextMenuItems(cm, replaceItems=True)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False,totalItems = total)
 	return ok
@@ -188,12 +263,12 @@ def addLink(name,url,iconimage):
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
 
-def addDir(name,url,mode,iconimage):
+def addDir(name,url,mode,iconimage,pasta=True):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	liz.setProperty('fanart_image', fanart)
-	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
 	return ok
 
 ############################################################################################################
@@ -258,28 +333,13 @@ print "Iconimage: "+str(iconimage)
 ###############################################################################################################
 
 
-if mode==None or url==None or len(url)<1:
-        print ""
-        CATEGORIES()
-
-elif mode==1:
-	print ""
-	categorias()
-	
-elif mode==2:
-	print ""
-	listar_videos(url)
-	
-elif mode==3:
-	print ""
-	pesquisa()
-
-elif mode==4:
-	print ""
-	player(name,url,iconimage)
-	
-elif mode==5:
-	print ""
-	listar_videos_M18(url)
+if mode==None or url==None or len(url)<1: CATEGORIES()
+elif mode==1: categorias()
+elif mode==2: listar_videos(url)
+elif mode==3: pesquisa()
+elif mode==4: player(name,url,iconimage)
+elif mode==5: listar_videos_M18(url)
+elif mode==6: download(name,url)
+elif mode==7: selfAddon.openSettings()
 	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

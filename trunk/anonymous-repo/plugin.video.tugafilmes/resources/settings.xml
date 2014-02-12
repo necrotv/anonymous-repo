@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-   <category label="Definicoes gerais">
-      <setting label="[B][COLOR green]Dados de conta:[/B][/COLOR]" type="lsep" />
-      <setting id="login_name" type="text" label="Username" default=""/>
-      <setting id="login_password" type="text" label="Password" default="" option="hidden" enable="!eq(-1,false)"/>
+   <category label="Definições gerais">
+		<setting id="subs" type="bool" label="Embutir legendas" default="true"/>
+   </category>
+   <category label="Download">
+		<setting id="download-folder" type="folder" label="Pasta de Download" default=""/>
    </category>
 </settings>

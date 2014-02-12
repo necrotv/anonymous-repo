@@ -25,7 +25,7 @@ addon_id = 'plugin.video.freehdporn'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
-versao = '1.0.1'
+versao = '1.0.1a'
 base_url = 'http://www.freehdporn.ws/'
 down_path = selfAddon.getSetting('download-folder')
 
@@ -135,13 +135,18 @@ def listar_videos(url):
 	codigo_fonte = abrir_url(url)
 	match = re.compile('<iframe class="modal_video" src="(.+?)"').findall(codigo_fonte)
 	match2 = re.compile('data-description="(.+?)"').findall(codigo_fonte)
+	print match2
 	
 	a = []
 	for x in range(0, len(match)):
 		temp = [match[x],match2[x]]; 
 		a.append(temp);
 	total = len(a)
+	i=1
 	for url,titulo in a:
+		if titulo == '" class=':
+			titulo = 'Video ' + str(i)
+			i += 1
 		codigo_fonte2 = abrir_url(url)
 		try: img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)[0]
 		except: continue

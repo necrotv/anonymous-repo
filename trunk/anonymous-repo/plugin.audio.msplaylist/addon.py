@@ -159,7 +159,7 @@ def encontrar_fontes(url):
 	for x in range(0,len(mp3)):
 		try:
 			mp3[x] = mp3[x].replace(' ','%20')
-			titulo[x] = titulo[x].replace('&','and')
+			titulo[x] = titulo[x].replace('&','and').replace('\x00','')
 			addMusica(titulo[x],mp3[x],3,'DefaultAudio.png')
 		except: pass
 		

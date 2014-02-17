@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.1a'
+versao = '1.0.1b'
 addon_id = 'plugin.video.addonmanager'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonmanager = selfAddon.getAddonInfo('path').decode('utf-8')
@@ -217,7 +217,7 @@ def listaraddons():
 			conteudo=openfile(addonxmlcaminho)
 			if re.search('id="script.navi-x"',conteudo):
 				addDir('Navi-X','script.navi-x',1,pastadirecta + '\icon.png',False,True)
-			if (re.search('id="plugin.video.',conteudo) or re.search('id="plugin.audio.',conteudo)) and not re.search('plugin.video.addonmanager',conteudo):
+			if (re.search('id="plugin.video.',conteudo) or re.search('id="plugin.audio.',conteudo) or re.search('id="plugin.image.',conteudo)) and not re.search('plugin.video.addonmanager',conteudo):
 				try: name = re.compile('name="(.+?)"').findall(conteudo)[0]
 				except: name = id
 				addDir(name,id,1,pastadirecta + '\icon.png',False,True)

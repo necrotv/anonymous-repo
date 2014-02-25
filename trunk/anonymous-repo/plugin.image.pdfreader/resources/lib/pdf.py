@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 # Copyright 2014 Anonymous
-# cbr = zip  cbz = rar
 
 """
 How to use PDF Reader - Add these lines to your py
@@ -9,14 +8,19 @@ How to use PDF Reader - Add these lines to your py
 try:
 	addon_pdf = xbmc.translatePath('special://home/addons/plugin.image.pdfreader/resources/lib')
 	sys.path.append(addon_pdf)
-	from pdf import pdf
-	pdf = pdf()
+	from pdf import pdf		# For pdf
+	pdf = pdf()				# For pdf
+	from pdf import cbx		# For cbr and cbz
+	cbx = cbx()				# For cbr and cbz
 except:
 	dialog = xbmcgui.Dialog()
 	dialog.ok("Erro!","Não foi encontrado o add-on PDF Reader.","Por favor, instale-o.")
 	xbmc.executebuiltin('XBMC.ActivateWindow(Home)')
+	
+###################################
 
-#Functions:
+#PDF Functions:
+
 #open_settings():			# Open addon settings
 #pdf_read(name,url):		# Read and play pdf - url = url or filepath
 #pdf_type(filepath):		# Returns the type of PDF
@@ -24,6 +28,15 @@ except:
 #clean_temp():				# Delete temporary files
 
 #You must include 'pdf.' before functions you want to use. Example: pdf.pdf_read(name,url)
+
+####################################
+
+#CBX Functions:
+
+#cbx_read(name,url):		# Read and play cbr/cbz - url = url or filepath
+#clean_temp():				# Delete temporary files
+
+#You must include 'cbx.' before functions you want to use. Example: cbx.cbx_read(name,url)
 """
 
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,random
@@ -261,3 +274,41 @@ class pdf:
 	class _StopDownloading(Exception):
 		def __init__(self, value): self.value = value 
 		def __str__(self): return repr(self.value)
+		
+class cbx:
+	def cbx_read(self,name,url):
+		self.clean_temp()
+		xbmc.executebuiltin('XBMC.Extract('+url+','+temp+')')
+		xbmc.executebuiltin('XBMC.Container.Update(%s?mode=5&url=%s&name=%s)' % ('plugin://plugin.image.pdfreader/', urllib.quote_plus(url),name))
+	
+	def _play(self,name,url,folder=temp, page=1):
+		for f in os.listdir(folder):
+			file_path = os.path.join(folder, f)
+			if os.path.isfile(file_path): 
+				if thumbs == 'false': self._addPage(traducao(3007)+str(page),file_path,artfolder+str(page)+'.png')
+				else: self._addPage(traducao(3007)+str(page),file_path,file_path)
+				page += 1
+			else: self._play(name,url,file_path,page)
+		xbmc.executebuiltin("Container.SetViewMode(500)")
+	
+	def _addPage(self,name,url,iconimage):
+		ok=True
+		liz=xbmcgui.ListItem(name, iconImage="DefaultImage.png", thumbnailImage=iconimage)
+		liz.setProperty('fanart_image', artfolder + 'black-background.jpg')
+		liz.setInfo( type='image', infoLabels={ "Title": name } )
+		ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
+		return ok
+	
+	def clean_temp(self):		#Delete temporary files | If you use pdf and cbx in the same addon, use the cbx.clean_temp() instead of pdf.clean_temp()
+		self._clean_temp2()
+	
+	def _clean_temp2(self,folder=temp):	
+		for f in os.listdir(folder):
+			file_path = os.path.join(folder, f)
+			while os.path.exists(file_path): 
+				try: 
+					if os.path.isfile(file_path): os.remove(file_path); break 
+					else:
+						self._clean_temp2(file_path)
+						os.rmdir(file_path); break
+				except: pass

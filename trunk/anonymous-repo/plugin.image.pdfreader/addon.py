@@ -21,14 +21,19 @@ How to use PDF Reader - Add these lines to your py
 try:
 	addon_pdf = xbmc.translatePath('special://home/addons/plugin.image.pdfreader/resources/lib')
 	sys.path.append(addon_pdf)
-	from pdf import pdf
-	pdf = pdf()
+	from pdf import pdf		# For pdf
+	pdf = pdf()				# For pdf
+	from pdf import cbx		# For cbr and cbz
+	cbx = cbx()				# For cbr and cbz
 except:
 	dialog = xbmcgui.Dialog()
 	dialog.ok("Erro!","Não foi encontrado o add-on PDF Reader.","Por favor, instale-o.")
 	xbmc.executebuiltin('XBMC.ActivateWindow(Home)')
-	
-#Functions:
+
+###################################
+
+#PDF Functions:
+
 #open_settings():			# Open addon settings
 #pdf_read(name,url):		# Read and play pdf - url = url or filepath
 #pdf_type(filepath):		# Returns the type of PDF
@@ -36,17 +41,28 @@ except:
 #clean_temp():				# Delete temporary files
 
 #You must include 'pdf.' before functions you want to use. Example: pdf.pdf_read(name,url)
+
+####################################
+
+#CBX Functions:
+
+#cbx_read(name,url):		# Read and play cbr/cbz - url = url or filepath
+#clean_temp():				# Delete temporary files
+
+#You must include 'cbx.' before functions you want to use. Example: cbx.cbx_read(name,url)
 """
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,random
 from resources.lib.pdf import pdf
+from resources.lib.pdf import cbx
 pdf = pdf()
+cbx = cbx()
 
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.0'
+versao = '1.0.1'
 
 addon_id = 'plugin.image.pdfreader'
 selfAddon = xbmcaddon.Addon(id=addon_id)
@@ -63,8 +79,9 @@ def traducao(texto):
 
 def CATEGORIES():
 	pdf._mensagem_inicial()
-	pdf.clean_temp()
+	cbx.clean_temp()
 	addDir(traducao(2000),'-',4,artfolder + 'open.png',False)
+	addDir(traducao(2008),'-',6,artfolder + 'opencbx.png',False)
 	addLink('','','-')
 	addDir('[B][COLOR white]'+traducao(2001)+'[/COLOR][/B]','-',3,artfolder + 'settings.png',False)
 	disponivel=versao_disponivel()
@@ -83,6 +100,16 @@ def versao_disponivel():
 		match=traducao(2005)
 	return match
 
+def abrir_CBX():
+	dialog = xbmcgui.Dialog()
+	file = dialog.browse(1,traducao(2008),"myprograms")
+	if file == '': return
+	if '.cbr' not in file and '.cbx' not in file:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(traducao(2002),traducao(2009))
+		return
+	cbx.cbx_read('CBX',file)
+	
 def abrir_PDF():
 	dialog = xbmcgui.Dialog()
 	file = dialog.browse(1,traducao(2000),"myprograms")
@@ -166,8 +193,11 @@ print "Iconimage: "+str(iconimage)
 ###############################################################################################################
 
 if mode==None or url==None or len(url)<1: CATEGORIES()
-elif mode==1: pdf._play(name,url)
+elif mode==1: pdf._play(name,url) # NAO APAGAR
 elif mode==2: pdf.pdf_read(name,url)
 elif mode==3: selfAddon.openSettings()
 elif mode==4: abrir_PDF()
+elif mode==5: cbx._play(name,url) # NAO APAGAR
+elif mode==6: abrir_CBX()
+elif mode==100: cbx.cbx_read(name,url)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

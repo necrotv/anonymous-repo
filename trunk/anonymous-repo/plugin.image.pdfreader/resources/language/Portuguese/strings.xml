@@ -9,6 +9,8 @@
     <string id="2005">Erro ao verificar a versão!</string>
     <string id="2006">Versão nova disponível</string>
     <string id="2007">Por favor actualize!</string>
+    <string id="2008">Abrir CBR ou CBZ</string>
+	<string id="2009">Por favor seleccione um ficheiro CBR ou CBZ.</string>
 	
     <string id="3000">PDF Reader</string>
     <string id="3001">Bem vindo ao PDF Reader!</string>

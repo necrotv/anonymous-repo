@@ -25,7 +25,7 @@ addon_id = 'plugin.video.brazzers'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = '/resources/img/'
-versao = '1.0.1'
+versao = '1.0.2'
 down_path = selfAddon.getSetting('download-folder')
 
 ################################################## 
@@ -134,7 +134,6 @@ def listar_videos2(url):
 	
 	page = re.compile("class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
 	for url_prox_pagina in page:
-		print url_prox_pagina
 		addDir('Next page >>','http://freehdporn.ws/brazzers.php' + str(url_prox_pagina),4,addonfolder + artfolder + 'next.png')
 		break
 	
@@ -160,7 +159,7 @@ def listar_videos(url):
 		titulo = titulo.replace("&#8217;","'")
 		addDir(titulo,url,2,img,total=total)
 	
-	page = re.compile("<span class='current'>.+?</span><a href='(.+?)' class='page larger'>.+?").findall(codigo_fonte)
+	page = re.compile('<a class="nextpostslink" href="(.+?)">»</a>').findall(codigo_fonte)
 	for url_prox_pagina in page:
 		addDir('Next page >>',url_prox_pagina,1,addonfolder + artfolder + 'next.png')
 		break
@@ -192,7 +191,6 @@ def pesquisa():
 		#CATEGORIES()
 	
 ###################################################################################
-
 
 def abrir_url(url):
 	req = urllib2.Request(url)
@@ -242,9 +240,7 @@ def get_params():
                         splitparams=pairsofparams[i].split('=')
                         if (len(splitparams))==2:
                                 param[splitparams[0]]=splitparams[1]
-                                
         return param
-
       
 params=get_params()
 url=None
@@ -252,47 +248,27 @@ name=None
 mode=None
 iconimage=None
 
-
-try:
-        url=urllib.unquote_plus(params["url"])
-except:
-        pass
-try:
-        name=urllib.unquote_plus(params["name"])
-except:
-        pass
-try:
-        mode=int(params["mode"])
-except:
-        pass
-
-try:        
-        iconimage=urllib.unquote_plus(params["iconimage"])
-except:
-        pass
-
+try: url=urllib.unquote_plus(params["url"])
+except: pass
+try: name=urllib.unquote_plus(params["name"])
+except: pass
+try: mode=int(params["mode"])
+except: pass
+try: iconimage=urllib.unquote_plus(params["iconimage"])
+except: pass
 
 print "Mode: "+str(mode)
 print "URL: "+str(url)
 print "Name: "+str(name)
 print "Iconimage: "+str(iconimage)
 
-
-
-
 ###############################################################################################################
 #                                                   MODOS                                                     #
 ###############################################################################################################
 
 
-if mode==None or url==None or len(url)<1:
-        print ""
-        CATEGORIES()
-		
-elif mode==0:
-		print ""
-		fonte1()
-		
+if mode==None or url==None or len(url)<1: CATEGORIES()
+elif mode==0: fonte1()
 elif mode==1: listar_videos(url)
 elif mode==4: listar_videos2(url)
 elif mode==2: encontrar_fontes(url)

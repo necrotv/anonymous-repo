@@ -25,7 +25,7 @@ addon_id = 'plugin.video.freehdporn'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
-versao = '1.0.1a'
+versao = '1.0.2'
 base_url = 'http://www.freehdporn.ws/'
 down_path = selfAddon.getSetting('download-folder')
 
@@ -106,6 +106,7 @@ def listar_estudios():
 	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(texto)
 	for url,titulo in match:
 		addDir(titulo,base_url+url,1,artfolder + 'videos.png')
+	xbmc.executebuiltin("Container.SetViewMode(50)")
 
 def listar_actrizes():
 	codigo_fonte = abrir_url('http://www.freehdporn.ws')
@@ -114,6 +115,7 @@ def listar_actrizes():
 	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(texto)
 	for url,titulo in match:
 		addDir(titulo,base_url+url,1,artfolder + 'videos.png')
+	xbmc.executebuiltin("Container.SetViewMode(50)")
 
 def listar_categorias():
 	codigo_fonte = abrir_url('http://www.freehdporn.ws')
@@ -121,7 +123,8 @@ def listar_categorias():
 	except: return
 	match = re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(texto)
 	for url,titulo in match:
-		addDir(titulo,base_url+url,1,artfolder + 'videos.png')	
+		addDir(titulo,base_url+url,1,artfolder + 'videos.png')
+	xbmc.executebuiltin("Container.SetViewMode(50)")
 		
 def versao_disponivel():
 	try:
@@ -133,25 +136,17 @@ def versao_disponivel():
 	
 def listar_videos(url):
 	codigo_fonte = abrir_url(url)
-	match = re.compile('<iframe class="modal_video" src="(.+?)"').findall(codigo_fonte)
-	match2 = re.compile('data-description="(.+?)"').findall(codigo_fonte)
-	
-	a = []
-	for x in range(0, len(match)):
-		temp = [match[x],match2[x]]; 
-		a.append(temp);
-	total = len(a)
+	match = re.compile('<a href="/(.+?)" title="(.+?)><img src="(.+?)"').findall(codigo_fonte)
 	i=1
-	for url,titulo in a:
-		if titulo == '" class=':
+	total = len(match)
+	for url,titulo,img in match:
+		if titulo == '"':
 			titulo = 'Video ' + str(i)
 			i += 1
-		codigo_fonte2 = abrir_url(url)
-		try: img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte2)[0]
-		except: continue
+		else: titulo = titulo[:-1]
 		titulo = titulo.replace("&#8211;","-")
 		titulo = titulo.replace("&#8217;","'")
-		addDir(titulo,url,2,img,total)
+		addDir(titulo,base_url+url,2,img,total)
 	
 	page = re.compile("class='active'>.+?</a><a href='(.+?)'>.+?<").findall(codigo_fonte)
 	try: url_base = re.compile('<link rel="canonical" href="(.+?)"').findall(codigo_fonte)[0]
@@ -162,7 +157,10 @@ def listar_videos(url):
 	xbmc.executebuiltin("Container.SetViewMode(500)")
 	
 def encontrar_fontes(url):
-	codigo_fonte = abrir_url(url)
+	codigo_fonte2 = abrir_url(url)
+	try: url_video = re.compile('<iframe src="(.+?)" class="modal_video"').findall(codigo_fonte2)[0]
+	except: return
+	codigo_fonte = abrir_url(url_video)
 		
 	match = re.compile('cache720=(.+?)&amp').findall(codigo_fonte)
 	img = re.compile('<img id="player_thumb" src="(.+?)"/></div>').findall(codigo_fonte)
@@ -171,8 +169,12 @@ def encontrar_fontes(url):
 	id2 = re.compile("var video_vtag = '(.+?)'").findall(codigo_fonte)
 	res = re.compile("var video_max_hd = '(.+?)'").findall(codigo_fonte)
 
-	if res[0] == '3': addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
-	addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
+	try:
+		if res[0] == '3': addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
+		addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
+	except:
+		dialog = xbmcgui.Dialog()
+		dialog.ok(" Error:","This video has been removed from public access.")
 	
 def pesquisa():
 	keyb = xbmc.Keyboard('', 'Search') #Chama o keyboard do XBMC com a frase indicada

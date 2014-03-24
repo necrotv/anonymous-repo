@@ -25,7 +25,7 @@ addon_id = 'plugin.video.brazzers'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = '/resources/img/'
-versao = '1.0.2'
+versao = '1.0.3'
 down_path = selfAddon.getSetting('download-folder')
 
 ################################################## 
@@ -33,8 +33,9 @@ down_path = selfAddon.getSetting('download-folder')
 #MENUS############################################
 
 def CATEGORIES():
-	addDir('Source 1','-',0,addonfolder + artfolder + 'videos.png')
-	addDir('Source 2','http://freehdporn.ws/brazzers.php',4,addonfolder + artfolder + 'videos.png')
+	#addDir('Source 1','-',0,addonfolder + artfolder + 'videos.png')
+	#addDir('Source 2','http://freehdporn.ws/brazzers.php',4,addonfolder + artfolder + 'videos.png')
+	fonte1()
 	
 	addLink("",'','-')
 	addDir('[B][COLOR orange]Open settings[/COLOR][/B]','-',6,addonfolder + artfolder + 'settings.png',pasta=False)
@@ -104,15 +105,20 @@ def versao_disponivel():
 		match='Error checking version!'
 	return match
 
-def fonte1():
-	addDir('New Videos','http://brazzers.myporno.biz',1,addonfolder + artfolder + 'videos.png')
-	addDir('Most Watched','http://brazzers.myporno.biz/?v_sortby=views&v_orderby=desc',1,addonfolder + artfolder + 'videos.png')
-	addDir('Search','http://brazzers.myporno.biz',3,addonfolder + artfolder + 'search.png')
+def cat():
 	codigo_fonte = abrir_url('http://brazzers.myporno.biz')
 	match = re.compile('<li class="cat-item cat-item-.+?"><a href="(.+?)" title=".+?">(.+?)</a>').findall(codigo_fonte)
 	for url, titulo in match:
 		addDir(titulo,url,1,addonfolder + artfolder + 'videos.png')
 	xbmc.executebuiltin("Container.SetViewMode(50)")
+	
+def fonte1():
+	addDir('New Videos','http://brazzers.myporno.biz',1,addonfolder + artfolder + 'videos.png')
+	addDir('Most Watched','http://brazzers.myporno.biz/?v_sortby=views&v_orderby=desc',1,addonfolder + artfolder + 'videos.png')
+	addDir('Search','http://brazzers.myporno.biz',3,addonfolder + artfolder + 'search.png')
+	addDir('Categories','-',7,addonfolder + artfolder + 'cat.png')
+	
+	
 	
 def listar_videos2(url):
 	codigo_fonte = abrir_url(url)
@@ -275,5 +281,6 @@ elif mode==2: encontrar_fontes(url)
 elif mode==3: pesquisa()
 elif mode==5: download(name,url)
 elif mode==6: selfAddon.openSettings()
+elif mode==7: cat()
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

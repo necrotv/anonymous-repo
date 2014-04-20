@@ -25,7 +25,7 @@ addon_id = 'plugin.video.freehdporn'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
-versao = '1.0.2'
+versao = '1.0.3'
 base_url = 'http://www.freehdporn.ws/'
 down_path = selfAddon.getSetting('download-folder')
 
@@ -144,6 +144,8 @@ def listar_videos(url):
 			titulo = 'Video ' + str(i)
 			i += 1
 		else: titulo = titulo[:-1]
+		if 'freehdporn.ws' not in img:
+			img = 'http://freehdporn.ws' + img
 		titulo = titulo.replace("&#8211;","-")
 		titulo = titulo.replace("&#8217;","'")
 		addDir(titulo,base_url+url,2,img,total)
@@ -157,9 +159,12 @@ def listar_videos(url):
 	xbmc.executebuiltin("Container.SetViewMode(500)")
 	
 def encontrar_fontes(url):
+	print
 	codigo_fonte2 = abrir_url(url)
 	try: url_video = re.compile('<iframe src="(.+?)" class="modal_video"').findall(codigo_fonte2)[0]
 	except: return
+	url_video = url_video.replace('../',base_url)
+	
 	codigo_fonte = abrir_url(url_video)
 		
 	match = re.compile('cache720=(.+?)&amp').findall(codigo_fonte)

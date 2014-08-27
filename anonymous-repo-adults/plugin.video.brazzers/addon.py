@@ -155,22 +155,22 @@ def encontrar_fontes(url):
 		id1 = re.compile("var video_uid = '(.+?)'").findall(codigo_fonte)
 		id2 = re.compile("var video_vtag = '(.+?)'").findall(codigo_fonte)
 		res = re.compile("var video_max_hd = '(.+?)'").findall(codigo_fonte)
-	except: return
 
-	if res[0] == '3': 
-		addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
-		addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
-		addLink('360',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '360' + '.mp4',img[0],True)
-		addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
-	elif res[0] == '2':
-		addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
-		addLink('360',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '360' + '.mp4',img[0],True)
-		addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
-	elif res[0] == '1':
-		addLink('360',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '360' + '.mp4',img[0],True)
-		addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
-	else:
-		addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
+		if res[0] == '3': 
+			addLink('720',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '720' + '.mp4',img[0],True)
+			addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
+			addLink('360',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '360' + '.mp4',img[0],True)
+			addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
+		elif res[0] == '2':
+			addLink('480',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '480' + '.mp4',img[0],True)
+			addLink('360',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '360' + '.mp4',img[0],True)
+			addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
+		elif res[0] == '1':
+			addLink('360',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '360' + '.mp4',img[0],True)
+			addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
+		else:
+			addLink('240',url[0] + 'u' + id1[0] + '/videos/' + id2[0] + '.' + '240' + '.mp4',img[0],True)
+	except: addLink("The video has been removed.",'','-')
 		
 def pesquisa():
 	keyb = xbmc.Keyboard('', 'Search') #Chama o keyboard do XBMC com a frase indicada

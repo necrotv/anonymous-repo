@@ -21,7 +21,7 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket,tim
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.6'
+versao = '1.0.7'
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -62,12 +62,22 @@ def CATEGORIES():
 def listar_videos(name):
 	name2 = name.replace(' - ',' ')
 	name2 = urllib.quote(name2)
-	url = 'http://www.youtube.com/results?filters=video&search_query=' + name2 + '&lclk=video'
+	url = 'https://www.youtube.com/results?search_query=' + name2 + '&lclk=video&filters=video'
+	 
 	codigo_fonte = abrir_url(url)
 	try: 
-		match = re.compile('title="(.+?)"\s+        data-sessionlink=".+?"\s+href="\/watch\?v\=(.+?)"').findall(codigo_fonte)
-	except: return
-	for titulo, id in match:
+		match1 = re.compile('data-context-item-id="(.+?)">').findall(codigo_fonte)
+		match2 = re.compile('dir="ltr">(.+?)</a></h3><div class="yt-lockup-meta">').findall(codigo_fonte)
+		
+		match = []
+		for x in range(0, len(match1)):
+			temp = [match1[x],match2[x]]; 
+			match.append(temp);
+		
+	except: 
+		print "Erro ao obter video!"
+		return
+	for id, titulo in match:
 		img = 'http://i1.ytimg.com/vi/' + id + '/mqdefault.jpg'
 		titulo = titulo.replace('&#039;', '\'') 
 		titulo = titulo.replace('&#39;', '\'') 

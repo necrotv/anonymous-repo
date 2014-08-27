@@ -1,4 +1,8 @@
-﻿Versão 1.0.2:
+﻿Versão 1.0.3:
+Corrigido Addon para mudança do site.
+Actualmente já não se pode ter acesso a todos os podcasts.
+
+Versão 1.0.2:
 Adicionada Mixórdia de Temáticas - Série Ribeiro
 Corrigido erro em que alguns caracteres especiais não apareciam
 

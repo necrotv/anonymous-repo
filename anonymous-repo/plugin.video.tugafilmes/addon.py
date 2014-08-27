@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,time,os
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.1'
+versao = '1.0.2'
 addon_id = 'plugin.video.tugafilmes'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -36,8 +36,8 @@ subs = selfAddon.getSetting('subs')
 
 def CATEGORIES():
 	addDir('Categorias','-',1,artfolder + 'categorias.png')
-	addDir('Filmes 2014','http://www.tuga-filmes.com/search/label/-%20Filmes%202013',2,artfolder + 'categorias.png')
-	addDir('Destaques','http://www.tuga-filmes.com/search/label/destaque',2,artfolder + 'destaques.png')
+	addDir('Filmes 2014','http://www.tuga-filmes.info/search/label/-%20Filmes%202013',2,artfolder + 'categorias.png')
+	addDir('Destaques','http://www.tuga-filmes.info/search/label/destaque',2,artfolder + 'destaques.png')
 	addDir('Pesquisar','-',3,artfolder + 'pesquisar.png')
 	
 	addLink("",'',artfolder + '-')
@@ -51,16 +51,16 @@ def CATEGORIES():
 ###################################################################################
 #FUNCOES
 def categorias():
-	addDir('Acção','http://www.tuga-filmes.com/search/label/Ac%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
-	addDir('Comédia','http://www.tuga-filmes.com/search/label/com%C3%A9dia',2,artfolder + 'categorias.png')
-	addDir('Drama','http://www.tuga-filmes.com/search/label/Drama',2,artfolder + 'categorias.png')
-	addDir('Romance','http://www.tuga-filmes.com/search/label/Romance',2,artfolder + 'categorias.png')
-	addDir('Guerra','http://www.tuga-filmes.com/search/label/Guerra',2,artfolder + 'categorias.png')
-	addDir('Terror','http://www.tuga-filmes.com/search/label/Terror',2,artfolder + 'categorias.png')
-	addDir('Ficção','http://www.tuga-filmes.com/search/label/fic%C3%A7%C3%A3o-cientifica',2,artfolder + 'categorias.png')
-	addDir('Aventura','http://www.tuga-filmes.com/search/label/Aventura',2,artfolder + 'categorias.png')
-	addDir('Animação','http://www.tuga-filmes.com/search/label/Anima%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
-	addDir('Documentário','http://www.tuga-filmes.com/search/label/Document%C3%A1rio',2,artfolder + 'categorias.png')
+	addDir('Acção','http://www.tuga-filmes.info/search/label/Ac%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
+	addDir('Comédia','http://www.tuga-filmes.info/search/label/com%C3%A9dia',2,artfolder + 'categorias.png')
+	addDir('Drama','http://www.tuga-filmes.info/search/label/Drama',2,artfolder + 'categorias.png')
+	addDir('Romance','http://www.tuga-filmes.info/search/label/Romance',2,artfolder + 'categorias.png')
+	addDir('Guerra','http://www.tuga-filmes.info/search/label/Guerra',2,artfolder + 'categorias.png')
+	addDir('Terror','http://www.tuga-filmes.info/search/label/Terror',2,artfolder + 'categorias.png')
+	addDir('Ficção','http://www.tuga-filmes.info/search/label/fic%C3%A7%C3%A3o-cientifica',2,artfolder + 'categorias.png')
+	addDir('Aventura','http://www.tuga-filmes.info/search/label/Aventura',2,artfolder + 'categorias.png')
+	addDir('Animação','http://www.tuga-filmes.info/search/label/Anima%C3%A7%C3%A3o',2,artfolder + 'categorias.png')
+	addDir('Documentário','http://www.tuga-filmes.info/search/label/Document%C3%A1rio',2,artfolder + 'categorias.png')
 	
 def download(name,url):
 	if down_path == '':
@@ -175,7 +175,9 @@ def obtem_url_videomega(url):
 	texto = urllib.unquote(code[0])
 	try: url_video = re.compile('file: "(.+?)"').findall(texto)[0]
 	except: url_video = '-'
-	try: url_legendas =	re.compile('"file": "(.+?)"').findall(texto)[0]
+	try: 
+		id = re.compile('http://(.+?).mp4').findall(url_video)[0]
+		url_legendas = 'http://' + id.replace('/v/','/videos/subs/') + '.srt'
 	except: url_legendas = '-'
 	return [url_video,url_legendas]
 
@@ -222,7 +224,7 @@ def pesquisa():
 	if (keyb.isConfirmed()): #Se a entrada estiver confirmada (isto e, se carregar no OK)
 		search = keyb.getText() #Variavel search fica definida com o conteudo do formulario
 		parametro_pesquisa=urllib.quote(search) #parametro_pesquisa faz o quote da expressao search, isto é, escapa os parametros necessarios para ser incorporado num endereço url
-		url = 'http://www.tuga-filmes.com/search?q=' + str(parametro_pesquisa) #nova definicao de url. str força o parametro de pesquisa a ser uma string
+		url = 'http://www.tuga-filmes.info/search?q=' + str(parametro_pesquisa) #nova definicao de url. str força o parametro de pesquisa a ser uma string
 		listar_videos(url) #chama a função listar_videos com o url definido em cima
 
 		###################################################################################

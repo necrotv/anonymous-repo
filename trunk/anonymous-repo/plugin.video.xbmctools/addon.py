@@ -78,12 +78,17 @@ def keyboard(url):
 		
 #########################################	ANDROID
 	
+def checksu():
+    os.system("su -c ''")
+	
 def librtmp_android():
 	
-	import subprocess
+	"""import subprocess
 	cmd = ['su']
-	proc = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
-
+	proc = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)"""
+	
+	checksu()
+	
 	librtmp_path = os.path.join(android_xbmc_path(), "lib")
 	if os.path.exists(librtmp_path) is False:
 		dialog.ok("Erro:", "Impossível aceder à pasta do librtmp!")

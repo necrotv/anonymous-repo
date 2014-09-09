@@ -79,9 +79,22 @@ def keyboard(url):
 def change_keyboard_android(url):
 	#dialog.ok("Aviso:",url)
 	xbmc_data_path = android_xbmc_path()
-	print "DATA PATH::::::::: " + xbmc_data_path
 	
-def android_xbmc_path():
+	keyboard_path = os.path.join(xbmc_data_path, "cache/apk/assets/addons/skin.confluence/720p")
+	if os.path.exists(keyboard_path) is False:
+		dialog.ok("Erro:", "Impossível aceder à pasta do teclado!")
+		return
+	
+	if url == "qwerty":
+		if remove_ficheiro(os.path.join(keyboard_path, "DialogKeyboard.xml")):
+			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml")
+			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+	elif url == "abcde":
+		if remove_ficheiro(os.path.join(keyboard_path, "DialogKeyboard.xml")):
+			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml")
+			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+	
+def android_xbmc_path():	#Obrigado enen92!
 	xbmcfolder=xbmc.translatePath(addonfolder).split("/")
 	i = 0
 	found = False

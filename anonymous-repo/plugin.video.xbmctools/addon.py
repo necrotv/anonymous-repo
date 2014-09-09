@@ -96,7 +96,9 @@ def android_xbmc_path():
 		uid = os.getuid()
 		app_id = xbmcfolder[i]
 		xbmc_data_path = os.path.join("/data", "data", app_id)
-		dialog.ok("Aviso:",xbmc_data_path,uid)
+		print "------------------------"
+		print xbmc_data_path
+		print uid
 		return
 	dialog.ok("Aviso:","Erro")
 #########################################	WINDOWS

@@ -90,9 +90,9 @@ def librtmp_android():
 		return
 		
 	print "ADDON FOLDER: "+addonfolder
-	os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
+	os.system("su -c 'sudo rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 	if download(os.path.join(addonfolder + "/resources/temp/", "librtmp.so"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
-		os.system("su -c 'mv "+addonfolder + "/resources/temp/librtmp.so "+librtmp_path+"/'")
+		os.system("su -c 'sudo mv "+addonfolder + "/resources/temp/librtmp.so "+librtmp_path+"/'")
 	else: dialog.ok("Erro:", "Operação abortada.")
 
 	

@@ -97,6 +97,7 @@ def librtmp_android():
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
 		remove_ficheiro(my_librtmp)
+		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	else: dialog.ok("Erro:", "Operação abortada.")
 	
 def change_keyboard_android(url):
@@ -186,7 +187,7 @@ def mensagem_os(so_name):
 
 def erro_os():
 	dialog.ok("Erro:", "Sistema operativo não suportado!")
-	
+	sys.exit(0)
 	
 def download(mypath,url):
 	if os.path.isfile(mypath) is True:

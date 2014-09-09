@@ -42,7 +42,7 @@ def CATEGORIES():
 		if xbmc_folder == "": 
 			mensagem_aviso("Por favor defina a pasta do XBMC nas configurações.")
 			selfAddon.openSettings()
-		addDir("Teclado","-",1,artfolder + "keyboard.png")
+		addDir("Teclado","windows",1,artfolder + "keyboard.png")
 		addDir("Actualizar librtmp","-",3,artfolder + "dll.png",False)
 	#-----------------------------------------------------------------------
 	elif xbmc.getCondVisibility('System.Platform.OSX'): erro_os()
@@ -52,7 +52,8 @@ def CATEGORIES():
 		else: erro_os()
 	elif xbmc.getCondVisibility('system.platform.Android'): 
 	#ANDROID
-		erro_os()
+		mensagem_os("Android")
+		addDir("Teclado","android",1,artfolder + "keyboard.png")
 	#-------------------------------------------------------------------
 	elif xbmc.getCondVisibility('system.platform.IOS'): erro_os()
 	else: erro_os()
@@ -65,11 +66,20 @@ def CATEGORIES():
 
 ###################################################################################
 #FUNCOES
-#########################################	WINDOWS
-def keyboard_windows():
+def keyboard(url):
 	dialog.ok("Atenção!", "Estas modificações apenas funcionam no tema confluence (original).")
-	addDir("QWERTY","qwerty",2,artfolder + "keyboard.png",False)
-	addDir("ABCDE","abcde",2,artfolder + "keyboard.png",False)
+	if url == "windows":
+		addDir("QWERTY","qwerty",2,artfolder + "keyboard.png",False)
+		addDir("ABCDE","abcde",2,artfolder + "keyboard.png",False)
+	elif url == "android":
+		addDir("QWERTY","qwerty",4,artfolder + "keyboard.png",False)
+		addDir("ABCDE","abcde",4,artfolder + "keyboard.png",False)
+#########################################	ANDROID
+	
+def change_keyboard_android(url):
+	teste(url)
+
+#########################################	WINDOWS
 	
 def librtmp_windows():
 	librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer")
@@ -96,7 +106,7 @@ def change_keyboard_windows(url):
 			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml")
 			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	
-#########################################	WINDOWS //
+#########################################
 
 def remove_ficheiro(file_path):
 	while os.path.exists(file_path): 
@@ -241,7 +251,8 @@ print "Iconimage: "+str(iconimage)
 ###############################################################################################################
 
 if mode==None or url==None or len(url)<1: CATEGORIES()
-elif mode==1: keyboard_windows()
+elif mode==1: keyboard(url)
 elif mode==2: change_keyboard_windows(url)
 elif mode==3: librtmp_windows()
+elif mode==4: change_keyboard_android(url)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

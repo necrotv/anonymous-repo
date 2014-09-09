@@ -18,7 +18,7 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,shutil
 h = HTMLParser.HTMLParser()
 
 versao = '1.0.0'
@@ -90,11 +90,12 @@ def librtmp_android():
 		return
 		
 
-	os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
-	if download(os.path.join(addonfolder + "/resources/temp/", "librtmp.so"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
-		os.system("su -c 'mv "+addonfolder + "/resources/temp/librtmp.so "+librtmp_path+"/'")
+	#os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
+	if download(os.path.join(addonfolder,"resources","temp","librtmp.so"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+		#os.system("su -c 'mv "+addonfolder + "/resources/temp/librtmp.so "+librtmp_path+"/'")
+		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
+		shutil.copy(my_librtmp,librtmp_path)
 	else: dialog.ok("Erro:", "Operação abortada.")
-	os.system("su -c 'rm "+addonfolder + "/resources/temp/librtmp.so'")
 	
 def change_keyboard_android(url):
 	xbmc_data_path = android_xbmc_path()

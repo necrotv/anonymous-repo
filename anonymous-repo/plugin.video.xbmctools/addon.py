@@ -79,14 +79,20 @@ def keyboard(url):
 #########################################	ANDROID
 	
 def librtmp_android():
+	
+	import subprocess
+	cmd = ['su']
+	proc = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
+
 	librtmp_path = os.path.join(android_xbmc_path(), "lib")
 	if os.path.exists(librtmp_path) is False:
 		dialog.ok("Erro:", "Impossível aceder à pasta do librtmp!")
 		return
 		
 	if remove_ficheiro(os.path.join(librtmp_path, "librtmp.so")):
-		download(os.path.join(librtmp_path, "librtmp.so"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so")
-		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+		if download(os.path.join(librtmp_path, "librtmp.so"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+		else: dialog.ok("Erro:", "Operação abortada.")
 	
 def change_keyboard_android(url):
 	xbmc_data_path = android_xbmc_path()
@@ -98,12 +104,14 @@ def change_keyboard_android(url):
 	
 	if url == "qwerty":
 		if remove_ficheiro(os.path.join(keyboard_path, "DialogKeyboard.xml")):
-			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml")
-			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			if download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"):
+				dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			else: dialog.ok("Erro:", "Operação abortada.")
 	elif url == "abcde":
 		if remove_ficheiro(os.path.join(keyboard_path, "DialogKeyboard.xml")):
-			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml")
-			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			if download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"):
+				dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			else: dialog.ok("Erro:", "Operação abortada.")
 	
 def android_xbmc_path():	#Obrigado enen92!
 	xbmcfolder=xbmc.translatePath(addonfolder).split("/")
@@ -132,9 +140,10 @@ def librtmp_windows():
 		return
 		
 	if remove_ficheiro(os.path.join(librtmp_path, "librtmp.dll")):
-		download(os.path.join(librtmp_path, "librtmp.dll"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Windows/librtmp.dll")
-		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
-	
+		if download(os.path.join(librtmp_path, "librtmp.dll"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Windows/librtmp.dll"):
+			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+		else: dialog.ok("Erro:", "Operação abortada.")
+		
 def change_keyboard_windows(url):
 	keyboard_path = os.path.join(xbmc_folder, "addons/skin.confluence/720p")
 	if os.path.exists(keyboard_path) is False:
@@ -143,12 +152,14 @@ def change_keyboard_windows(url):
 		
 	if url == "qwerty":
 		if remove_ficheiro(os.path.join(keyboard_path, "DialogKeyboard.xml")):
-			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml")
-			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			if download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"):
+				dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			else: dialog.ok("Erro:", "Operação abortada.")
 	elif url == "abcde":
 		if remove_ficheiro(os.path.join(keyboard_path, "DialogKeyboard.xml")):
-			download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml")
-			dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			if download(os.path.join(keyboard_path, "DialogKeyboard.xml"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"):
+				dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+			else: dialog.ok("Erro:", "Operação abortada.")
 	
 #########################################
 
@@ -176,7 +187,7 @@ def download(mypath,url):
 	if os.path.isfile(mypath) is True:
 		dialog = xbmcgui.Dialog()
 		dialog.ok('Erro','Já existe um ficheiro com o mesmo nome')
-		return
+		return False
 			  
 	dp = xbmcgui.DialogProgress()
 	dp.create('Download')
@@ -187,8 +198,9 @@ def download(mypath,url):
 			try: os.remove(mypath); break 
 			except: pass
 		dp.close()
-		return
+		return False
 	dp.close()
+	return True
 
 def dialogdown(numblocks, blocksize, filesize, dp, start_time):
       try:

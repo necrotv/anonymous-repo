@@ -1,0 +1,5 @@
+/data/data/org.xbmc.xbmc/cache/apk/assets/addons/skin.confluence/720p
+C:\Program Files\XBMC\addons\skin.confluence\720p
+
+Program Files/XBMC/system/players/dvdplayer/librtmp.dll
+/data/data/org.xbmc.xbmc/lib/librtmp.so 

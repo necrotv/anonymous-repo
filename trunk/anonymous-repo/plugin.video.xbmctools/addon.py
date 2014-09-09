@@ -54,6 +54,7 @@ def CATEGORIES():
 	#ANDROID
 		mensagem_os("Android")
 		addDir("Teclado","android",1,artfolder + "keyboard.png")
+		addDir("Actualizar librtmp","-",5,artfolder + "dll.png",False)
 	#-------------------------------------------------------------------
 	elif xbmc.getCondVisibility('system.platform.IOS'): erro_os()
 	else: erro_os()
@@ -74,10 +75,20 @@ def keyboard(url):
 	elif url == "android":
 		addDir("QWERTY","qwerty",4,artfolder + "keyboard.png",False)
 		addDir("ABCDE","abcde",4,artfolder + "keyboard.png",False)
+		
 #########################################	ANDROID
 	
+def librtmp_android():
+	librtmp_path = os.path.join(android_xbmc_path(), "lib")
+	if os.path.exists(librtmp_path) is False:
+		dialog.ok("Erro:", "Impossível aceder à pasta do librtmp!")
+		return
+		
+	if remove_ficheiro(os.path.join(librtmp_path, "librtmp.so")):
+		download(os.path.join(librtmp_path, "librtmp.so"),"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so")
+		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
+	
 def change_keyboard_android(url):
-	#dialog.ok("Aviso:",url)
 	xbmc_data_path = android_xbmc_path()
 	
 	keyboard_path = os.path.join(xbmc_data_path, "cache/apk/assets/addons/skin.confluence/720p")
@@ -288,4 +299,5 @@ elif mode==1: keyboard(url)
 elif mode==2: change_keyboard_windows(url)
 elif mode==3: librtmp_windows()
 elif mode==4: change_keyboard_android(url)
+elif mode==5: librtmp_android()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

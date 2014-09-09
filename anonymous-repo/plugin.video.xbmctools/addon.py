@@ -77,8 +77,26 @@ def keyboard(url):
 #########################################	ANDROID
 	
 def change_keyboard_android(url):
-	teste(url)
+	#dialog.ok("Aviso:",url)
+	
+def android_xbmc_path():
+	xbmcfolder=xbmc.translatePath(addonfolder).split("/")
 
+		i = 0
+		found = False
+		
+		for folder in xbmcfolder:
+			if folder.count('.') >= 2 and folder != addon_id :
+				found = True
+				break
+			else:
+				i+=1
+
+		if found == True:
+			uid = os.getuid()
+			app_id = xbmcfolder[i]
+			xbmc_data_path = os.path.join("/data", "data", app_id)
+			dialog.ok("Aviso:",xbmc_data_path,uid)
 #########################################	WINDOWS
 	
 def librtmp_windows():

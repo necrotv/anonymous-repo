@@ -78,6 +78,7 @@ def keyboard(url):
 	
 def change_keyboard_android(url):
 	#dialog.ok("Aviso:",url)
+	android_xbmc_path()
 	
 def android_xbmc_path():
 	xbmcfolder=xbmc.translatePath(addonfolder).split("/")
@@ -96,6 +97,8 @@ def android_xbmc_path():
 		app_id = xbmcfolder[i]
 		xbmc_data_path = os.path.join("/data", "data", app_id)
 		dialog.ok("Aviso:",xbmc_data_path,uid)
+		return
+	dialog.ok("Aviso:","Erro")
 #########################################	WINDOWS
 	
 def librtmp_windows():

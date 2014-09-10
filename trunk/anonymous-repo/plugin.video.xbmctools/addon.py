@@ -48,9 +48,9 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('System.Platform.OSX'): erro_os()
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
 		addDir("Teclado","linux",1,artfolder + "keyboard.png")
-		#if os.uname()[4] == 'armv6': erro_os()
-		#elif os.uname()[4] == 'armv7': erro_os()
-		#else: print ""
+		if os.uname()[4] == 'armv6l': mensagem_os("de Raspberry")
+		elif os.uname()[4] == 'armv7l': erro_os()
+		else: mensagem_os("Linux")
 			
 	elif xbmc.getCondVisibility('system.platform.Android'): 
 	#ANDROID

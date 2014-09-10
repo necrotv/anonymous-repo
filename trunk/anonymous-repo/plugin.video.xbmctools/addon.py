@@ -92,14 +92,20 @@ def verifica_pass(password):
 	return False
 
 def change_keyboard_linux(url):
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('XBMC Tools', 'A procurar ficheiro.','Por favor aguarde...')
+	mensagemprogresso.update(50)
 	file_path = find_abs_path("skin.confluence/720p/DialogKeyboard.xml")
 	
 	if (os.path.exists(file_path) and "skin.confluence/720p/DialogKeyboard.xml" in file_path) is False:
+		mensagemprogresso.close()
 		dialog.ok("Erro:", "Impossível aceder à pasta do teclado!")
 		return
 	
 	keyboard_path = file_path.replace("DialogKeyboard.xml","")
 	my_tmp = os.path.join(addonfolder,"resources","temp","DialogKeyboard.xml")
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
 	
 	password = dialog.input("Introduza a palavra pass (sudo):",type = xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
 	if verifica_pass(password) is False: 

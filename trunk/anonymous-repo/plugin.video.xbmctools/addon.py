@@ -49,8 +49,11 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
 		if os.uname()[4] == 'armv6l': 
 			#RASPBERRY
-			mensagem_os("de Raspberry")
-			addDir("Teclado","linux",1,artfolder + "keyboard.png")
+			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
+				mensagem_os("Openelec")
+			else:
+				mensagem_os("de Raspberry")
+				addDir("Teclado","linux",1,artfolder + "keyboard.png")
 		elif os.uname()[4] == 'armv7l': erro_os()
 		else: 
 			#LINUX

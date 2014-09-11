@@ -198,7 +198,7 @@ def librtmp_android():
 def change_keyboard_android(url):
 	xbmc_data_path = android_xbmc_path()
 	
-	keyboard_path = os.path.join(xbmc_data_path, "cache/apk/assets/addons/skin.confluence/720p/keyboard_path")
+	keyboard_path = os.path.join(xbmc_data_path, "cache/apk/assets/addons/skin.confluence/720p/DialogKeyboard.xml")
 	if os.path.exists(keyboard_path) is False:
 		dialog.ok("Erro:", "Impossível aceder à pasta do teclado!")
 		return

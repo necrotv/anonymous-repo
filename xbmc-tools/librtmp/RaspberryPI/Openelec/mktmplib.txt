@@ -1,0 +1,30 @@
+#
+# Create a RAM based directory for third party libraries
+# May improve performance, particularly when /storage is
+# mounted across a network.
+#
+# The total size of the library folder is calculated and
+# used to size the memory backed file system, therefore
+# only as much memory as required will ever be used.
+#
+# After mounting the memory file system, the library files
+# will be transferred and any symbolic links recreated.
+#
+if [ -d ${LIB_3RD_PARTY} -a -z "$(mount | grep ${RAMTMP})" ]; then
+  TMPLIB=${RAMTMP}/3rdparty
+  LIB_SIZE=$(($(du -sk ${LIB_3RD_PARTY} | awk '{print $1}')+64))
+  logger -t "$(basename $0)" "Mounting RAM-based ${TMPLIB} - requesting ${LIB_SIZE}k"
+  mkdir -p ${RAMTMP}
+  mount -n -t tmpfs -o size=${LIB_SIZE}k tmpfs ${RAMTMP}
+  if [ $? -eq 0 ]; then
+    mkdir -p ${TMPLIB}
+    find ${LIB_3RD_PARTY} -type f -exec cp -p "{}" ${TMPLIB} \;
+    for link in $(find ${LIB_3RD_PARTY} -type l); do
+      target=$(readlink -f $link)
+      ln -s ${TMPLIB}${target#*${LIB_3RD_PARTY}} ${TMPLIB}${link#*${LIB_3RD_PARTY}}
+    done
+    LIB_3RD_PARTY=${TMPLIB}
+  else
+    logger -t "$(basename $0)" -p user.warn "ERROR: Unable to create RAM-based ${TMPLIB} - falling back to ${LIB_3RD_PARTY}"
+  fi
+fi

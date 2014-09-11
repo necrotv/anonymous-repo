@@ -51,6 +51,7 @@ def CATEGORIES():
 			#RASPBERRY
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
 				mensagem_os("Openelec")
+				addDir("Actualizar librtmp","-",8,artfolder + "dll.png",False)
 			else:
 				mensagem_os("de Raspberry")
 				addDir("Teclado","linux",1,artfolder + "keyboard.png")
@@ -92,6 +93,9 @@ def keyboard(url):
 		
 #########################################	LINUX
 
+def librtmp_openelec():
+	return
+	
 def librtmp_linux():
 	ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])
 	if ret == 0: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
@@ -412,4 +416,5 @@ elif mode==4: change_keyboard_android(url)
 elif mode==5: librtmp_android()
 elif mode==6: change_keyboard_linux(url)
 elif mode==7: librtmp_linux()
+elif mode==8: librtmp_openelec()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -51,6 +51,7 @@ def CATEGORIES():
 			#RASPBERRY
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
 				mensagem_os("Openelec")
+				addDir("Teclado","linux",1,artfolder + "keyboard.png")
 				addDir("Actualizar librtmp","-",8,artfolder + "dll.png",False)
 			else:
 				mensagem_os("de Raspberry")

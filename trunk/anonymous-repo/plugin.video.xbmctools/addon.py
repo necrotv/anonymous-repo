@@ -27,7 +27,6 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
 dialog = xbmcgui.Dialog()
-rasp = False
 
 ################################################## 
 
@@ -50,15 +49,14 @@ def CATEGORIES():
 				addDir("Actualizar librtmp","-",8,artfolder + "dll.png",False)
 			else:
 				mensagem_os("de Raspberry")
-				rasp = True
 				addDir("Teclado","linux",1,artfolder + "keyboard.png")
-				addDir("Actualizar librtmp","-",7,artfolder + "dll.png",False)
+				addDir("Actualizar librtmp","raspberry",7,artfolder + "dll.png",False)
 		elif os.uname()[4] == 'armv7l': erro_os()
 		else: 
 			#LINUX
 			mensagem_os("Linux")
 			addDir("Teclado","linux",1,artfolder + "keyboard.png")
-			addDir("Actualizar librtmp","-",7,artfolder + "dll.png",False)
+			addDir("Actualizar librtmp","linux",7,artfolder + "dll.png",False)
 			
 	elif xbmc.getCondVisibility('system.platform.Android'): 
 	#ANDROID
@@ -156,19 +154,17 @@ def librtmp_openelec():
 	dialog.ok("Aviso!","O XBMC vai agora reiniciar.")
 	subprocess.call("reboot", shell=True)
 
-def librtmp_linux():
+def librtmp_linux(url):
 	
-	if rasp: dialog.ok("Rasp","teste")
-	else: dialog.ok("no Rasp","teste")
-	
-	if rasp:
+	if url == "raspberry":
 		url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
-	else:
+	elif url == "linux":
 		ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])
 		if ret == 0: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
 		elif ret == 1: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
 		else: return
-
+	else: return
+		
 	mensagemprogresso = xbmcgui.DialogProgress()
 	mensagemprogresso.create('XBMC Tools', 'A procurar ficheiro.','Por favor aguarde...')
 	mensagemprogresso.update(50)
@@ -478,6 +474,6 @@ elif mode==3: librtmp_windows()
 elif mode==4: change_keyboard_android(url)
 elif mode==5: librtmp_android()
 elif mode==6: change_keyboard_linux(url)
-elif mode==7: librtmp_linux()
+elif mode==7: librtmp_linux(url)
 elif mode==8: librtmp_openelec()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

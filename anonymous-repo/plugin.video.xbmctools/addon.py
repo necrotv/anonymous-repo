@@ -28,8 +28,6 @@ addonfolder = selfAddon.getAddonInfo('path')
 artfolder = addonfolder + '/resources/img/'
 dialog = xbmcgui.Dialog()
 
-xbmc_folder = selfAddon.getSetting('xbmc-folder')
-
 ################################################## 
 
 #MENUS############################################
@@ -39,9 +37,6 @@ def CATEGORIES():
 	#WINDOWS
 		mensagem_os("Windows")
 		dialog.ok("IMPORTANTE!", "Estas modificações apenas funcionam se o XBMC for executado como administrador.")
-		if xbmc_folder == "": 
-			mensagem_aviso("Por favor defina a pasta do XBMC nas configurações.")
-			selfAddon.openSettings()
 		addDir("Teclado","windows",1,artfolder + "keyboard.png")
 		addDir("Actualizar librtmp","-",3,artfolder + "dll.png",False)
 	#-----------------------------------------------------------------------
@@ -268,6 +263,7 @@ def android_xbmc_path():	#Obrigado enen92!
 #########################################	WINDOWS
 	
 def librtmp_windows():
+	xbmc_folder = xbmc.translatePath("special://xbmc")
 	librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
 	if os.path.exists(librtmp_path) is False:
 		dialog.ok("Erro:", "Impossível aceder à pasta do librtmp!")
@@ -279,6 +275,7 @@ def librtmp_windows():
 		else: dialog.ok("Erro:", "Operação abortada.")
 		
 def change_keyboard_windows(url):
+	xbmc_folder = xbmc.translatePath("special://xbmc")
 	keyboard_path = os.path.join(xbmc_folder, "addons/skin.confluence/720p/DialogKeyboard.xml")
 	if os.path.exists(keyboard_path) is False:
 		dialog.ok("Erro:", "Impossível aceder à pasta do teclado!")

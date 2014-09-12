@@ -102,16 +102,16 @@ def librtmp_openelec():
 		dialog.ok("Erro:", "Operação abortada.")
 		return;
 	
-	dialog.ok("c",os.system("mkdir -p /storage/lib"))
-	dialog.ok("c",os.system("cd /storage/.config"))
-	dialog.ok("c",os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/autostart.sh -o autostart.sh"))
-	dialog.ok("c",os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/hacklib.txt -o hacklib"))
-	dialog.ok("c",os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/mktmplib.txt -o mktmplib"))
+	dialog.ok("c",str(os.system("mkdir -p /storage/lib")))
+	dialog.ok("c",str(os.system("cd /storage/.config")))
+	dialog.ok("c",str(os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/autostart.sh -o autostart.sh")))
+	dialog.ok("c",str(os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/hacklib.txt -o hacklib")))
+	dialog.ok("c",str(os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/mktmplib.txt -o mktmplib")))
 	
-	dialog.ok("c",os.system("cp " + my_tmp + " /storage/lib/librtmp.so.0"))
-	dialog.ok("c",os.system("chmod 755 /storage/lib/librtmp.so.0"))
-	dialog.ok("c",os.system("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so"))
-	dialog.ok("c",os.system("rm " + my_tmp))
+	dialog.ok("c",str(os.system("cp " + my_tmp + " /storage/lib/librtmp.so.0")))
+	dialog.ok("c",str(os.system("chmod 755 /storage/lib/librtmp.so.0")))
+	dialog.ok("c",str(os.system("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so")))
+	dialog.ok("c",str(os.system("rm " + my_tmp)))
 	
 	dialog.ok("OLA",file_path) #######
 

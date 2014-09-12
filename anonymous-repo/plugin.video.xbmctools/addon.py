@@ -94,8 +94,6 @@ def keyboard(url):
 #########################################	LINUX
 
 def librtmp_openelec():
-	file_path = find_abs_path("librtmp.so.0")#######
-	dialog.ok("OLA",file_path)########
 	
 	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
 	if not download(my_tmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"):
@@ -104,16 +102,17 @@ def librtmp_openelec():
 	
 	dialog.ok("c",str(os.system("sudo mkdir -p /storage/lib")))
 	dialog.ok("c",str(os.system("sudo cd /storage/.config")))
-	dialog.ok("c",str(os.system("sudo curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/autostart.sh -o autostart.sh")))
-	dialog.ok("c",str(os.system("sudo curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/hacklib.txt -o hacklib")))
-	dialog.ok("c",str(os.system("sudo curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/mktmplib.txt -o mktmplib")))
+	dialog.ok("c",str(os.system("sudo curl -L http://is.gd/kBaTzY -o autostart.sh")))
+	dialog.ok("c",str(os.system("sudo curl -L http://is.gd/yQUqNm -o hacklib")))
+	dialog.ok("c",str(os.system("sudo curl -L http://is.gd/GJdaEY -o mktmplib")))
 	
 	dialog.ok("c",str(os.system("sudo cp " + my_tmp + " /storage/lib/librtmp.so.0")))
 	dialog.ok("c",str(os.system("sudo chmod 755 /storage/lib/librtmp.so.0")))
 	dialog.ok("c",str(os.system("sudo ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so")))
 	dialog.ok("c",str(os.system("sudo rm " + my_tmp)))
 	
-	dialog.ok("OLA",file_path) #######
+	dialog.ok("Aviso!","O XBMC vai agora reiniciar.")
+	os.system("sudo reboot")
 
 def librtmp_linux():
 	ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])

@@ -94,8 +94,26 @@ def keyboard(url):
 #########################################	LINUX
 
 def librtmp_openelec():
-	file_path = find_abs_path("librtmp.so.0")
-	dialog.ok("OLA",file_path)
+	file_path = find_abs_path("librtmp.so.0")#######
+	dialog.ok("OLA",file_path)########
+	
+	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
+	if not download(my_tmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"):
+		dialog.ok("Erro:", "Operação abortada.")
+		return;
+	
+	dialog.ok("c",os.system("mkdir -p /storage/lib"))
+	dialog.ok("c",os.system("cd /storage/.config"))
+	dialog.ok("c",os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/autostart.sh -o autostart.sh"))
+	dialog.ok("c",os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/hacklib.txt -o hacklib"))
+	dialog.ok("c",os.system("curl -L http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/Openelec/mktmplib.txt -o mktmplib"))
+	
+	dialog.ok("c",os.system("cp " + my_tmp + " /storage/lib/librtmp.so.0"))
+	dialog.ok("c",os.system("chmod 755 /storage/lib/librtmp.so.0"))
+	dialog.ok("c",os.system("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so"))
+	dialog.ok("c",os.system("rm " + my_tmp))
+	
+	dialog.ok("OLA",file_path) #######
 
 def librtmp_linux():
 	ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])

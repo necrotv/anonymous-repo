@@ -94,10 +94,8 @@ def keyboard(url):
 #########################################	LINUX
 
 def librtmp_openelec():
-	p = subprocess.Popen("sudo su ", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-	(output, err) = p.communicate("\n") 
-	rc = p.returncode
-	if rc == 0: dialog.ok("OLA","0ola")
+	file_path = find_abs_path("librtmp.so.0")
+	dialog.ok("OLA",file_path)
 
 def librtmp_linux():
 	ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])

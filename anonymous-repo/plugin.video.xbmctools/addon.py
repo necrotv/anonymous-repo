@@ -94,7 +94,7 @@ def keyboard(url):
 #########################################	LINUX
 
 def librtmp_openelec():
-	
+	'''
 	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
 	if not download(my_tmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"):
 		dialog.ok("Erro:", "Operação abortada.")
@@ -110,9 +110,9 @@ def librtmp_openelec():
 	dialog.ok("c",str(os.system("sudo chmod 755 /storage/lib/librtmp.so.0")))
 	dialog.ok("c",str(os.system("sudo ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so")))
 	dialog.ok("c",str(os.system("sudo rm " + my_tmp)))
-	
+	'''
 	dialog.ok("Aviso!","O XBMC vai agora reiniciar.")
-	os.system("sudo reboot")
+	os.system("reboot")
 
 def librtmp_linux():
 	ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])

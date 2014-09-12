@@ -158,6 +158,9 @@ def librtmp_openelec():
 
 def librtmp_linux():
 	
+	if rasp: dialog.ok("Rasp","teste")
+	else: dialog.ok("no Rasp","teste")
+	
 	if rasp:
 		url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
 	else:

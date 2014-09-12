@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.1'
+versao = '1.0.2'
 addon_id = 'plugin.video.xbmctools'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -50,6 +50,7 @@ def CATEGORIES():
 			else:
 				mensagem_os("de Raspberry")
 				addDir("Teclado","linux",1,artfolder + "keyboard.png")
+				addDir("Actualizar librtmp","-",7,artfolder + "dll.png",False)
 		elif os.uname()[4] == 'armv7l': erro_os()
 		else: 
 			#LINUX
@@ -87,6 +88,39 @@ def keyboard(url):
 		addDir("ABCDE","abcde",6,artfolder + "keyboard.png",False)
 		
 #########################################	LINUX
+
+def find_abs_path(str_path, search_str = ""):
+	p = subprocess.Popen('find / | grep ' + str_path, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)
+	(output, err) = p.communicate()
+	p_status = p.wait()
+	
+	aux = ""
+	paths = []
+	letra = False
+	
+	for x in range(0, len(output)):
+		if not letra:
+			if output[x] == " " or output[x] == "\n": continue
+			else:
+				aux = aux + output[x]
+				letra = True
+		else:
+			if output[x] == " " or output[x] == "\n":
+				try:
+					if output[x+1] == "/" or output[x+1] == " " or output[x+1] == "\n":
+						paths.append(aux)
+						aux = ""
+						letra = False
+					else: aux = aux + output[x]
+				except: paths.append(aux)
+			else: aux = aux + output[x]
+	
+	if len(paths) == 1: return paths[0]
+	if search_str != "":
+		for x in range(0, len(paths)):
+			if search_str in paths[x]: return paths[x]
+		return "erro"
+	return paths
 
 def librtmp_openelec():
 	
@@ -129,7 +163,7 @@ def librtmp_linux():
 	mensagemprogresso = xbmcgui.DialogProgress()
 	mensagemprogresso.create('XBMC Tools', 'A procurar ficheiro.','Por favor aguarde...')
 	mensagemprogresso.update(50)
-	file_path = find_abs_path("librtmp.so.0")
+	file_path = find_abs_path("librtmp.so.0","/lib/")
 
 	if (os.path.exists(file_path) and "librtmp.so.0" in file_path) is False:
 		mensagemprogresso.close()
@@ -195,12 +229,6 @@ def change_keyboard_linux(url):
 		remove_ficheiro(my_tmp)
 		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	else: dialog.ok("Erro:", "Operação abortada.")
-
-def find_abs_path(str_path):
-	p = subprocess.Popen('find / | grep ' + str_path, stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)
-	(output, err) = p.communicate()
-	p_status = p.wait()
-	return output.replace("\n","").replace(" ","")
 
 #########################################	ANDROID
 	

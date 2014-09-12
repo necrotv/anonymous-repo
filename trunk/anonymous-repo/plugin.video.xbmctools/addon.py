@@ -100,16 +100,10 @@ def librtmp_openelec():
 		dialog.ok("Erro:", "Operação abortada.")
 		return;
 	
-	dialog.ok("c",str(subprocess.call("mkdir -p /storage/lib", shell=True)))
-	dialog.ok("c",str(subprocess.call("cd /storage/.config", shell=True)))
-	dialog.ok("c",str(subprocess.call("curl -L http://is.gd/kBaTzY -o autostart.sh", shell=True)))
-	dialog.ok("c",str(subprocess.call("curl -L http://is.gd/yQUqNm -o hacklib", shell=True)))
-	dialog.ok("c",str(subprocess.call("curl -L http://is.gd/GJdaEY -o mktmplib", shell=True)))
-	
-	dialog.ok("c",str(subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)))
-	dialog.ok("c",str(subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)))
-	dialog.ok("c",str(subprocess.call("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so", shell=True)))
-	dialog.ok("c",str(subprocess.call("rm " + my_tmp, shell=True)))
+	cmd1 = "mkdir -p /storage/lib; cd /storage/.config; curl -L http://is.gd/kBaTzY -o autostart.sh; curl -L http://is.gd/yQUqNm -o hacklib; curl -L http://is.gd/GJdaEY -o mktmplib"
+	dialog.ok("c",str(subprocess.Popen(cmd1, shell=True)))
+	cmd2 = "cp " + my_tmp + " /storage/lib/librtmp.so.0; chmod 755 /storage/lib/librtmp.so.0; ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so; rm " + my_tmp
+	dialog.ok("c",str(subprocess.Popen(cmd2, shell=True)))
 	
 	dialog.ok("Aviso!","O XBMC vai agora reiniciar.")
 	subprocess.call("reboot", shell=True)

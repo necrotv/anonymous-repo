@@ -100,15 +100,27 @@ def librtmp_openelec():
 		dialog.ok("Erro:", "Operação abortada.")
 		return;
 	
-	dialog.ok("1",str(subprocess.call("mkdir -p /storage/lib", shell=True)))
-	dialog.ok("2",str(subprocess.call("curl -L http://is.gd/kBaTzY -o /storage/.config/autostart.sh", shell=True)))
-	dialog.ok("3",str(subprocess.call("curl -L http://is.gd/yQUqNm -o /storage/.config/hacklib", shell=True)))
-	dialog.ok("4",str(subprocess.call("curl -L http://is.gd/GJdaEY -o /storage/.config/mktmplib", shell=True)))
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('XBMC Tools', 'A actualizar o librtmp.','Por favor aguarde...')
 	
-	dialog.ok("5",str(subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)))
-	dialog.ok("6",str(subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)))
-	dialog.ok("7",str(subprocess.call("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so", shell=True)))  #########Pede permissões
-	dialog.ok("8",str(subprocess.call("rm " + my_tmp, shell=True)))
+	subprocess.call("mkdir -p /storage/lib", shell=True)
+	mensagemprogresso.update(13)
+	subprocess.call("curl -L http://is.gd/kBaTzY -o /storage/.config/autostart.sh", shell=True)
+	mensagemprogresso.update(26)
+	subprocess.call("curl -L http://is.gd/yQUqNm -o /storage/.config/hacklib", shell=True)
+	mensagemprogresso.update(39)
+	subprocess.call("curl -L http://is.gd/GJdaEY -o /storage/.config/mktmplib", shell=True)
+	mensagemprogresso.update(52)
+	
+	subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)
+	mensagemprogresso.update(65)
+	subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)
+	mensagemprogresso.update(78)
+	subprocess.call("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so", shell=True)
+	mensagemprogresso.update(90)
+	subprocess.call("rm " + my_tmp, shell=True)
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
 	
 	dialog.ok("Aviso!","O XBMC vai agora reiniciar.")
 	subprocess.call("reboot", shell=True)

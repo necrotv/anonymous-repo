@@ -158,7 +158,7 @@ def librtmp_openelec():
 
 def librtmp_linux():
 	
-	if rasp == True:
+	if rasp:
 		url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
 	else:
 		ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])

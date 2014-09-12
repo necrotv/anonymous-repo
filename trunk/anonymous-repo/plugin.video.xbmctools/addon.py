@@ -94,25 +94,25 @@ def keyboard(url):
 #########################################	LINUX
 
 def librtmp_openelec():
-	'''
+	
 	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
 	if not download(my_tmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"):
 		dialog.ok("Erro:", "Operação abortada.")
 		return;
 	
-	dialog.ok("c",str(os.system("sudo mkdir -p /storage/lib")))
-	dialog.ok("c",str(os.system("sudo cd /storage/.config")))
-	dialog.ok("c",str(os.system("sudo curl -L http://is.gd/kBaTzY -o autostart.sh")))
-	dialog.ok("c",str(os.system("sudo curl -L http://is.gd/yQUqNm -o hacklib")))
-	dialog.ok("c",str(os.system("sudo curl -L http://is.gd/GJdaEY -o mktmplib")))
+	dialog.ok("c",str(subprocess.call("mkdir -p /storage/lib", shell=True)))
+	dialog.ok("c",str(subprocess.call("cd /storage/.config", shell=True)))
+	dialog.ok("c",str(subprocess.call("curl -L http://is.gd/kBaTzY -o autostart.sh", shell=True)))
+	dialog.ok("c",str(subprocess.call("curl -L http://is.gd/yQUqNm -o hacklib", shell=True)))
+	dialog.ok("c",str(subprocess.call("curl -L http://is.gd/GJdaEY -o mktmplib", shell=True)))
 	
-	dialog.ok("c",str(os.system("sudo cp " + my_tmp + " /storage/lib/librtmp.so.0")))
-	dialog.ok("c",str(os.system("sudo chmod 755 /storage/lib/librtmp.so.0")))
-	dialog.ok("c",str(os.system("sudo ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so")))
-	dialog.ok("c",str(os.system("sudo rm " + my_tmp)))
-	'''
+	dialog.ok("c",str(subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)))
+	dialog.ok("c",str(subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)))
+	dialog.ok("c",str(subprocess.call("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so", shell=True)))
+	dialog.ok("c",str(subprocess.call("rm " + my_tmp, shell=True)))
+	
 	dialog.ok("Aviso!","O XBMC vai agora reiniciar.")
-	os.system("reboot")
+	subprocess.call("reboot", shell=True)
 
 def librtmp_linux():
 	ret = dialog.select('Qual é a sua versão do Linux?', ['x86', 'x64'])

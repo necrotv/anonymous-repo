@@ -203,8 +203,7 @@ def backup_(url):
 				dialog.ok("Erro:", "Password incorrecta!")
 				return
 		if "openelec" in url:
-			if "remove" in url or "backup" in url:	 
-				subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
+			if "remove" in url or "backup" in url: subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
 			if "backup" in url: subprocess.call("cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
 			if "restore" in url: 
 				subprocess.call("rm " + librtmp_path, shell=True)

@@ -18,7 +18,7 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil
 h = HTMLParser.HTMLParser()
 
 versao = '1.0.2'
@@ -39,6 +39,7 @@ def CATEGORIES():
 		dialog.ok("IMPORTANTE!", "Estas modificações apenas funcionam se o XBMC for executado como administrador.")
 		addDir("Teclado","windows",1,artfolder + "keyboard.png")
 		addDir("Actualizar librtmp","windows",3,artfolder + "dll.png",False)
+		addDir("Backup/Restore librtmp","windows",9,artfolder + "backup.png")
 	#-----------------------------------------------------------------------
 	elif xbmc.getCondVisibility('System.Platform.OSX'): erro_os()
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
@@ -71,6 +72,7 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.IOS'): 
 	#IOS
 		addDir("Actualizar librtmp","ios",3,artfolder + "dll.png",False)
+		addDir("Backup/Restore librtmp","ios",9,artfolder + "backup.png")
 	#-------------------------------------------------------------------
 	else: erro_os()
 	
@@ -227,7 +229,29 @@ def backup_(url):
 			p.communicate(password+"\n") 
 		dialog.ok("Concluído","Operação concluída com sucesso!")
 		return
-	
+		
+	if "windows" in url or "ios" in url:
+		xbmc_folder = xbmc.translatePath("special://xbmc")
+		if "windows" in url:
+			librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
+			bak_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll.bak")
+		if "ios" in url:
+			librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
+			bak_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib.bak")
+		
+		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
+			dialog.ok("Aviso!", "Não existe nenhum backup!")
+			return
+		
+		if "remove" in url or "backup" in url: remove_ficheiro(bak_path)
+		if "backup" in url: shutil.copy(librtmp_path,bak_path)
+		if "restore" in url:
+			remove_ficheiro(librtmp_path)
+			shutil.copy(bak_path,librtmp_path)
+			remove_ficheiro(bak_path)
+		dialog.ok("Concluído","Operação concluída com sucesso!")
+		return
+			
 def librtmp_linux(url):
 	
 	if url == "raspberry":
@@ -344,7 +368,7 @@ def librtmp_android():
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
-		os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'chmod 06755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		remove_ficheiro(my_librtmp)
 		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	else: dialog.ok("Erro:", "Operação abortada.")

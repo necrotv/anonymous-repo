@@ -171,7 +171,13 @@ def backup_(url):
 		if not dialog.yesno("Aviso!", "Este procedimento irá apagar o backup antigo, caso exista.","Continuar?"): return
 
 	if "linux" in url or "raspberry" in url or "openelec" in url:
+	
+		mensagemprogresso = xbmcgui.DialogProgress()
+		mensagemprogresso.create('XBMC Tools','Por favor aguarde...')
+		mensagemprogresso.update(50)
 		librtmp_path = find_abs_path("librtmp.so.0","/lib/")
+		mensagemprogresso.update(100)
+		mensagemprogresso.close()
 		
 		if (os.path.exists(librtmp_path) and "librtmp.so.0" in librtmp_path) is False:
 			mensagemprogresso.close()

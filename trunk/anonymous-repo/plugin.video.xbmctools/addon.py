@@ -188,7 +188,6 @@ def librtmp_linux(url):
 	mensagemprogresso.close()
 
 	password = dialog.input("Introduza a palavra pass (sudo):",type = xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
-	if not (keyb.isConfirmed()): return
 	if verifica_pass(password) is False: 
 		dialog.ok("Erro:", "Password incorrecta!")
 		return
@@ -230,7 +229,6 @@ def change_keyboard_linux(url):
 	mensagemprogresso.close()
 	
 	password = dialog.input("Introduza a palavra pass (sudo):",type = xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
-	if not (keyb.isConfirmed()): return
 	if verifica_pass(password) is False: 
 		dialog.ok("Erro:", "Password incorrecta!")
 		return

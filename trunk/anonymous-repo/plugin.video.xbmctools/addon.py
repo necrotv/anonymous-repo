@@ -272,13 +272,11 @@ def librtmp_android():
 		return
 		
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
-		dialog.ok("1",str(subprocess.call("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")))
-		dialog.ok("2",str(subprocess.call("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")))
-		#os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
-		#os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
+		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
 		remove_ficheiro(my_librtmp)
-		dialog.ok("chmod",str(subprocess.call("su -c 'chmode 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")))
-		#os.system("su -c 'chmode 06755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		sleep(3)
+		dialog.ok("chmod",str(os.system("su -c 'chmode 06755 "+os.path.join(librtmp_path, "librtmp.so")+"'"))
 		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	else: dialog.ok("Erro:", "Operação abortada.")
 	

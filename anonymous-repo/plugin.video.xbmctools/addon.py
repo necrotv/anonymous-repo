@@ -275,7 +275,7 @@ def librtmp_android():
 		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
 		remove_ficheiro(my_librtmp)
-		dialog.ok("chmod",subprocess.call("chmode 755 "+os.path.join(librtmp_path, "librtmp.so"), shell=True))
+		dialog.ok("chmod",str(subprocess.call("su -c 'chmode 755 "+os.path.join(librtmp_path, "librtmp.so")+"'", shell=True)))
 		#os.system("su -c 'chmode 06755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	else: dialog.ok("Erro:", "Operação abortada.")

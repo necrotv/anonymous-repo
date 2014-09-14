@@ -171,6 +171,8 @@ def backup_(url):
 		if not dialog.yesno("Aviso!", "Este procedimento irá apagar o backup antigo, caso exista.","Continuar?"): return
 	elif "remove" in url:
 		if not dialog.yesno("Aviso!", "Este procedimento irá apagar o backup.","Continuar?"): return
+	elif "restore" in url:
+		if not dialog.yesno("Aviso!", "Este procedimento irá recuperar o librtmp antigo.","Continuar?"): return
 
 	if "linux" in url or "raspberry" in url or "openelec" in url:
 	
@@ -185,6 +187,10 @@ def backup_(url):
 			mensagemprogresso.close()
 			dialog.ok("Erro:", "Impossível aceder à pasta do librtmp!")
 			return
+			
+		if ("remove" in url or "restore" in url) and not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
+			dialog.ok("Aviso!", "Não existe nenhum backup!")
+			return
 		
 		if "linux" in url or "raspberry" in url:
 			keyb = xbmc.Keyboard('', 'Introduza a palavra pass (sudo):') 
@@ -198,15 +204,9 @@ def backup_(url):
 				return
 		if "openelec" in url:
 			if "remove" in url or "backup" in url:	 
-				if "remove" in url and not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
-					dialog.ok("Aviso!", "Não existe nenhum backup!")
-					return
 				subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
 			if "backup" in url: subprocess.call("cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
 			if "restore" in url: 
-				if not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
-					dialog.ok("Aviso!", "Não existe nenhum backup!")
-					return
 				subprocess.call("rm " + librtmp_path, shell=True)
 				subprocess.call("cp " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak") + " " + librtmp_path, shell=True)
 				subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
@@ -214,18 +214,12 @@ def backup_(url):
 			return
 		
 		if "remove" in url or "backup" in url:		
-			if "remove" in url and not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
-				dialog.ok("Aviso!", "Não existe nenhum backup!")
-				return
 			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 		if "backup" in url:
 			p = subprocess.Popen("sudo -S cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n")
 		if "restore" in url:
-			if not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
-				dialog.ok("Aviso!", "Não existe nenhum backup!")
-				return
 			p = subprocess.Popen("sudo -S rm " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 			p = subprocess.Popen("sudo -S cp " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak") + " " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)

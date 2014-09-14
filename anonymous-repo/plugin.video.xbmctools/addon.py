@@ -195,8 +195,8 @@ def backup_(url):
 				dialog.ok("Erro:", "Password incorrecta!")
 				return
 		if "openelec" in url:
-			if "remove" in url: 
-				if not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
+			if "remove" in url or "backup" in url:	 
+				if "remove" in url and not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
 					dialog.ok("Aviso!", "Não existe nenhum backup!")
 					return
 				subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
@@ -210,8 +210,8 @@ def backup_(url):
 			dialog.ok("Concluído","Operação concluída com sucesso!")
 			return
 		
-		if "remove" in url:		
-			if not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
+		if "remove" in url or "backup" in url:		
+			if "remove" in url and not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
 				dialog.ok("Aviso!", "Não existe nenhum backup!")
 				return
 			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)

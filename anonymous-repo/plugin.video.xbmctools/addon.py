@@ -68,6 +68,7 @@ def CATEGORIES():
 		mensagem_os("Android")
 		addDir("Teclado","android",1,artfolder + "keyboard.png")
 		addDir("Actualizar librtmp [COLOR blue](XBMC Gotham 13)[/COLOR]","-",5,artfolder + "dll.png",False)
+		addDir("Backup/Restore librtmp","android",9,artfolder + "backup.png")
 	#-------------------------------------------------------------------
 	elif xbmc.getCondVisibility('system.platform.IOS'): 
 	#IOS

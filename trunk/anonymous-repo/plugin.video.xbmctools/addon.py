@@ -264,7 +264,7 @@ def backup_(url):
 		checksu()
 			
 		if "remove" in url or "backup" in url: os.system("su -c 'rm "+bak_path+"'")
-		if "backup" in url: os.system("su -c 'cp -f "+librtmp_path+" "+bak_path+"/'")
+		if "backup" in url: os.system("su -c 'cp -f "+librtmp_path+" "+bak_path+"'")
 		if "restore" in url:
 			os.system("su -c 'rm "+librtmp_path+"'")
 			os.system("su -c 'cp -f "+bak_path+" "+librtmp_path+"/'")

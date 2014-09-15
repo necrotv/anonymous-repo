@@ -377,7 +377,7 @@ def change_keyboard_linux(url):
 #########################################	ANDROID
 	
 def checksu():
-    if os.system("su -c ''") == 0: return True
+	if os.system("su -c ''") == 0: return True
 	return False
 	
 def librtmp_android():

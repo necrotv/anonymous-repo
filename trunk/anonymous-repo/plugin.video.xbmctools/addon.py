@@ -141,7 +141,6 @@ def librtmp_openelec():
 	
 	mensagemprogresso = xbmcgui.DialogProgress()
 	mensagemprogresso.create('XBMC Tools', 'A actualizar o librtmp.','Por favor aguarde...')
-	
 	subprocess.call("mkdir -p /storage/lib", shell=True)
 	mensagemprogresso.update(13)
 	subprocess.call("curl -L http://is.gd/kBaTzY -o /storage/.config/autostart.sh", shell=True)
@@ -150,7 +149,6 @@ def librtmp_openelec():
 	mensagemprogresso.update(39)
 	subprocess.call("curl -L http://is.gd/GJdaEY -o /storage/.config/mktmplib", shell=True)
 	mensagemprogresso.update(52)
-	
 	subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)
 	mensagemprogresso.update(65)
 	subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)
@@ -212,6 +210,7 @@ def backup_(url):
 				subprocess.call("rm " + librtmp_path, shell=True)
 				subprocess.call("cp " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak") + " " + librtmp_path, shell=True)
 				subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
+				subprocess.call("chmod 755 " + librtmp_path, shell=True)
 			dialog.ok("Concluído","Operação concluída com sucesso!")
 			return
 		

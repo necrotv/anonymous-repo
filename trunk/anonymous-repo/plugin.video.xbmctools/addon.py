@@ -263,8 +263,10 @@ def backup_(url):
 		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
 			dialog.ok("Aviso!", "Não existe nenhum backup!")
 			return
-			
-		checksu()
+		
+		if not checksu():
+			dialog.ok("Erro!","Este dispositivo não tem acesso root")
+			return
 			
 		if "remove" in url or "backup" in url: os.system("su -c 'rm "+bak_path+"'")
 		if "backup" in url: os.system("su -c 'cp -f "+librtmp_path+" "+bak_path+"'")
@@ -375,13 +377,15 @@ def change_keyboard_linux(url):
 #########################################	ANDROID
 	
 def checksu():
-    os.system("su -c ''")
+    return os.system("su -c ''")
 	
 def librtmp_android():
 	dialog = xbmcgui.Dialog()
 	if not dialog.yesno("Aviso!", "Este procedimento apenas funciona em dispositivos com acesso root.","Continuar?"): return
 
-	checksu()
+	if not checksu():
+		dialog.ok("Erro!","Este dispositivo não tem acesso root")
+		return
 	
 	my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
 	librtmp_path = os.path.join(android_xbmc_path(), "lib")

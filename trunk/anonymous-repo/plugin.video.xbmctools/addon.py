@@ -228,6 +228,8 @@ def backup_(url):
 			p.communicate(password+"\n")
 			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
+			p = subprocess.Popen("sudo -S chmod 755 " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p.communicate(password+"\n") 
 		dialog.ok("Concluído","Operação concluída com sucesso!")
 		return
 		
@@ -250,6 +252,7 @@ def backup_(url):
 			remove_ficheiro(librtmp_path)
 			shutil.copy(bak_path,librtmp_path)
 			remove_ficheiro(bak_path)
+			os.chmod(librtmp_path,755)
 		dialog.ok("Concluído","Operação concluída com sucesso!")
 		return
 		
@@ -269,6 +272,7 @@ def backup_(url):
 			os.system("su -c 'rm "+librtmp_path+"'")
 			os.system("su -c 'cp -f "+bak_path+" "+librtmp_path+"'")
 			os.system("su -c 'rm "+bak_path+"'")
+			os.system("su -c 'chmod 755 "+librtmp_path+"'")
 		dialog.ok("Concluído","Operação concluída com sucesso!")
 		return
 		

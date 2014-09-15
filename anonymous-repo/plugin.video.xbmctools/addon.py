@@ -251,7 +251,26 @@ def backup_(url):
 			remove_ficheiro(bak_path)
 		dialog.ok("Concluído","Operação concluída com sucesso!")
 		return
+		
+	if "android" in url:
+		librtmp_path = os.path.join(android_xbmc_path(), "lib/librtmp.so")
+		bak_path = os.path.join(android_xbmc_path(), "lib/librtmp.so.bak")
+		
+		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
+			dialog.ok("Aviso!", "Não existe nenhum backup!")
+			return
 			
+		checksu()
+			
+		if "remove" in url or "backup" in url: os.system("su -c 'rm "+bak_path+"'")
+		if "backup" in url: os.system("su -c 'cp -f "+librtmp_path+" "+bak_path+"/'")
+		if "restore" in url:
+			os.system("su -c 'rm "+librtmp_path+"'")
+			os.system("su -c 'cp -f "+bak_path+" "+librtmp_path+"/'")
+			os.system("su -c 'rm "+bak_path+"'")
+		dialog.ok("Concluído","Operação concluída com sucesso!")
+		return
+		
 def librtmp_linux(url):
 	
 	if url == "raspberry":
@@ -368,7 +387,7 @@ def librtmp_android():
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
-		os.system("su -c 'chmod 06755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		remove_ficheiro(my_librtmp)
 		dialog.ok("Aviso:", "Concluído!","Por favor reinicie o XBMC, para que as alterações façam efeito.")
 	else: dialog.ok("Erro:", "Operação abortada.")

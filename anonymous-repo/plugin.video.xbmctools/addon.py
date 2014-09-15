@@ -267,7 +267,7 @@ def backup_(url):
 		if "backup" in url: os.system("su -c 'cp -f "+librtmp_path+" "+bak_path+"'")
 		if "restore" in url:
 			os.system("su -c 'rm "+librtmp_path+"'")
-			os.system("su -c 'cp -f "+bak_path+" "+librtmp_path+"/'")
+			os.system("su -c 'cp -f "+bak_path+" "+librtmp_path+"'")
 			os.system("su -c 'rm "+bak_path+"'")
 		dialog.ok("Concluído","Operação concluída com sucesso!")
 		return

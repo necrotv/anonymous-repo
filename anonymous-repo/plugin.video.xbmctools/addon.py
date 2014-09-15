@@ -484,8 +484,7 @@ def remove_ficheiro(file_path):
 			except:	
 				dialog = xbmcgui.Dialog()
 				if dialog.yesno("Erro!", "Tentar outra vez?", "Caso o erro persista, certifique-se que iniciou o XBMC como administrador."): pass
-				else: 
-					return False
+				else: return False
 	return True
 	
 def mensagem_aviso(aviso):

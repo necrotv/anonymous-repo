@@ -72,6 +72,7 @@ def CATEGORIES():
 	#-------------------------------------------------------------------
 	elif xbmc.getCondVisibility('system.platform.IOS'): 
 	#IOS
+		mensagem_os("iOS")
 		addDir("Actualizar librtmp","ios",3,artfolder + "dll.png",False)
 		addDir("Backup/Restore librtmp","ios",9,artfolder + "backup.png")
 	#-------------------------------------------------------------------

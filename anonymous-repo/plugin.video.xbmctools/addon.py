@@ -241,7 +241,7 @@ def backup_(url):
 		xbmc_folder = xbmc.translatePath("special://xbmc")
 		if "windows" in url:
 			if not is_admin():
-				dialog.ok("Aviso!","Por favor inicie o XBMC como administrador!")
+				dialog.ok("Erro!","Por favor inicie o XBMC como administrador!")
 				return
 			librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
 			bak_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll.bak")
@@ -449,7 +449,7 @@ def librtmp_updater(url):
 	xbmc_folder = xbmc.translatePath("special://xbmc")
 	if url == "windows": 
 		if not is_admin():
-			dialog.ok("Aviso!","Por favor inicie o XBMC como administrador!")
+			dialog.ok("Erro!","Por favor inicie o XBMC como administrador!")
 			return
 		librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.dll")
@@ -474,7 +474,7 @@ def librtmp_updater(url):
 		
 def change_keyboard_windows(url):
 	if not is_admin():
-		dialog.ok("Aviso!","Por favor inicie o XBMC como administrador!")
+		dialog.ok("Erro!","Por favor inicie o XBMC como administrador!")
 		return
 	xbmc_folder = xbmc.translatePath("special://xbmc")
 	keyboard_path = os.path.join(xbmc_folder, "addons/skin.confluence/720p/DialogKeyboard.xml")
@@ -497,7 +497,7 @@ def remove_ficheiro(file_path):
 			try: os.remove(file_path); break 
 			except:	
 				dialog = xbmcgui.Dialog()
-				if dialog.yesno("Erro!", "Tentar outra vez?", "Caso o erro persista, certifique-se que iniciou o XBMC como administrador."): pass
+				if dialog.yesno("Erro!", "Tentar outra vez?"): pass
 				else: return False
 	return True
 	

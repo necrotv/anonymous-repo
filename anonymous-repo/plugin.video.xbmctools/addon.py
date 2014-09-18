@@ -89,6 +89,7 @@ def CATEGORIES():
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + traducao(2006) + '[/COLOR][/B]','',artfolder + 'versao.png')
 	else: addLink('[B][COLOR white]'+traducao(2007)+' ('+ disponivel + '). '+traducao(2008)+'[/COLOR][/B]','',artfolder + 'versao.png')
 	
+	print "--------- XBMC Tools ---------"
 	print "---------ADDON FOLDER---------"
 	print addonfolder
 
@@ -478,7 +479,10 @@ def librtmp_updater(url):
 		remove_ficheiro(my_librtmp)
 		os.chmod(librtmp_path,755)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
-	else: dialog.ok(traducao(2014), traducao(2015))
+	else: 
+		dialog.ok(traducao(2014), traducao(2015))
+		print "LIBRTMP PATH: " + librtmp_path
+		print "MY LIBRTMP: " + my_librtmp
 		
 def change_keyboard_windows(url):
 	if not is_admin():

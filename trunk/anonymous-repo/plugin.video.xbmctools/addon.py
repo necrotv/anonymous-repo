@@ -21,17 +21,18 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.4'
+versao = '1.0.5'
 addon_id = 'plugin.video.xbmctools'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
+if not os.path.exists(addonfolder): addonfolder = addonfolder.decode('utf-8')
 artfolder = addonfolder + '/resources/img/'
 dialog = xbmcgui.Dialog()
 
 traducaoma= selfAddon.getLocalizedString
 
 def traducao(texto):
-      return traducaoma(texto).encode('utf-8')
+	return traducaoma(texto).encode('utf-8')
 
 ################################################## 
 
@@ -479,11 +480,8 @@ def librtmp_updater(url):
 		remove_ficheiro(my_librtmp)
 		os.chmod(librtmp_path,755)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
-	else: 
-		dialog.ok(traducao(2014), traducao(2015))
-		print "LIBRTMP PATH: " + librtmp_path
-		print "MY LIBRTMP: " + my_librtmp
-		
+	else: dialog.ok(traducao(2014), traducao(2015))
+	
 def change_keyboard_windows(url):
 	if not is_admin():
 		dialog.ok(traducao(2014),traducao(2028))

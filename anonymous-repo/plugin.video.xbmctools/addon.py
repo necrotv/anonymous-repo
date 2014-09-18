@@ -88,6 +88,9 @@ def CATEGORIES():
 	if disponivel==versao: addLink('[B][COLOR white]'+traducao(2005)+' (' + versao + ')[/COLOR][/B]','',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + traducao(2006) + '[/COLOR][/B]','',artfolder + 'versao.png')
 	else: addLink('[B][COLOR white]'+traducao(2007)+' ('+ disponivel + '). '+traducao(2008)+'[/COLOR][/B]','',artfolder + 'versao.png')
+	
+	print "---------ADDON FOLDER---------"
+	print addonfolder
 
 ###################################################################################
 #FUNCOES

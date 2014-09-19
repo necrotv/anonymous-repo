@@ -287,7 +287,7 @@ def backup_(url):
 		if "backup" in url: os.system("su -c 'cp -f "+librtmp_path+" "+bak_path+"'")
 		if "restore" in url:
 			os.system("su -c 'rm "+librtmp_path+"'")
-			os.system("su -c 'cp -f "+bak_path+" "+librtmp_path+"'")
+			os.system("su -c 'cp "+bak_path+" "+librtmp_path+"'")
 			os.system("su -c 'rm "+bak_path+"'")
 			os.system("su -c 'chmod 755 "+librtmp_path+"'")
 		dialog.ok(traducao(2026),traducao(2027))
@@ -411,8 +411,8 @@ def librtmp_android():
 		
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
-		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
-		os.system("su -c 'chown root.root "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"/'")
+		#os.system("su -c 'chown root.root "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		remove_ficheiro(my_librtmp)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))

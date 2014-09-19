@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.5'
+versao = '1.0.6'
 addon_id = 'plugin.video.xbmctools'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -529,7 +529,7 @@ def change_keyboard_windows(url):
 			dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014), traducao(2015))
 
-def md5sum_verified(path):
+def md5sum_verified(path):	#Obrigado Mafarricos!
 	if not os.path.exists(path): return "erro"
 	BLOCK_SIZE = 65536
 	hasher = hashlib.md5()

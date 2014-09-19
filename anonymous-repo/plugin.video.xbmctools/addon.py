@@ -404,17 +404,17 @@ def librtmp_android():
 		return
 	
 	my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
-	librtmp_path = os.path.join(android_xbmc_path(), "lib", "librtmp.so")
-	if os.path.exists(librtmp_path) is False:
+	librtmp_path = os.path.join(android_xbmc_path(), "lib")
+	if os.path.exists(os.path.join(librtmp_path, "librtmp.so")) is False:
 		dialog.ok(traducao(2014), traducao(2022))
 		return
 		
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
-		os.system("su -c 'rm "+librtmp_path+"'")
+		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"/'")
-		#os.system("su -c 'chown root.root "librtmp_path+"'")
-		#os.system("su -c 'chmod 755 "+librtmp_path+"'")
-		os.chmod(librtmp_path,755)
+		#os.system("su -c 'chown root.root "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		#os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.chmod(os.path.join(librtmp_path, "librtmp.so"),755)
 		remove_ficheiro(my_librtmp)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 	else: dialog.ok(traducao(2014), traducao(2015))

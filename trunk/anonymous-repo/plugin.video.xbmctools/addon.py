@@ -18,7 +18,7 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib
 h = HTMLParser.HTMLParser()
 
 versao = '1.0.5'
@@ -463,11 +463,16 @@ def librtmp_updater(url):
 		librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.dll")
 		download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Windows/librtmp.dll"
+		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/windows.xml.md5")
 	elif url == "ios":
 		librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 		download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/iOS/librtmp.0.dylib"
+		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
 	else: return
+	
+	print "----"+md5+"------"
+	print md5sum_verified(librtmp_path)
 	
 	if os.path.exists(librtmp_path) is False:
 		dialog.ok(traducao(2014), traducao(2022))
@@ -499,6 +504,20 @@ def change_keyboard_windows(url):
 			dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014), traducao(2015))
 
+def md5sum_verified(path):
+	BLOCK_SIZE = 65536
+	hasher = hashlib.md5()
+	f = open(path,'rb')
+	done = 0
+	size = os.path.getsize(path)
+	while done < size:
+		data = f.read(BLOCK_SIZE)
+		done += len(data)
+		hasher.update(data)
+		if not data: break		
+	md5sum = hasher.hexdigest()
+	return md5sum
+	
 #########################################
 
 def remove_ficheiro(file_path):

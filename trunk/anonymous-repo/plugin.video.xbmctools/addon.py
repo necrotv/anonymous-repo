@@ -142,7 +142,7 @@ def find_abs_path(str_path, search_str = ""):
 	return paths
 
 def librtmp_openelec():
-	
+	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
 	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
 	if not download(my_tmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"):
 		dialog.ok(traducao(2014), traducao(2015))
@@ -167,6 +167,8 @@ def librtmp_openelec():
 	subprocess.call("rm " + my_tmp, shell=True)
 	mensagemprogresso.update(100)
 	mensagemprogresso.close()
+	
+	if md5sum_verified("/storage/lib/librtmp.so.0") != md5: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 	
 	dialog.ok(traducao(2016),traducao(2017))
 	subprocess.call("reboot", shell=True)
@@ -297,13 +299,22 @@ def librtmp_linux(url):
 	
 	if url == "raspberry":
 		url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
+		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
 	elif url == "linux":
-		if os.uname()[4] == "i686": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
-		elif os.uname()[4] == "x86_64": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
+		if os.uname()[4] == "i686": 
+			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
+			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
+		elif os.uname()[4] == "x86_64": 
+			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
+			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
 		else:
 			ret = dialog.select(traducao(2030), ['x86', 'x64'])
-			if ret == 0: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
-			elif ret == 1: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
+			if ret == 0:
+				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
+				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
+			elif ret == 1: 
+				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
+				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
 			else: return
 	else: return
 		
@@ -340,7 +351,8 @@ def librtmp_linux(url):
 		remove_ficheiro(my_tmp)
 		p = subprocess.Popen("sudo -S chmod 755 " + file_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 		p.communicate(password+"\n") 
-		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+		if md5sum_verified(file_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 	else: dialog.ok(traducao(2014), traducao(2015))
     
 

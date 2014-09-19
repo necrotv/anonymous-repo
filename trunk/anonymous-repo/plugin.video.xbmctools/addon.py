@@ -405,10 +405,16 @@ def librtmp_android():
 	
 	my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
 	librtmp_path = os.path.join(android_xbmc_path(), "lib")
+	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
+	
 	if os.path.exists(os.path.join(librtmp_path, "librtmp.so")) is False:
 		dialog.ok(traducao(2014), traducao(2022))
 		return
-		
+	
+	#teste
+	dialog.ok("Teste",md5,md5sum_verified(os.path.join(librtmp_path, "librtmp.so")))
+	############
+	
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"/'")

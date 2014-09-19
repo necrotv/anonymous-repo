@@ -471,9 +471,6 @@ def librtmp_updater(url):
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
 	else: return
 	
-	print "----"+md5+"------"
-	print md5sum_verified(librtmp_path)
-	
 	if os.path.exists(librtmp_path) is False:
 		dialog.ok(traducao(2014), traducao(2022))
 		return
@@ -483,7 +480,8 @@ def librtmp_updater(url):
 		shutil.copy(my_librtmp,librtmp_path)
 		remove_ficheiro(my_librtmp)
 		if url == "windows": os.chmod(librtmp_path,755)
-		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+		if md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
 def change_keyboard_windows(url):

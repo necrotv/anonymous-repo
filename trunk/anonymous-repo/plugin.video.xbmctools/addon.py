@@ -490,6 +490,9 @@ def librtmp_updater(url):
 		dialog.ok(traducao(2014), traducao(2022))
 		return
 		
+	if md5sum_verified(librtmp_path) == md5:
+		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
+		
 	if download(my_librtmp,download_url):
 		remove_ficheiro(librtmp_path)
 		shutil.copy(my_librtmp,librtmp_path)

@@ -410,12 +410,10 @@ def librtmp_android():
 		return
 		
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
-		"""os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
-		os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")"""
-		subprocess.call("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
-		subprocess.call("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
-		subprocess.call("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'chown root.root "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		remove_ficheiro(my_librtmp)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 	else: dialog.ok(traducao(2014), traducao(2015))

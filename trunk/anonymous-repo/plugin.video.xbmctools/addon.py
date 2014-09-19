@@ -413,9 +413,9 @@ def librtmp_android():
 		"""os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		os.system("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
 		os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")"""
-		subprocess.call("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'", shell=True)
-		subprocess.call("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'", shell=True)
-		subprocess.call("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'", shell=True)
+		subprocess.call("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
+		subprocess.call("su -c 'cp -f "+my_librtmp+" "+librtmp_path+"/'")
+		subprocess.call("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		remove_ficheiro(my_librtmp)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 	else: dialog.ok(traducao(2014), traducao(2015))

@@ -491,12 +491,8 @@ def download_apk():
 		dialog.ok(traducao(2014),traducao(2046))
 		return
 	url = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/url.txt")
-	print "------------------------------------"
-	print "--"+url+"--"
-	print dir
-	print "------------------------------------"
-	#if download(dir,url): dialog.ok(traducao(2026),traducao(2048))
-	#else: dialog.ok(traducao(2014), traducao(2015))
+	if download(os.path.join(dir,file_name(url)),url): dialog.ok(traducao(2026),traducao(2048))
+	else: dialog.ok(traducao(2014), traducao(2015))
 	
 #########################################	WINDOWS e IOS
 	

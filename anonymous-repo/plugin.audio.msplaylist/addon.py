@@ -335,7 +335,7 @@ def importar():
 			if not dialog.yesno(traducao(30022),traducao(30023),traducao(30024)): return
 	except: pass
 	dialog = xbmcgui.Dialog()
-	file = dialog.browse(1,traducao(30025),"myprograms")
+	file = dialog.browse(int(1),traducao(30025),"files")
 	if not file: return
 	if 'playlist.txt' not in file:
 		dialog = xbmcgui.Dialog()
@@ -363,7 +363,7 @@ def importar():
 def exportar():
 	if verifica_path(): return
 	dialog = xbmcgui.Dialog()
-	dir = dialog.browse(0,traducao(30029),"myprograms")
+	dir = dialog.browse(int(3),traducao(30029),"files")
 	if not dir: return
 	try:
 		f = open(playlist,"r")

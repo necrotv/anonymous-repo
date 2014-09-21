@@ -490,7 +490,7 @@ def download_apk():
 	if not os.path.exists(dir):
 		dialog.ok(traducao(2014),traducao(2046))
 		return
-	url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/" + abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/name.txt")
+	url = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/url.txt")
 	if download(dir,url): dialog.ok(traducao(2026),traducao(2048))
 	else: dialog.ok(traducao(2014), traducao(2015))
 	

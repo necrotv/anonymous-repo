@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.6'
+versao = '1.0.7'
 addon_id = 'plugin.video.xbmctools'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -131,7 +131,7 @@ def VersionChecker(system):
 			elif os.uname()[4] == "x86_64": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
 			else: return
 			
-	if md5sum_verified(librtmp_path) == md5: addLink("[B][COLOR green]"+traducao(2049)+"[/COLOR][/B]",'',artfolder + "check.png")
+	if md5sum_verified(librtmp_path) == md5: addLink("[B][COLOR blue]"+traducao(2049)+"[/COLOR][/B]",'',artfolder + "check.png")
 	else: addLink("[B][COLOR red]"+traducao(2050)+"[/COLOR][/B]",'',artfolder + "check.png")
 
 def keyboard(url):

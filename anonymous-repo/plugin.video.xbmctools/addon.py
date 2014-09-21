@@ -486,7 +486,7 @@ def android_xbmc_path():	#Obrigado enen92!
 	return "erro"
 	
 def download_apk():
-	dir = dialog.browse(0,traducao(2047),"myprograms")
+	dir = dialog.browse(0,traducao(2047),"myprograms","",False,False)
 	if not os.path.exists(dir):
 		dialog.ok(traducao(2014),traducao(2046))
 		return

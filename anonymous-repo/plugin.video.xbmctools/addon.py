@@ -94,7 +94,7 @@ def CATEGORIES():
 	#IOS
 		mensagem_os("iOS")
 		addDir(traducao(2003),"ios",3,artfolder + "dll.png",False)
-		addDir(traducao(2004),"ios",9,artfolder + "backup.png
+		addDir(traducao(2004),"ios",9,artfolder + "backup.png")
 		addLink('','','nothing')
 		VersionChecker("ios")
 	#-------------------------------------------------------------------

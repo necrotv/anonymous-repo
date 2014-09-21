@@ -335,9 +335,10 @@ def importar():
 			if not dialog.yesno(traducao(30022),traducao(30023),traducao(30024)): return
 	except: pass
 	dialog = xbmcgui.Dialog()
-	file = dialog.browse(3,traducao(30025),'files',treatAsFolder = True)
+	file = dialog.browse(3,traducao(30025),'files')
 	if not file: return
-	if 'playlist.txt' not in file:
+	file = os.path.join(file,"playlist.txt")
+	if not os.path.exists(file):
 		dialog = xbmcgui.Dialog()
 		dialog.ok(traducao(30014), traducao(30026))
 		return

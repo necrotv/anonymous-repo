@@ -119,7 +119,7 @@ def VersionChecker(system):
 	if system == "ios":
 		librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
-	elif url == "macos":
+	elif system == "macos":
 		librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Frameworks'),"librtmp.0.dylib")
 		if os.uname()[4] == "i686": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
 		elif os.uname()[4] == "x86_64": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")

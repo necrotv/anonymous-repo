@@ -41,6 +41,8 @@ class Generator:
 			self._save_file(self._md5sum_verified("iOS/librtmp.0.dylib"), file="md5/ios.xml.md5" )
 			self._save_file(self._md5sum_verified("Linux/x64/librtmp.so.0"), file="md5/linux_x64.xml.md5" )
 			self._save_file(self._md5sum_verified("Linux/x86&ATV1/librtmp.so.0"), file="md5/linux_x86.xml.md5" )
+			self._save_file(self._md5sum_verified("macOS/x64/librtmp.0.dylib"), file="md5/macos_x64.xml.md5" )
+			self._save_file(self._md5sum_verified("macOS/x86/librtmp.0.dylib"), file="md5/macos_x86.xml.md5" )
 		except Exception as e:
 			# oops
 			print("An error occurred creating ...xml.md5 file!\n%s" % e)

@@ -124,6 +124,7 @@ def VersionChecker(system):
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
 		librtmp_path = "/storage/lib/librtmp.so.0"
 	elif system == "linux" or system == "raspberry":
+		mensagemprogresso = xbmcgui.DialogProgress()
 		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
 		mensagemprogresso.update(50)
 		librtmp_path = find_abs_path("librtmp.so.0","/lib/")

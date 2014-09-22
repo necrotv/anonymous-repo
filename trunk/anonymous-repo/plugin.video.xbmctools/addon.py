@@ -61,7 +61,13 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
 		if os.uname()[4] == 'armv6l': 
 			#RASPBERRY
-			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
+			openelec = False
+			for x in range(0,len(os.uname())):
+				if re.search(os.uname()[x],"openelec",re.IGNORECASE):
+					openelec = True
+					break
+			#if re.search(os.uname()[1],"openelec",re.IGNORECASE):
+			if openelec:
 				mensagem_os("Openelec")
 				addDir(traducao(2003),"-",8,artfolder + "dll.png",False)
 				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")
@@ -804,3 +810,4 @@ elif mode==9: backup(url)
 elif mode==10: backup_(url)
 elif mode==11: download_apk()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
+

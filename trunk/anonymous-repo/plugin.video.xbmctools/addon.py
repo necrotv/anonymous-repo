@@ -36,7 +36,8 @@ def traducao(texto):
 	
 if selfAddon.getSetting('versioncheck') == "true": vc = True
 else: vc = False
-
+if selfAddon.getSetting('force-openelec') == "false": forcar_openelec = False
+else: forcar_openelec = True
 ################################################## 
 
 #MENUS############################################
@@ -61,7 +62,7 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
 		if os.uname()[4] == 'armv6l': 
 			#RASPBERRY
-			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
+			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
 				mensagem_os("Openelec")
 				addDir(traducao(2003),"raspberry",8,artfolder + "dll.png",False)
 				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")

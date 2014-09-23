@@ -271,14 +271,21 @@ def backup_(url):
 
 	if "linux" in url or "raspberry" in url or "openelec" in url:
 	
-		mensagemprogresso = xbmcgui.DialogProgress()
-		mensagemprogresso.create('XBMC Tools',traducao(2013))
-		mensagemprogresso.update(50)
-		librtmp_path = find_abs_path("librtmp.so.0","/lib/")
-		mensagemprogresso.update(100)
-		mensagemprogresso.close()
+		if "macos" in url:
+			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
+		elif "linux" in url or "raspberry" in url:
+			mensagemprogresso = xbmcgui.DialogProgress()
+			mensagemprogresso.create('XBMC Tools',traducao(2013))
+			mensagemprogresso.update(50)
+			librtmp_path = find_abs_path("librtmp.so.0","/lib/")
+			bak_path = librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")
+			mensagemprogresso.update(100)
+			mensagemprogresso.close()
+		elif "openelec" in url: librtmp_path = "/storage/lib/librtmp.so.0"
+		else: return
 		
-		if (os.path.exists(librtmp_path) and "librtmp.so.0" in librtmp_path) is False:
+		if os.path.exists(librtmp_path) is False:
 			mensagemprogresso.close()
 			dialog.ok(traducao(2014), traducao(2022))
 			return
@@ -287,7 +294,7 @@ def backup_(url):
 			dialog.ok(traducao(2016), traducao(2023))
 			return
 		
-		if "linux" in url or "raspberry" in url:
+		if "linux" in url or "raspberry" in url or "macos" in url:
 			keyb = xbmc.Keyboard('', traducao(2024)) 
 			keyb.setHiddenInput(True)
 			keyb.doModal()
@@ -309,24 +316,24 @@ def backup_(url):
 			return
 		
 		if "remove" in url or "backup" in url:		
-			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S rm " + bak_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 		if "backup" in url:
-			p = subprocess.Popen("sudo -S cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S cp " + librtmp_path + " " + bak_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n")
 		if "restore" in url:
 			p = subprocess.Popen("sudo -S rm " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
-			p = subprocess.Popen("sudo -S cp " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak") + " " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S cp " + bak_path + " " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n")
-			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S rm " + bak_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 			p = subprocess.Popen("sudo -S chmod 755 " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 		dialog.ok(traducao(2026),traducao(2027))
 		return
 		
-	if "windows" in url or "ios" in url or "macos" in url:
+	if "windows" in url or "ios" in url:
 		xbmc_folder = xbmc.translatePath("special://xbmc")
 		if "windows" in url:
 			if not is_admin():
@@ -337,9 +344,6 @@ def backup_(url):
 		if "ios" in url:
 			librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 			bak_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib.bak")
-		if "macos" in url:
-			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
-			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
 		
 		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
 			dialog.ok(traducao(2016), traducao(2023))
@@ -398,22 +402,41 @@ def librtmp_linux(url):
 				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
 				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
 			else: return
+	elif url == "macos":
+		if os.uname()[4] == "i686": 
+			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
+			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
+		elif os.uname()[4] == "x86_64": 
+			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
+			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
+		else:
+			ret = dialog.select(traducao(2030), ['x86', 'x64'])
+			if ret == 0:
+				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
+				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
+			elif ret == 1: 
+				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
+				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
+			else: return
+		file_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+		librtmp_path = xbmc_folder.replace('Resources/XBMC','Libraries')
+		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 	else: return
 		
-	mensagemprogresso = xbmcgui.DialogProgress()
-	mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
-	mensagemprogresso.update(50)
-	file_path = find_abs_path("librtmp.so.0","/lib/")
-
+	if url != "macos"	
+		mensagemprogresso = xbmcgui.DialogProgress()
+		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
+		mensagemprogresso.update(50)
+		file_path = find_abs_path("librtmp.so.0","/lib/")
+		librtmp_path = file_path.replace("librtmp.so.0","")
+		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
+		mensagemprogresso.update(100)
+		mensagemprogresso.close()
+	
 	if (os.path.exists(file_path) and "librtmp.so.0" in file_path) is False:
 		mensagemprogresso.close()
 		dialog.ok(traducao(2014), traducao(2022))
 		return
-
-	librtmp_path = file_path.replace("librtmp.so.0","")
-	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
-	mensagemprogresso.update(100)
-	mensagemprogresso.close()
 	
 	if md5sum_verified(file_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
@@ -581,24 +604,6 @@ def librtmp_updater(url):
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 		download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/iOS/librtmp.0.dylib"
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
-	elif url == "macos":
-		if os.uname()[4] == "i686": 
-			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
-			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
-		elif os.uname()[4] == "x86_64": 
-			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
-			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
-		else:
-			ret = dialog.select(traducao(2030), ['x86', 'x64'])
-			if ret == 0:
-				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
-				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
-			elif ret == 1: 
-				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
-				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
-			else: return
-		librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
-		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 	else: return
 	
 	if os.path.exists(librtmp_path) is False:

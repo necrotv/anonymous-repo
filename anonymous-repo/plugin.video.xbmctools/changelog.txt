@@ -1,4 +1,7 @@
-﻿Versão 1.0.8:
+﻿Versão 1.0.9:
+macOS fix
+
+Versão 1.0.8:
 Adicionado suporte a macOS
 Melhorias para openelec
 

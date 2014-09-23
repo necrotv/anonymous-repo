@@ -47,7 +47,7 @@ def CATEGORIES():
 		mensagem_os("Windows")
 		dialog.ok(traducao(2000), traducao(2001))
 		addDir(traducao(2002),"windows",1,artfolder + "keyboard.png")
-		addDir(traducao(2003),"windows",7,artfolder + "dll.png",False)
+		addDir(traducao(2003),"windows",3,artfolder + "dll.png",False)
 		addDir(traducao(2004),"windows",9,artfolder + "backup.png")
 		addLink('','','nothing')
 		VersionChecker("windows")
@@ -55,7 +55,7 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('System.Platform.OSX'):
 		#OSx
 		mensagem_os("macOS")
-		addDir(traducao(2003),"macos",8,artfolder + "dll.png",False)
+		addDir(traducao(2003),"macos",7,artfolder + "dll.png",False)
 		addDir(traducao(2004),"macos",9,artfolder + "backup.png")
 		addLink('','','nothing')
 		VersionChecker("macos")

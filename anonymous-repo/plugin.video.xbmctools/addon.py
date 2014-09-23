@@ -424,7 +424,7 @@ def librtmp_linux(url):
 		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 	else: return
 		
-	if url != "macos"	
+	if url != "macos":
 		mensagemprogresso = xbmcgui.DialogProgress()
 		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
 		mensagemprogresso.update(50)

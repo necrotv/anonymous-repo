@@ -422,7 +422,10 @@ def librtmp_linux(url):
 		file_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 		librtmp_path = xbmc_folder.replace('Resources/XBMC','Libraries')
 		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
-	else: return
+		dialog.ok("Aqui","")
+	else: 
+		dialog.ok("sair","")
+		return
 		
 	if url != "macos":
 		mensagemprogresso = xbmcgui.DialogProgress()

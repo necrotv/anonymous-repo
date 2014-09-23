@@ -126,7 +126,7 @@ def VersionChecker(system):
 		librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
 	elif system == "macos":
-		librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Frameworks'),"librtmp.0.dylib")
+		librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 		if os.uname()[4] == "i686": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
 		elif os.uname()[4] == "x86_64": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 		else: return
@@ -344,8 +344,8 @@ def backup_(url):
 			librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 			bak_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib.bak")
 		if "macos" in url:
-			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Frameworks'),"librtmp.0.dylib")
-			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Frameworks'),"librtmp.0.dylib.bak")
+			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
 		
 		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
 			dialog.ok(traducao(2016), traducao(2023))
@@ -603,7 +603,7 @@ def librtmp_updater(url):
 				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
 				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 			else: return
-		librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Frameworks'),"librtmp.0.dylib")
+		librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 	else: return
 	

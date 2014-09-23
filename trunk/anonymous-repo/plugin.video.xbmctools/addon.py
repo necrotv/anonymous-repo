@@ -61,12 +61,7 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
 		if os.uname()[4] == 'armv6l': 
 			#RASPBERRY
-			openelec = False
-			for x in range(0,len(os.uname())):
-				if re.search(os.uname()[x],"openelec",re.IGNORECASE):
-					openelec = True
-					break
-			#if re.search(os.uname()[1],"openelec",re.IGNORECASE):
+			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
 			if openelec:
 				mensagem_os("Openelec")
 				addDir(traducao(2003),"-",8,artfolder + "dll.png",False)

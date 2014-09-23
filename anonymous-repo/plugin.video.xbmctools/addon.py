@@ -80,7 +80,7 @@ def CATEGORIES():
 			#LINUX
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE): 
 				mensagem_os("Openelec")
-				addDir(traducao(2003),"",8,artfolder + "dll.png",False)
+				addDir(traducao(2003),"-",8,artfolder + "dll.png",False)
 				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")
 				addLink('','','nothing')
 				VersionChecker("openelec pc")

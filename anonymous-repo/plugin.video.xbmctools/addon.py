@@ -62,7 +62,6 @@ def CATEGORIES():
 		if os.uname()[4] == 'armv6l': 
 			#RASPBERRY
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE):
-			if openelec:
 				mensagem_os("Openelec")
 				addDir(traducao(2003),"-",8,artfolder + "dll.png",False)
 				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")

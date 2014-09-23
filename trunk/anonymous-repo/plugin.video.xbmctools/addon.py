@@ -419,13 +419,10 @@ def librtmp_linux(url):
 				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
 				md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 			else: return
-		file_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
-		librtmp_path = xbmc_folder.replace('Resources/XBMC','Libraries')
+		file_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+		librtmp_path = xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries')
 		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
-		dialog.ok("Aqui","")
-	else: 
-		dialog.ok("sair","")
-		return
+	else: return
 		
 	if url != "macos":
 		mensagemprogresso = xbmcgui.DialogProgress()

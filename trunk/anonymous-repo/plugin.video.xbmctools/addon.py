@@ -351,7 +351,7 @@ def backup_(url):
 			remove_ficheiro(librtmp_path)
 			shutil.copy(bak_path,librtmp_path)
 			remove_ficheiro(bak_path)
-			os.chmod(librtmp_path,755)
+			if not "ios" in url: os.chmod(librtmp_path,755)
 		dialog.ok(traducao(2026),traducao(2027))
 		return
 		

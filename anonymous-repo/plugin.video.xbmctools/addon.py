@@ -79,6 +79,7 @@ def CATEGORIES():
 		else: 
 			#LINUX
 			mensagem_os("Linux")
+			if re.search(os.uname()[1],"openelec",re.IGNORECASE): dialog.ok("TEste","detectou openelec")
 			addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 			addDir(traducao(2003),"linux",7,artfolder + "dll.png",False)
 			addDir(traducao(2004),"linux",9,artfolder + "backup.png")

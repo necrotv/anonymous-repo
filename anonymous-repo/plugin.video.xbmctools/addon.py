@@ -434,7 +434,7 @@ def librtmp_linux(url):
 		mensagemprogresso.update(100)
 		mensagemprogresso.close()
 	
-	if (os.path.exists(file_path) and "librtmp.so.0" in file_path) is False:
+	if os.path.exists(file_path) is False:
 		mensagemprogresso.close()
 		dialog.ok(traducao(2014), traducao(2022))
 		return

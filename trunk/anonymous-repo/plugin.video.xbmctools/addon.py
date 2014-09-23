@@ -433,7 +433,8 @@ def librtmp_linux(url):
 		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
 		mensagemprogresso.update(100)
 		mensagemprogresso.close()
-	
+	dialog.ok("",file_path)
+	dialog.ok("",md5sum_verified(file_path))
 	if os.path.exists(file_path) is False:
 		mensagemprogresso.close()
 		dialog.ok(traducao(2014), traducao(2022))

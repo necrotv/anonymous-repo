@@ -8,6 +8,6 @@
    </category>
    <category label="Mac OS">
 	  <setting id="mac_bits" type="enum" label="2057" values="x86|x64" default="0"/>
-	  <setting id="first_mac" type="bool" label="Mac OS" default="true" visible="false"/>
+	  <setting id="first_run" type="bool" label="Mac OS" default="true" visible="false"/>
    </category>
 </settings>

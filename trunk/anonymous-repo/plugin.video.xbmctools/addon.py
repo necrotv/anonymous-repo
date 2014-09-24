@@ -58,14 +58,14 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('System.Platform.OSX'):
 		mensagem_os("macOS")
 		if first_run:
-			if os.uname()[4] == "x86_64": selfAddon.setSetting('mac_bits',value=str(1))
+			if os.uname()[4] != "x86_64": selfAddon.setSetting('mac_bits',value=str(0))
 			else:
 				ret = dialog.select(traducao(2056), ['x86', 'x64'])
 				if ret == -1: sys.exit(0); return;
 				selfAddon.setSetting('mac_bits',value=str(ret))
 			selfAddon.setSetting('first_run',value='false')
 		
-		dialog.ok("Teste",str(selfAddon.getSetting('mac_bits')))
+		dialog.ok("Teste",selfAddon.getSetting('mac_bits'))
 		
 		addDir(traducao(2003),"macos",3,artfolder + "dll.png",False)
 		addDir(traducao(2004),"macos",9,artfolder + "backup.png")

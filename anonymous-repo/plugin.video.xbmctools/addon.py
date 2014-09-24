@@ -38,8 +38,8 @@ if selfAddon.getSetting('versioncheck') == "true": vc = True
 else: vc = False
 if selfAddon.getSetting('force-openelec') == "false": forcar_openelec = False
 else: forcar_openelec = True
-if selfAddon.getSetting('first_run') == "false": first_run = False
-else: first_run = True
+if selfAddon.getSetting('first_run') == "true": first_run = True
+else: first_run = False
 ################################################## 
 
 #MENUS############################################
@@ -57,11 +57,13 @@ def CATEGORIES():
 	#-----------------------------------------------------------------------
 	elif xbmc.getCondVisibility('System.Platform.OSX'):
 		mensagem_os("macOS")
-		if not first_run:
-			ret = dialog.select(traducao(2056), ['x86', 'x64'])
-			if ret == -1: sys.exit(0)
-			selfAddon.setSetting('first_run',value='true')
-			selfAddon.setSetting('mac_bits',value=str(ret))
+		if first_run:
+			if os.uname()[4] == "x86_64": selfAddon.setSetting('mac_bits',value=str(1))
+			else:
+				ret = dialog.select(traducao(2056), ['x86', 'x64'])
+				if ret == -1: sys.exit(0); return;
+				selfAddon.setSetting('mac_bits',value=str(ret))
+			selfAddon.setSetting('first_run',value='false')
 		
 		dialog.ok("Teste",str(selfAddon.getSetting('mac_bits')))
 		

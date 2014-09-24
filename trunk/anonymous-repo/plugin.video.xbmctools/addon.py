@@ -625,10 +625,10 @@ def librtmp_updater(url):
 		download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/iOS/librtmp.0.dylib"
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
 	elif url == "macos":
-		if selfAddon.getSetting('mac_bits') == "0"
+		if selfAddon.getSetting('mac_bits') == "0":
 			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
 			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
-		elif selfAddon.getSetting('mac_bits') == "1"
+		elif selfAddon.getSetting('mac_bits') == "1":
 			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
 			md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 		else: return

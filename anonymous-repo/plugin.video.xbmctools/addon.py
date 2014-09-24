@@ -38,8 +38,8 @@ if selfAddon.getSetting('versioncheck') == "true": vc = True
 else: vc = False
 if selfAddon.getSetting('force-openelec') == "false": forcar_openelec = False
 else: forcar_openelec = True
-if selfAddon.getSetting('force-openelec') == "false": first_mac = False
-else: first_mac = True
+if selfAddon.getSetting('first_run') == "false": first_run = False
+else: first_run = True
 ################################################## 
 
 #MENUS############################################
@@ -57,13 +57,13 @@ def CATEGORIES():
 	#-----------------------------------------------------------------------
 	elif xbmc.getCondVisibility('System.Platform.OSX'):
 		mensagem_os("macOS")
-		if not first_mac:
+		if not first_run:
 			ret = dialog.select(traducao(2056), ['x86', 'x64'])
 			if ret == -1: sys.exit(0)
-			settings.setSetting('first_mac',value='true')
-			settings.setSetting('mac_bits',value=str(ret))
+			selfAddon.setSetting('first_run',value='true')
+			selfAddon.setSetting('mac_bits',value=str(ret))
 		
-		dialog.ok("Teste",selfAddon.getSetting('mac_bits'))
+		dialog.ok("Teste",str(selfAddon.getSetting('mac_bits')))
 		
 		addDir(traducao(2003),"macos",3,artfolder + "dll.png",False)
 		addDir(traducao(2004),"macos",9,artfolder + "backup.png")

@@ -564,9 +564,8 @@ def librtmp_android():
 		remove_ficheiro(my_librtmp)
 		if md5sum_verified(os.path.join(librtmp_path, "librtmp.so")) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
+		print "Return: " + str(c1) + str(c2) + str(c3)
 	else: dialog.ok(traducao(2014), traducao(2015))
-	
-	print "Return: " + str(c1) + str(c2) + str(c3)
 	
 def change_keyboard_android(url):
 	xbmc_data_path = android_xbmc_path()

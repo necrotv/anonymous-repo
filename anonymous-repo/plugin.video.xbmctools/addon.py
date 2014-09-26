@@ -558,13 +558,14 @@ def librtmp_android():
 	
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		c1 = os.system("su -c 'rm "+os.path.join(librtmp_path, "librtmp.so")+"'")
-		c2 = os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"/'")
+		#c2 = os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"/'")
+		c2 = os.system("su -c 'cp "+my_librtmp+" "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		#os.system("su -c 'chown root.root "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		c3 = os.system("su -c 'chmod 755 "+os.path.join(librtmp_path, "librtmp.so")+"'")
 		remove_ficheiro(my_librtmp)
 		if md5sum_verified(os.path.join(librtmp_path, "librtmp.so")) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
-		print "Return: " + str(c1) + str(c2) + str(c3)
+		print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
 def change_keyboard_android(url):

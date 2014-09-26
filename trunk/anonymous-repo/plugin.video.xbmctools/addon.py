@@ -720,6 +720,7 @@ def download(mypath,url):
 		dp.close()
 		return False
 	dp.close()
+	if not os.path.isfile(mypath): return False
 	return True
 
 def dialogdown(numblocks, blocksize, filesize, dp, start_time):

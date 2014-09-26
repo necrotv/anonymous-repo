@@ -70,7 +70,7 @@ def CATEGORIES():
 		addLink('','','nothing')
 		VersionChecker("macos")
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
-		if os.uname()[4] == 'armv6l': 
+		if os.uname()[4] == 'armv6l' or os.uname()[4] == 'armv7l': 
 			#RASPBERRY
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
 				mensagem_os("Openelec")
@@ -79,14 +79,14 @@ def CATEGORIES():
 				addLink('','','nothing')
 				VersionChecker("openelec")
 			else:
-				mensagem_os("RaspberryPI (OS)")
+				if os.uname()[4] == 'armv6l': mensagem_os("RaspberryPI (OS)")
+				elif os.uname()[4] == 'armv7l': mensagem_os("Linux")
 				addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 				addDir(traducao(2003),"raspberry",7,artfolder + "dll.png",False)
 				addDir(traducao(2004),"raspberry",9,artfolder + "backup.png")
 				addLink('','','nothing')
 				VersionChecker("raspberry")
 			#-------------------------------------------------------------------
-		elif os.uname()[4] == 'armv7l': erro_os()
 		else: 
 			#LINUX
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE): 
@@ -607,7 +607,7 @@ def download_apk():
 	if download(os.path.join(dir,file_name(url)),url): dialog.ok(traducao(2026),traducao(2048))
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
-#########################################	WINDOWS e IOS
+#########################################	WINDOWS, IOS e MAC OSX
 	
 def librtmp_updater(url):
 	xbmc_folder = xbmc.translatePath("special://xbmc")

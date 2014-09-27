@@ -561,7 +561,8 @@ def librtmp_android():
 	
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		c1 = os.system("su -c 'rm "+librtmp_path+"'")
-		c2 = os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"'")
+		#c2 = os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"'")
+		c2 = os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 		#os.system("su -c 'chown root.root "+librtmp_path+"'")
 		c3 = os.system("su -c 'chmod 755 "+librtmp_path+"'")
 		remove_ficheiro(my_librtmp)

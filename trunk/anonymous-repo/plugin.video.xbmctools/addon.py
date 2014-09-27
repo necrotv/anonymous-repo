@@ -662,11 +662,11 @@ def librtmp_updater(url):
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
 def change_keyboard(url):
-	if not is_admin():
-		dialog.ok(traducao(2014),traducao(2028))
-		return
-		
-	if "windows" in url: keyboard_path = os.path.join(xbmc.translatePath("special://xbmc"), "addons/skin.confluence/720p/DialogKeyboard.xml")
+	if "windows" in url: 
+		if not is_admin():
+			dialog.ok(traducao(2014),traducao(2028))
+			return
+		keyboard_path = os.path.join(xbmc.translatePath("special://xbmc"), "addons/skin.confluence/720p/DialogKeyboard.xml")
 	elif "android" in url: keyboard_path = os.path.join(android_xbmc_path(), "cache/apk/assets/addons/skin.confluence/720p/DialogKeyboard.xml")
 	else: return
 	

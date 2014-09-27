@@ -176,13 +176,13 @@ def VersionChecker(system):
 	else: addLink("[B][COLOR red]"+traducao(2050)+"[/COLOR][/B]",'',artfolder + "check.png")
 
 def keyboard(url):
-	dialog.ok(traducao(2009), traducao(2010),"[COLOR red]"+traducao(2011)+"[/COLOR]")
+	dialog.ok(traducao(2009), traducao(2010))
 	if url == "windows":
-		addDir("QWERTY","qwerty",2,artfolder + "keyboard.png",False)
-		addDir("ABCDE","abcde",2,artfolder + "keyboard.png",False)
+		addDir("QWERTY","qwerty windows",2,artfolder + "keyboard.png",False)
+		addDir("ABCDE","abcde windows",2,artfolder + "keyboard.png",False)
 	elif url == "android":
-		addDir("QWERTY","qwerty",4,artfolder + "keyboard.png",False)
-		addDir("ABCDE","abcde",4,artfolder + "keyboard.png",False)
+		addDir("QWERTY","qwerty android",2,artfolder + "keyboard.png",False)
+		addDir("ABCDE","abcde android",2,artfolder + "keyboard.png",False)
 	elif url == "linux":
 		addDir("QWERTY","qwerty",6,artfolder + "keyboard.png",False)
 		addDir("ABCDE","abcde",6,artfolder + "keyboard.png",False)
@@ -570,22 +570,6 @@ def librtmp_android():
 		print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
-def change_keyboard_android(url):
-	xbmc_data_path = android_xbmc_path()
-	
-	keyboard_path = os.path.join(xbmc_data_path, "cache/apk/assets/addons/skin.confluence/720p/DialogKeyboard.xml")
-	if os.path.exists(keyboard_path) is False:
-		dialog.ok(traducao(2014), traducao(2034))
-		return
-	
-	if url == "qwerty": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
-	elif url == "abcde": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
-	
-	if remove_ficheiro(keyboard_path):
-		if download(keyboard_path,url_download):
-			dialog.ok(traducao(2016), traducao(2026),traducao(2032))
-		else: dialog.ok(traducao(2014), traducao(2015))
-	
 def android_xbmc_path():	#Obrigado enen92!
 	xbmcfolder=xbmc.translatePath(addonfolder).split("/")
 	i = 0
@@ -677,19 +661,23 @@ def librtmp_updater(url):
 		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
-def change_keyboard_windows(url):
+def change_keyboard(url):
 	if not is_admin():
 		dialog.ok(traducao(2014),traducao(2028))
 		return
-	xbmc_folder = xbmc.translatePath("special://xbmc")
-	keyboard_path = os.path.join(xbmc_folder, "addons/skin.confluence/720p/DialogKeyboard.xml")
+		
+	if "windows" in url: keyboard_path = os.path.join(xbmc.translatePath("special://xbmc"), "addons/skin.confluence/720p/DialogKeyboard.xml")
+	elif "android" in url: keyboard_path = os.path.join(android_xbmc_path(), "cache/apk/assets/addons/skin.confluence/720p/DialogKeyboard.xml")
+	else: return
+	
 	my_tmp = os.path.join(addonfolder,"resources","temp","DialogKeyboard.xml")
 	if os.path.exists(keyboard_path) is False:
 		dialog.ok(traducao(2014), traducao(2034))
 		return
 		
-	if url == "qwerty": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
-	elif url == "abcde": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
+	if "qwerty" in url: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
+	elif "abcde" in url: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
+	else: return
 		
 	if download(my_tmp,url_download):
 		remove_ficheiro(keyboard_path)
@@ -857,9 +845,8 @@ print "Iconimage: "+str(iconimage)
 
 if mode==None or url==None or len(url)<1: CATEGORIES()
 elif mode==1: keyboard(url)
-elif mode==2: change_keyboard_windows(url)
+elif mode==2: change_keyboard(url)
 elif mode==3: librtmp_updater(url)
-elif mode==4: change_keyboard_android(url)
 elif mode==5: librtmp_android()
 elif mode==6: change_keyboard_linux(url)
 elif mode==7: librtmp_linux(url)

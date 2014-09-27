@@ -60,9 +60,12 @@ def CATEGORIES():
 		if first_run:
 			if os.uname()[4] == "i686" or os.uname()[4] == "i386": selfAddon.setSetting('mac_bits',value=str(0))
 			else:
-				ret = dialog.select(traducao(2056), ['x86', 'x64'])
-				if ret == -1: sys.exit(0); return;
-				selfAddon.setSetting('mac_bits',value=str(ret))
+				if xbmc_bit_version() == "x32": selfAddon.setSetting('mac_bits',value=str(0))
+				elif xbmc_bit_version() == "x64": selfAddon.setSetting('mac_bits',value=str(1))
+				else:
+					ret = dialog.select(traducao(2056), ['x86', 'x64'])
+					if ret == -1: sys.exit(0); return;
+					selfAddon.setSetting('mac_bits',value=str(ret))
 			selfAddon.setSetting('first_run',value='false')
 		
 		addDir(traducao(2003),"macos",3,artfolder + "dll.png",False)
@@ -612,7 +615,16 @@ def download_apk():
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
 #########################################	WINDOWS, IOS e MAC OSX
-	
+
+def xbmc_bit_version():
+	log_path = xbmc.translatePath('special://logpath')
+	log = os.path.join(log_path, 'xbmc.log')
+	f = open(log,"r")
+	aux = f.readlines()
+	f.close()
+	try: return re.compile('XBMC (.+?) build').findall(aux[3])[0]
+	except: return "erro"
+
 def librtmp_updater(url):
 	xbmc_folder = xbmc.translatePath("special://xbmc")
 	if url == "windows": 

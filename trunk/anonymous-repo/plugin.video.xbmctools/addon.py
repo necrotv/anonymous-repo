@@ -28,7 +28,7 @@ addonfolder = selfAddon.getAddonInfo('path')
 if not os.path.exists(addonfolder): addonfolder = addonfolder.decode('utf-8')
 artfolder = addonfolder + '/resources/img/'
 dialog = xbmcgui.Dialog()
-
+xbmc_version = int(xbmc.getInfoLabel("System.BuildVersion" )[0:2])
 traducaoma= selfAddon.getLocalizedString
 
 def traducao(texto):
@@ -49,7 +49,7 @@ def CATEGORIES():
 	#WINDOWS
 		mensagem_os("Windows")
 		dialog.ok(traducao(2000), traducao(2001))
-		addDir(traducao(2002),"windows",1,artfolder + "keyboard.png")
+		if xbmc_version < 14: addDir(traducao(2002),"windows",1,artfolder + "keyboard.png")
 		addDir(traducao(2003),"windows",3,artfolder + "dll.png",False)
 		addDir(traducao(2004),"windows",9,artfolder + "backup.png")
 		addLink('','','nothing')
@@ -84,7 +84,7 @@ def CATEGORIES():
 			else:
 				if os.uname()[4] == 'armv6l': mensagem_os("RaspberryPI (OS)")
 				elif os.uname()[4] == 'armv7l': mensagem_os("Linux")
-				addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
+				if xbmc_version < 14: addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 				addDir(traducao(2003),"raspberry",7,artfolder + "dll.png",False)
 				addDir(traducao(2004),"raspberry",9,artfolder + "backup.png")
 				addLink('','','nothing')
@@ -100,7 +100,7 @@ def CATEGORIES():
 				VersionChecker("openelec pc")
 			else:
 				mensagem_os("Linux")
-				addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
+				if xbmc_version < 14: addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 				addDir(traducao(2003),"linux",7,artfolder + "dll.png",False)
 				addDir(traducao(2004),"linux",9,artfolder + "backup.png")
 				addLink('','','nothing')
@@ -109,7 +109,7 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.Android'): 
 	#ANDROID
 		mensagem_os("Android")
-		addDir(traducao(2002),"android",1,artfolder + "keyboard.png")
+		if xbmc_version < 14: addDir(traducao(2002),"android",1,artfolder + "keyboard.png")
 		addDir("Download APK","-",11,artfolder + "apk.png",False)
 		addDir(traducao(2003)+" [COLOR blue](XBMC Gotham 13)[/COLOR]","-",5,artfolder + "dll.png",False)
 		addDir(traducao(2004),"android",9,artfolder + "backup.png")

@@ -683,6 +683,7 @@ def change_keyboard_windows(url):
 		return
 	xbmc_folder = xbmc.translatePath("special://xbmc")
 	keyboard_path = os.path.join(xbmc_folder, "addons/skin.confluence/720p/DialogKeyboard.xml")
+	my_tmp = os.path.join(addonfolder,"resources","temp","DialogKeyboard.xml")
 	if os.path.exists(keyboard_path) is False:
 		dialog.ok(traducao(2014), traducao(2034))
 		return
@@ -690,10 +691,12 @@ def change_keyboard_windows(url):
 	if url == "qwerty": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
 	elif url == "abcde": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
 		
-	if remove_ficheiro(keyboard_path):
-		if download(keyboard_path,url_download):
-			dialog.ok(traducao(2016), traducao(2026),traducao(2032))
-		else: dialog.ok(traducao(2014), traducao(2015))
+	if download(my_tmp,url_download):
+		remove_ficheiro(keyboard_path)
+		shutil.copy(my_tmp,keyboard_path)
+		remove_ficheiro(my_tmp)
+		dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+	else: dialog.ok(traducao(2014), traducao(2015))
 
 def md5sum_verified(path):	#Obrigado Mafarricos!
 	if not os.path.exists(path): return "erro"

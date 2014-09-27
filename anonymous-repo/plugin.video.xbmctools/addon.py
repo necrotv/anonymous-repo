@@ -622,13 +622,16 @@ def xbmc_bit_version():
 	f = open(log,"r")
 	aux = f.readlines()
 	f.close()
-	try: return re.compile('XBMC (.+?) build').findall(aux[3])[0]
-	except: 
-		try:
-			i = aux[3].find("-bit version", 0)
-			if i == -1: return "erro"
-			return "x"+aux[3][i-2]+aux[3][i-1]
-		except: return "erro"
+	try: 
+		bits = re.compile('XBMC (.+?) build').findall(aux[3])[0]
+		if bits == "x32" or bits == "x64": return bits
+	except: pass
+	try:
+		i = aux[3].find("-bit version", 0)
+		bits = "x"+aux[3][i-2]+aux[3][i-1]
+		if bits == "x32" or bits == "x64": return bits
+		else: return "erro"
+	except: return "erro"
 
 def librtmp_updater(url):
 	xbmc_folder = xbmc.translatePath("special://xbmc")

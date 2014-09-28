@@ -455,6 +455,10 @@ def backup_(url):
 			mensagemprogresso.close()
 			bak_path = librtmp_path.replace(lib,lib+'.bak')
 		
+		if os.path.exists(librtmp_path) is False:
+			dialog.ok(traducao(2014), traducao(2022))
+			return
+		
 		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
 			dialog.ok(traducao(2016), traducao(2023))
 			return

@@ -73,7 +73,7 @@ def CATEGORIES():
 		addLink('','','nothing')
 		VersionChecker("macos")
 	elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
-		if os.uname()[4] == 'armv6l' or os.uname()[4] == 'armv7l': 
+		if os.uname()[4] == 'armv6l': 
 			#RASPBERRY
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
 				mensagem_os("Openelec")
@@ -82,14 +82,27 @@ def CATEGORIES():
 				addLink('','','nothing')
 				VersionChecker("openelec")
 			else:
-				if os.uname()[4] == 'armv6l': mensagem_os("RaspberryPI (OS)")
-				elif os.uname()[4] == 'armv7l': mensagem_os("Linux")
+				mensagem_os("RaspberryPI (OS)")
 				if xbmc_version < 14: addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 				addDir(traducao(2003),"raspberry",7,artfolder + "dll.png",False)
 				addDir(traducao(2004),"raspberry",9,artfolder + "backup.png")
 				addLink('','','nothing')
 				VersionChecker("raspberry")
 			#-------------------------------------------------------------------
+		elif os.uname()[4] == 'armv7l'
+			#ARMv7
+			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
+				mensagem_os("Openelec")
+				addDir(traducao(2003),"raspberry",8,artfolder + "dll.png",False)
+				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")
+				addLink('','','nothing')
+				VersionChecker("openelec")
+			else:
+				mensagem_os("Linux")
+				addDir(traducao(2003),"-",4,artfolder + "dll.png",False) 
+				#addDir(traducao(2004),"armv7",9,artfolder + "backup.png")
+				addLink('','','nothing')
+				VersionChecker("raspberry")
 		else: 
 			#LINUX
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE): 
@@ -298,6 +311,41 @@ def librtmp_openelec(url):
 	dialog.ok(traducao(2016),traducao(2017))
 	subprocess.call("reboot", shell=True)
 
+def librtmp_linux2():
+	url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
+	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
+	
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
+	mensagemprogresso.update(50)
+	lib = "librtmp.so.0"
+	file_path = find_abs_path(lib,"/lib/")
+	if file_path == "erro":
+		lib = "librtmp.so.1"
+		file_path = find_abs_path(lib,"/lib/")
+
+	if os.path.exists(file_path) is False:
+		mensagemprogresso.close()
+		dialog.ok(traducao(2014), traducao(2022))
+		return
+
+	librtmp_path = file_path.replace(lib,"")
+	my_tmp = os.path.join(addonfolder,"resources","temp",lib)
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
+	
+	if md5sum_verified(file_path) == md5:
+		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
+		
+	if download(my_tmp,url_download):
+		subprocess.call("rm " + file_path, shell=True)
+		subprocess.call("cp " + my_tmp + " " + librtmp_path, shell=True)
+		remove_ficheiro(my_tmp)
+		subprocess.call("chmod 755 " + file_path, shell=True)
+		if md5sum_verified(file_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
+	else: dialog.ok(traducao(2014), traducao(2015))
+	
 def is_admin():
 	import ctypes
 	return ctypes.windll.shell32.IsUserAnAdmin() != 0
@@ -863,6 +911,7 @@ if mode==None or url==None or len(url)<1: CATEGORIES()
 elif mode==1: keyboard(url)
 elif mode==2: change_keyboard(url)
 elif mode==3: librtmp_updater(url)
+elif mode==4: librtmp_linux2()
 elif mode==5: librtmp_android()
 elif mode==6: change_keyboard_linux(url)
 elif mode==7: librtmp_linux(url)

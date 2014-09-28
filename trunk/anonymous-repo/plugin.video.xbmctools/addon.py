@@ -89,7 +89,7 @@ def CATEGORIES():
 				addLink('','','nothing')
 				VersionChecker("raspberry")
 			#-------------------------------------------------------------------
-		elif os.uname()[4] == 'armv7l'
+		elif os.uname()[4] == 'armv7l':
 			#ARMv7
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
 				mensagem_os("Openelec")

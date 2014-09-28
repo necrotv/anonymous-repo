@@ -164,6 +164,7 @@ def VersionChecker(system):
 		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
 		mensagemprogresso.update(50)
 		librtmp_path = find_abs_path("librtmp.so.0","/lib/")
+		if librtmp_path == "erro": librtmp_path = find_abs_path("librtmp.so.1","/lib/")
 		mensagemprogresso.update(100)
 		mensagemprogresso.close()
 		if system == "raspberry": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
@@ -320,7 +321,11 @@ def backup_(url):
 			mensagemprogresso = xbmcgui.DialogProgress()
 			mensagemprogresso.create('XBMC Tools',traducao(2013))
 			mensagemprogresso.update(50)
-			librtmp_path = find_abs_path("librtmp.so.0","/lib/")
+			lib = "librtmp.so.0"
+			librtmp_path = find_abs_path(lib,"/lib/")
+			if librtmp_path == "erro": 
+				lib = "librtmp.so.1"
+				librtmp_path = find_abs_path(lib,"/lib/")
 			mensagemprogresso.update(100)
 			mensagemprogresso.close()
 		
@@ -356,17 +361,17 @@ def backup_(url):
 			return
 		
 		if "remove" in url or "backup" in url:		
-			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace(lib,lib+".bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 		if "backup" in url:
-			p = subprocess.Popen("sudo -S cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S cp " + librtmp_path + " " + librtmp_path.replace(lib,lib+".bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n")
 		if "restore" in url:
 			p = subprocess.Popen("sudo -S rm " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
-			p = subprocess.Popen("sudo -S cp " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak") + " " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S cp " + librtmp_path.replace(lib,lib+".bak") + " " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n")
-			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+			p = subprocess.Popen("sudo -S rm " + librtmp_path.replace(lib,lib+".bak"), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 			p = subprocess.Popen("sudo -S chmod 755 " + librtmp_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
@@ -450,15 +455,19 @@ def librtmp_linux(url):
 	mensagemprogresso = xbmcgui.DialogProgress()
 	mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
 	mensagemprogresso.update(50)
-	file_path = find_abs_path("librtmp.so.0","/lib/")
+	lib = "librtmp.so.0"
+	file_path = find_abs_path(lib,"/lib/")
+	if file_path == "erro":
+		lib = "librtmp.so.1"
+		file_path = find_abs_path(lib,"/lib/")
 
-	if (os.path.exists(file_path) and "librtmp.so.0" in file_path) is False:
+	if os.path.exists(file_path) is False:
 		mensagemprogresso.close()
 		dialog.ok(traducao(2014), traducao(2022))
 		return
 
-	librtmp_path = file_path.replace("librtmp.so.0","")
-	my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
+	librtmp_path = file_path.replace(lib,"")
+	my_tmp = os.path.join(addonfolder,"resources","temp",lib)
 	mensagemprogresso.update(100)
 	mensagemprogresso.close()
 	

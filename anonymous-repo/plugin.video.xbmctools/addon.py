@@ -325,7 +325,8 @@ def backup_(url):
 			mensagemprogresso.close()
 		
 		if os.path.exists(librtmp_path) is False:
-			mensagemprogresso.close()
+			try: mensagemprogresso.close()
+			except: pass
 			dialog.ok(traducao(2014), traducao(2022))
 			return
 			

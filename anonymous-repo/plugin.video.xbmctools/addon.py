@@ -100,7 +100,7 @@ def CATEGORIES():
 			else:
 				mensagem_os("Linux")
 				addDir(traducao(2003),"-",4,artfolder + "dll.png",False) 
-				#addDir(traducao(2004),"armv7",9,artfolder + "backup.png")
+				addDir(traducao(2004),"armv7",9,artfolder + "backup.png")
 				addLink('','','nothing')
 				VersionChecker("raspberry")
 		else: 
@@ -428,7 +428,7 @@ def backup_(url):
 		dialog.ok(traducao(2026),traducao(2027))
 		return
 		
-	if "windows" in url or "ios" in url or "macos" in url:
+	if "windows" in url or "ios" in url or "macos" in url or "armv7" in url:
 		xbmc_folder = xbmc.translatePath("special://xbmc")
 		if "windows" in url:
 			if not is_admin():
@@ -442,6 +442,18 @@ def backup_(url):
 		if "macos" in url:
 			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
+		if "armv7" in url:
+			mensagemprogresso = xbmcgui.DialogProgress()
+			mensagemprogresso.create('XBMC Tools',traducao(2013))
+			mensagemprogresso.update(50)
+			lib = "librtmp.so.0"
+			librtmp_path = find_abs_path(lib,"/lib/")
+			if librtmp_path == "erro": 
+				lib = "librtmp.so.1"
+				librtmp_path = find_abs_path(lib,"/lib/")
+			mensagemprogresso.update(100)
+			mensagemprogresso.close()
+			bak_path = librtmp_path.replace(lib,lib+'.bak')
 		
 		if ("remove" in url or "restore" in url) and not os.path.exists(bak_path): 
 			dialog.ok(traducao(2016), traducao(2023))

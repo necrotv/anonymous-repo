@@ -340,15 +340,17 @@ def backup_(url):
 			return
 		
 		if "linux" in url or "raspberry" in url:
-			keyb = xbmc.Keyboard('', traducao(2024)) 
-			keyb.setHiddenInput(True)
-			keyb.doModal()
-			if (keyb.isConfirmed()): password = keyb.getText()
-			else: return
-			
-			if verifica_pass(password) is False: 
-				dialog.ok(traducao(2014), traducao(2025))
-				return
+			if verifica_pass(""): password = ""
+			else:
+				keyb = xbmc.Keyboard('', traducao(2024)) 
+				keyb.setHiddenInput(True)
+				keyb.doModal()
+				if (keyb.isConfirmed()): password = keyb.getText()
+				else: return
+				
+				if verifica_pass(password) is False: 
+					dialog.ok(traducao(2014), traducao(2025))
+					return
 		if "openelec" in url:
 			if "remove" in url or "backup" in url: subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
 			if "backup" in url: subprocess.call("cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
@@ -474,15 +476,17 @@ def librtmp_linux(url):
 	if md5sum_verified(file_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
 	
-	keyb = xbmc.Keyboard('', traducao(2024)) 
-	keyb.setHiddenInput(True)
-	keyb.doModal()
-	if (keyb.isConfirmed()): password = keyb.getText()
-	else: return
-	
-	if verifica_pass(password) is False: 
-		dialog.ok(traducao(2014), traducao(2025))
-		return
+	if verifica_pass(""): password = ""
+	else:
+		keyb = xbmc.Keyboard('', traducao(2024)) 
+		keyb.setHiddenInput(True)
+		keyb.doModal()
+		if (keyb.isConfirmed()): password = keyb.getText()
+		else: return
+		
+		if verifica_pass(password) is False: 
+			dialog.ok(traducao(2014), traducao(2025))
+			return
 
 	if download(my_tmp,url_download):
 		p = subprocess.Popen("sudo -S rm " + file_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -520,15 +524,17 @@ def change_keyboard_linux(url):
 	mensagemprogresso.update(100)
 	mensagemprogresso.close()
 	
-	keyb = xbmc.Keyboard('', traducao(2024)) 
-	keyb.setHiddenInput(True)
-	keyb.doModal()
-	if (keyb.isConfirmed()): password = keyb.getText()
-	else: return
-	
-	if verifica_pass(password) is False: 
-		dialog.ok(traducao(2014), traducao(2025))
-		return
+	if verifica_pass(""): password = ""
+	else:
+		keyb = xbmc.Keyboard('', traducao(2024)) 
+		keyb.setHiddenInput(True)
+		keyb.doModal()
+		if (keyb.isConfirmed()): password = keyb.getText()
+		else: return
+		
+		if verifica_pass(password) is False: 
+			dialog.ok(traducao(2014), traducao(2025))
+			return
 	
 	if url == "qwerty": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
 	elif url == "abcde": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"

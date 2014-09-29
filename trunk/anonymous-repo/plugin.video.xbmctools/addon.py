@@ -91,7 +91,8 @@ def CATEGORIES():
 			#-------------------------------------------------------------------
 		elif os.uname()[4] == 'armv7l':
 			#ARMv7
-			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
+			erro_os()
+			'''if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
 				mensagem_os("Openelec")
 				addDir(traducao(2003),"raspberry",8,artfolder + "dll.png",False)
 				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")
@@ -102,7 +103,7 @@ def CATEGORIES():
 				addDir(traducao(2003),"armv7",4,artfolder + "dll.png",False) 
 				addDir(traducao(2004),"armv7",9,artfolder + "backup.png")
 				addLink('','','nothing')
-				VersionChecker("raspberry")
+				VersionChecker("raspberry")'''
 		else: 
 			#LINUX
 			if re.search(os.uname()[1],"openelec",re.IGNORECASE): 

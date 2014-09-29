@@ -99,7 +99,7 @@ def CATEGORIES():
 				VersionChecker("openelec")
 			else:
 				mensagem_os("Linux")
-				addDir(traducao(2003),"-",4,artfolder + "dll.png",False) 
+				addDir(traducao(2003),"armv7",4,artfolder + "dll.png",False) 
 				addDir(traducao(2004),"armv7",9,artfolder + "backup.png")
 				addLink('','','nothing')
 				VersionChecker("raspberry")

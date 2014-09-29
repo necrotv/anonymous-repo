@@ -682,7 +682,9 @@ def download_apk():
 		return
 	url = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/url.txt")
 	url = get_mediafire_url(url)
-	if url == "erro": return
+	if url == "erro":
+		dialog.ok(traducao(2014), traducao(2015))
+		return
 	if download(os.path.join(dir,file_name(url)),url): dialog.ok(traducao(2026),traducao(2048))
 	else: dialog.ok(traducao(2014), traducao(2015))
 	

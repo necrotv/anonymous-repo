@@ -669,6 +669,11 @@ def android_xbmc_path():	#Obrigado enen92!
 		if os.path.exists(xbmc_data_path) and uid == os.stat(xbmc_data_path).st_uid: return xbmc_data_path
 	return "erro"
 	
+def get_mediafire_url(url):
+	codigo_fonte = abrir_url(url).replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')    
+	try: return re.compile('kNO = "(.+?)"').findall(codigo_fonte)[0]
+	except: return "erro"
+	
 def download_apk():
 	dir = dialog.browse(int(3), traducao(2047), 'files')
 	if dir == "": return
@@ -676,6 +681,8 @@ def download_apk():
 		dialog.ok(traducao(2014),traducao(2046))
 		return
 	url = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/url.txt")
+	url = get_mediafire_url(url)
+	if url == "erro": return
 	if download(os.path.join(dir,file_name(url)),url): dialog.ok(traducao(2026),traducao(2048))
 	else: dialog.ok(traducao(2014), traducao(2015))
 	

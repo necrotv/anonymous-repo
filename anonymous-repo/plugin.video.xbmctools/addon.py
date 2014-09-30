@@ -176,13 +176,7 @@ def VersionChecker(system):
 		else: return
 		librtmp_path = "/storage/lib/librtmp.so.0"
 	elif system == "linux" or system == "raspberry":
-		mensagemprogresso = xbmcgui.DialogProgress()
-		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
-		mensagemprogresso.update(50)
-		librtmp_path = find_abs_path("librtmp.so.0","/lib/")
-		if librtmp_path == "erro": librtmp_path = find_abs_path("librtmp.so.1","/lib/")
-		mensagemprogresso.update(100)
-		mensagemprogresso.close()
+		librtmp_path, lib = librtmp_path()
 		if system == "raspberry": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
 		elif system == "linux": 
 			if os.uname()[4] == "i686" or os.uname()[4] == "i386": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
@@ -336,25 +330,12 @@ def librtmp_openelec(url):
 def librtmp_linux2():
 	url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
 	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
-	
-	mensagemprogresso = xbmcgui.DialogProgress()
-	mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
-	mensagemprogresso.update(50)
-	lib = "librtmp.so.0"
-	file_path = find_abs_path(lib,"/lib/")
-	if file_path == "erro":
-		lib = "librtmp.so.1"
-		file_path = find_abs_path(lib,"/lib/")
-
+	file_path, lib = librtmp_path()
 	if os.path.exists(file_path) is False:
-		mensagemprogresso.close()
 		dialog.ok(traducao(2014), traducao(2022))
 		return
-
 	librtmp_path = file_path.replace(lib,"")
 	my_tmp = os.path.join(addonfolder,"resources","temp",lib)
-	mensagemprogresso.update(100)
-	mensagemprogresso.close()
 	
 	if md5sum_verified(file_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
@@ -388,16 +369,7 @@ def backup_(url):
 	if "linux" in url or "raspberry" in url or "openelec" in url:
 		if "openelec" in url: librtmp_path = "/storage/lib/librtmp.so.0"
 		else:
-			mensagemprogresso = xbmcgui.DialogProgress()
-			mensagemprogresso.create('XBMC Tools',traducao(2013))
-			mensagemprogresso.update(50)
-			lib = "librtmp.so.0"
-			librtmp_path = find_abs_path(lib,"/lib/")
-			if librtmp_path == "erro": 
-				lib = "librtmp.so.1"
-				librtmp_path = find_abs_path(lib,"/lib/")
-			mensagemprogresso.update(100)
-			mensagemprogresso.close()
+			librtmp_path, lib = librtmp_path()
 		
 		if os.path.exists(librtmp_path) is False:
 			try: mensagemprogresso.close()
@@ -465,16 +437,7 @@ def backup_(url):
 			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
 		if "armv7" in url:
-			mensagemprogresso = xbmcgui.DialogProgress()
-			mensagemprogresso.create('XBMC Tools',traducao(2013))
-			mensagemprogresso.update(50)
-			lib = "librtmp.so.0"
-			librtmp_path = find_abs_path(lib,"/lib/")
-			if librtmp_path == "erro": 
-				lib = "librtmp.so.1"
-				librtmp_path = find_abs_path(lib,"/lib/")
-			mensagemprogresso.update(100)
-			mensagemprogresso.close()
+			librtmp_path, lib = librtmp_path()
 			bak_path = librtmp_path.replace(lib,lib+'.bak')
 		
 		if os.path.exists(librtmp_path) is False:
@@ -540,24 +503,14 @@ def librtmp_linux(url):
 			else: return
 	else: return
 		
-	mensagemprogresso = xbmcgui.DialogProgress()
-	mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
-	mensagemprogresso.update(50)
-	lib = "librtmp.so.0"
-	file_path = find_abs_path(lib,"/lib/")
-	if file_path == "erro":
-		lib = "librtmp.so.1"
-		file_path = find_abs_path(lib,"/lib/")
+	file_path, lib = librtmp_path()
 
 	if os.path.exists(file_path) is False:
-		mensagemprogresso.close()
 		dialog.ok(traducao(2014), traducao(2022))
 		return
 
 	librtmp_path = file_path.replace(lib,"")
 	my_tmp = os.path.join(addonfolder,"resources","temp",lib)
-	mensagemprogresso.update(100)
-	mensagemprogresso.close()
 	
 	if md5sum_verified(file_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return

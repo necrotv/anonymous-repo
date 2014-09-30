@@ -99,7 +99,7 @@ def CATEGORIES():
 				VersionChecker("openelec")
 			else:
 				mensagem_os("Linux")
-				addDir(traducao(2003),"armv7",4,artfolder + "dll.png",False) 
+				addDir(traducao(2003),"armv7",3,artfolder + "dll.png",False) 
 				addDir(traducao(2004),"armv7",9,artfolder + "backup.png")
 				addLink('','','nothing')
 				VersionChecker("raspberry")'''
@@ -324,28 +324,6 @@ def librtmp_openelec(url):
 	dialog.ok(traducao(2016),traducao(2017))
 	subprocess.call("reboot", shell=True)
 
-def librtmp_linux2():
-	url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
-	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
-	file_path, lib = _librtmp_path()
-	if os.path.exists(file_path) is False:
-		dialog.ok(traducao(2014), traducao(2022))
-		return
-	librtmp_path = file_path.replace(lib,"")
-	my_tmp = os.path.join(addonfolder,"resources","temp",lib)
-	
-	if md5sum_verified(file_path) == md5:
-		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
-		
-	if download(my_tmp,url_download):
-		subprocess.call("rm " + file_path, shell=True)
-		subprocess.call("cp " + my_tmp + " " + librtmp_path, shell=True)
-		remove_ficheiro(my_tmp)
-		subprocess.call("chmod 755 " + file_path, shell=True)
-		if md5sum_verified(file_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
-		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
-	else: dialog.ok(traducao(2014), traducao(2015))
-	
 def is_admin():
 	import ctypes
 	return ctypes.windll.shell32.IsUserAnAdmin() != 0
@@ -702,6 +680,11 @@ def librtmp_updater(url):
 		else: return
 		librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
+	elif url == "armv7":
+		download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
+		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
+		librtmp_path, lib = _librtmp_path()
+		my_librtmp = os.path.join(addonfolder,"resources","temp",lib)
 	else: return
 	
 	if os.path.exists(librtmp_path) is False:
@@ -906,7 +889,6 @@ if mode==None or url==None or len(url)<1: CATEGORIES()
 elif mode==1: keyboard(url)
 elif mode==2: change_keyboard(url)
 elif mode==3: librtmp_updater(url)
-elif mode==4: librtmp_linux2()
 elif mode==5: librtmp_android()
 elif mode==6: change_keyboard_linux(url)
 elif mode==7: librtmp_linux(url)

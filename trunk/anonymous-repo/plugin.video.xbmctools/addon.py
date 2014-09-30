@@ -421,10 +421,11 @@ def backup_(url):
 			dialog.ok(traducao(2016), traducao(2023))
 			return
 		
-		if "remove" in url or "backup" in url: remove_ficheiro(bak_path)
+		if "remove" in url or "backup" in url: 
+			if not remove_ficheiro(bak_path): return
 		if "backup" in url: shutil.copy(librtmp_path,bak_path)
 		if "restore" in url:
-			remove_ficheiro(librtmp_path)
+			if not remove_ficheiro(librtmp_path): return
 			shutil.copy(bak_path,librtmp_path)
 			remove_ficheiro(bak_path)
 			if "windows" in url: os.chmod(librtmp_path,755)
@@ -695,7 +696,7 @@ def librtmp_updater(url):
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
 		
 	if download(my_librtmp,download_url):
-		remove_ficheiro(librtmp_path)
+		if not remove_ficheiro(librtmp_path): return
 		shutil.copy(my_librtmp,librtmp_path)
 		remove_ficheiro(my_librtmp)
 		if url == "windows": os.chmod(librtmp_path,755)
@@ -722,7 +723,7 @@ def change_keyboard(url):
 	else: return
 		
 	if download(my_tmp,url_download):
-		remove_ficheiro(keyboard_path)
+		if not remove_ficheiro(keyboard_path): return
 		shutil.copy(my_tmp,keyboard_path)
 		remove_ficheiro(my_tmp)
 		dialog.ok(traducao(2016), traducao(2026),traducao(2032))

@@ -34,8 +34,6 @@ traducaoma= selfAddon.getLocalizedString
 def traducao(texto):
 	return traducaoma(texto).encode('utf-8')
 	
-if selfAddon.getSetting('versioncheck') == "true": vc = True
-else: vc = False
 if selfAddon.getSetting('force-openelec') == "false": forcar_openelec = False
 else: forcar_openelec = True
 if selfAddon.getSetting('first_run') == "true": first_run = True
@@ -152,7 +150,6 @@ def CATEGORIES():
 #FUNCOES
 
 def VersionChecker(system):
-	if not vc: return
 	if system == "ios":
 		librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 		md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
@@ -372,8 +369,6 @@ def backup_(url):
 			librtmp_path, lib = librtmp_path()
 		
 		if os.path.exists(librtmp_path) is False:
-			try: mensagemprogresso.close()
-			except: pass
 			dialog.ok(traducao(2014), traducao(2022))
 			return
 			

@@ -699,7 +699,7 @@ def librtmp_updater(url):
 		if not remove_ficheiro(librtmp_path): return
 		shutil.copy(my_librtmp,librtmp_path)
 		remove_ficheiro(my_librtmp)
-		if url == "windows": os.chmod(librtmp_path,755)
+		if url == "windows" or url == "armv7": os.chmod(librtmp_path,755)
 		if md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 	else: dialog.ok(traducao(2014), traducao(2015))

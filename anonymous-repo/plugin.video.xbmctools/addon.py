@@ -173,7 +173,7 @@ def VersionChecker(system):
 		else: return
 		librtmp_path = "/storage/lib/librtmp.so.0"
 	elif system == "linux" or system == "raspberry":
-		librtmp_path, lib = librtmp_path()
+		librtmp_path, lib = _librtmp_path()
 		if system == "raspberry": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
 		elif system == "linux": 
 			if os.uname()[4] == "i686" or os.uname()[4] == "i386": md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
@@ -197,7 +197,7 @@ def keyboard(url):
 		
 #########################################	LINUX
 
-def librtmp_path():
+def _librtmp_path():
 	file_path = selfAddon.getSetting('librtmp_path')
 	if "librtmp.so.0" in file_path: lib = "librtmp.so.0"
 	elif "librtmp.so.1" in file_path: lib = "librtmp.so.1"
@@ -327,7 +327,7 @@ def librtmp_openelec(url):
 def librtmp_linux2():
 	url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
 	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
-	file_path, lib = librtmp_path()
+	file_path, lib = _librtmp_path()
 	if os.path.exists(file_path) is False:
 		dialog.ok(traducao(2014), traducao(2022))
 		return
@@ -366,7 +366,7 @@ def backup_(url):
 	if "linux" in url or "raspberry" in url or "openelec" in url:
 		if "openelec" in url: librtmp_path = "/storage/lib/librtmp.so.0"
 		else:
-			librtmp_path, lib = librtmp_path()
+			librtmp_path, lib = _librtmp_path()
 		
 		if os.path.exists(librtmp_path) is False:
 			dialog.ok(traducao(2014), traducao(2022))
@@ -432,7 +432,7 @@ def backup_(url):
 			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 			bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
 		if "armv7" in url:
-			librtmp_path, lib = librtmp_path()
+			librtmp_path, lib = _librtmp_path()
 			bak_path = librtmp_path.replace(lib,lib+'.bak')
 		
 		if os.path.exists(librtmp_path) is False:
@@ -498,7 +498,7 @@ def librtmp_linux(url):
 			else: return
 	else: return
 		
-	file_path, lib = librtmp_path()
+	file_path, lib = _librtmp_path()
 
 	if os.path.exists(file_path) is False:
 		dialog.ok(traducao(2014), traducao(2022))

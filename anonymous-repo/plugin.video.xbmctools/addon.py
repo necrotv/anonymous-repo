@@ -83,6 +83,7 @@ def CATEGORIES():
 				VersionChecker("openelec")
 			else:
 				mensagem_os("RaspberryPI (OS)")
+				set_librtmp_path()
 				if xbmc_version < 14: addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 				addDir(traducao(2003),"raspberry",7,artfolder + "dll.png",False)
 				addDir(traducao(2004),"raspberry",9,artfolder + "backup.png")
@@ -114,6 +115,7 @@ def CATEGORIES():
 				VersionChecker("openelec pc")
 			else:
 				mensagem_os("Linux")
+				set_librtmp_path()
 				if xbmc_version < 14: addDir(traducao(2002),"linux",1,artfolder + "keyboard.png")
 				addDir(traducao(2003),"linux",7,artfolder + "dll.png",False)
 				addDir(traducao(2004),"linux",9,artfolder + "backup.png")
@@ -203,6 +205,25 @@ def keyboard(url):
 		addDir("ABCDE","abcde",6,artfolder + "keyboard.png",False)
 		
 #########################################	LINUX
+
+def librtmp_path():
+	file_path = selfAddon.getSetting('librtmp_path')
+	if "librtmp.so.0" in file_path: lib = "librtmp.so.0"
+	elif "librtmp.so.1" in file_path: lib = "librtmp.so.1"
+	else: lib = "erro"
+	return file_path,lib
+
+def set_librtmp_path():
+	if selfAddon.getSetting('librtmp_path') != "": return
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
+	mensagemprogresso.update(33)
+	file_path = find_abs_path("librtmp.so.0","/lib/")
+	if file_path == "erro": file_path = find_abs_path("librtmp.so.1","/lib/")
+	mensagemprogresso.update(66)
+	selfAddon.setSetting('librtmp_path',value=file_path)
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
 
 def file_name(path):
 	import ntpath

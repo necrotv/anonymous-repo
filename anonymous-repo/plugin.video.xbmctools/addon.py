@@ -577,9 +577,6 @@ def librtmp_android():
 		#dialog.ok(traducao(2014), traducao(2022))
 		#return
 		
-	if os.path.exists(my_librtmp) is False: 
-		print "my_librtmp não encontrado!"
-		
 	if md5sum_verified(librtmp_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
 		
@@ -593,6 +590,8 @@ def librtmp_android():
 	print "librtmp_path: " + librtmp_path
 	
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+		if os.path.exists(my_librtmp) is False: 
+			print "my_librtmp não encontrado!"
 		c1 = os.system("su -c 'rm "+librtmp_path+"'")
 		c2 = os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 		c3 = os.system("su -c 'chmod 755 "+librtmp_path+"'")

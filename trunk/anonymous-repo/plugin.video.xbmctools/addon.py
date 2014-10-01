@@ -572,9 +572,9 @@ def librtmp_android():
 	librtmp_path = os.path.join(android_xbmc_path(), "lib", "librtmp.so")
 	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
 	
-	if os.path.exists(librtmp_path) is False:
+	'''if os.path.exists(librtmp_path) is False:
 		dialog.ok(traducao(2014), traducao(2022))
-		return
+		return'''
 		
 	if md5sum_verified(librtmp_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 

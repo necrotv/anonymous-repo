@@ -591,7 +591,13 @@ def librtmp_android():
 	
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		if os.path.exists(my_librtmp) is False: 
-			print "my_librtmp não encontrado!"
+			print "my_librtmp não encontrado!1"
+			try: 
+				if os.path.exists(my_librtmp.decode('utf-8')): 
+					print "my_librtmp 2 existe"
+					my_librtmp=my_librtmp.decode('utf-8')
+			except: pass
+			
 		c1 = os.system("su -c 'rm "+librtmp_path+"'")
 		c2 = os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 		c3 = os.system("su -c 'chmod 755 "+librtmp_path+"'")

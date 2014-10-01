@@ -572,9 +572,13 @@ def librtmp_android():
 	librtmp_path = os.path.join(android_xbmc_path(), "lib", "librtmp.so")
 	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
 	
-	'''if os.path.exists(librtmp_path) is False:
-		dialog.ok(traducao(2014), traducao(2022))
-		return'''
+	if os.path.exists(librtmp_path) is False:
+		print "librtmp_path não encontrado!"
+		#dialog.ok(traducao(2014), traducao(2022))
+		#return
+		
+	if os.path.exists(my_librtmp) is False: 
+		print "my_librtmp não encontrado!"
 		
 	if md5sum_verified(librtmp_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
@@ -591,14 +595,12 @@ def librtmp_android():
 	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		c1 = os.system("su -c 'rm "+librtmp_path+"'")
 		c2 = os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
-		if(c2 != 0): c4 = os.system("su -c 'cp "+my_librtmp+" "+librtmp_path+"'")
-		#os.system("su -c 'chown root.root "+librtmp_path+"'")
 		c3 = os.system("su -c 'chmod 755 "+librtmp_path+"'")
 		remove_ficheiro(my_librtmp)
 		if md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
-		try: print "Return: " + str(c1) +" "+ str(c2) +"-"+ str(c4) +" "+ str(c3)
-		except: print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
+		print "MD5: " + md5sum_verified(librtmp_path)
+		print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
 def android_xbmc_path():	#Obrigado enen92!

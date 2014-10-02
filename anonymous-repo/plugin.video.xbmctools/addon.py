@@ -606,7 +606,6 @@ def librtmp_android():
 		remove_ficheiro(my_librtmp)
 		if md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 		else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
-		print "MD5: " + md5sum_verified(librtmp_path)
 		print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 	else: dialog.ok(traducao(2014), traducao(2015))
 	
@@ -790,6 +789,7 @@ def download(mypath,url,md5 = ''):
 		dp.close()
 		return False
 	dp.close()
+	print "MD5: " + md5sum_verified(mypath)
 	if not os.path.isfile(mypath): return False
 	if md5 == '': return True
 	if md5 == md5sum_verified(mypath): return True

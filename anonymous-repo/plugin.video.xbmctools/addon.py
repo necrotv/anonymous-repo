@@ -590,7 +590,7 @@ def librtmp_android():
 	print "my_librtmp: " + my_librtmp
 	print "librtmp_path: " + librtmp_path
 	
-	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so",md5):
 		#---------------------------------------------------------
 		if os.path.exists(my_librtmp) is False: 
 			print "my_librtmp não encontrado!1"
@@ -773,7 +773,7 @@ def erro_os():
 	dialog.ok(traducao(2014), traducao(2037))
 	sys.exit(0)
 	
-def download(mypath,url):
+def download(mypath,url,md5 = ''):
 	if os.path.isfile(mypath) is True:
 		if not remove_ficheiro(mypath):
 			dialog.ok(traducao(2014),traducao(2038))
@@ -791,7 +791,9 @@ def download(mypath,url):
 		return False
 	dp.close()
 	if not os.path.isfile(mypath): return False
-	return True
+	if md5 == '': return True
+	if md5 == md5sum_verified(mypath): return True
+	return False
 
 def dialogdown(numblocks, blocksize, filesize, dp, start_time):
       try:

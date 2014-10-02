@@ -573,9 +573,8 @@ def librtmp_android():
 	md5 = abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
 	
 	if os.path.exists(librtmp_path) is False:
-		print "librtmp_path não encontrado!"
-		#dialog.ok(traducao(2014), traducao(2022))
-		#return
+		dialog.ok(traducao(2014), traducao(2022))
+		return
 		
 	if md5sum_verified(librtmp_path) == md5:
 		if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
@@ -590,16 +589,7 @@ def librtmp_android():
 	print "my_librtmp: " + my_librtmp
 	print "librtmp_path: " + librtmp_path
 	
-	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so",md5):
-		#---------------------------------------------------------
-		if os.path.exists(my_librtmp) is False: 
-			print "my_librtmp não encontrado!1"
-			try: 
-				if os.path.exists(my_librtmp.decode('utf-8')): 
-					print "my_librtmp 2 existe"
-					my_librtmp=my_librtmp.decode('utf-8')
-			except: pass
-		#---------------------------------------------------------
+	if download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 		c1 = os.system("su -c 'rm "+librtmp_path+"'")
 		c2 = os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 		c3 = os.system("su -c 'chmod 755 "+librtmp_path+"'")

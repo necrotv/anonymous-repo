@@ -1,0 +1,122 @@
+<!--Zé miguel é um maricas v0.3.0---> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html>
+	<center><img src='http://anonymous-repo.googlecode.com/svn/trunk/Addons%20Info/XBMC%20Tools/screenshot000.png' width="500px" height="300px" alt="xbmc 1366 768" /></center><br><br>
+
+	<center><h1 style="color:#0000FF">FAQ</h1></center>
+	
+	<body><br><br>
+		<ul>
+			<li><b>Tenho Raspbmc e depois de actualizar o librtmp, o xbmc está sempre a reiniciar.</b>
+				<p> Existem algumas pessoas com o mesmo problema. Este é causado pelo librtmp (ficheiro que é actualizado) que em alguns casos gera alguma icompatibilidade. Este addon foi testado em raspbmc e não apresentou quaisquer falhas.
+				Foi adicionada a opção de Backup/Restore já com o objectivo de prevenir quaisquer erros. Assim, caso o Raspbmc seja incompatível com o novo librtmp, basta fazer restore do backup feito previamente.
+				<br><a href="http://forum.xbmc.org/showthread.php?tid=162307">Link da página de apoio do Red Penguin (compilador do librtmp)</a>
+				</p>
+			</li>
+			<li><b>Tenho Android e quando reinicio o meu equipamento o XBMC Tools indica que tenho o librtmp desactualizado.</b>
+				<p>Em alguns equipamentos, o Android tem uma questão de segurança (verificação da assinatura do ficheiro) que, ao reiniciar o equipamento, apaga o librtmp que foi actualizado e volta a meter o original. Quanto a isto, as únicas soluções são actualizar o librtmp sempre que o equipamento for reiniciado ou instalar o APK modificado, já com o librtmp actualizado (disponível no XBMC Tools).</p>
+			</li>
+			<li><b>Tenho Android com root e quando tento actualizar o librtmp, aparece uma mensagem a indicar que não tenho root.</b>
+				<p>Isto acontece porque não tem a aplicação SuperSU instalada.<br>
+				Pode encontra-la <a href="https://play.google.com/store/apps/details?id=eu.chainfire.supersu&hl=pt">aqui</a><br>
+				<br>
+				Caso já tenha a aplicação Super User instalada, o procedimento a efectuar é o seguinte:<br>
+				-Instalar o SuperSU.<br>
+				-Abrir o SuperSU e conceder-lhe as permissões.<br>
+				-*Só depois, desinstalar o Super User (que é considerado aplicação do sistema). Para tal, basta apagar a aplicação com o “Es File Explorer” ou com uma aplicação com apps do sistema.<br>
+				<br>
+				*Este passo nem sempre é necessário.<br>
+				</p>
+			</li>
+			<li><b>Tenho Openelec no meu raspberry e, quando inicio o addon, aparece uma mensagem a indicar que tenho RaspberryOS.</b>
+				<p>Isto acontece porque por vezes o XBMC não detecta o Openelec. Para resolver esse problema, basta ir às definições do addon e activar a opção “Forçar Openelec”.</p>
+			</li>
+			<li><b>Tenho Android com root e ao actualizar o librtmp dá-me sempre erro de “Ficheiro corrompido”.</b>
+				<p>Ler a FAQ “Tenho Android com root e quando tento actualizar o librtmp, aparece uma mensagem a indicar que não tenho root”.</p>
+			</li>
+		</ul>
+		
+		<!--Changelog-->
+		
+		<br><br>
+		<center><h1 style="color:#0000FF">Changelog</h1></center>
+		
+			<table border="1" color="#D3D3D3" cellspacing="0" align="center">
+		
+				<tr bgcolor="#D3D3D3">
+					<td colspan="2">
+						<div class="pre-spoiler">
+						<input id="xs" value="+/-" style="center: 0px; padding: 0px; width: 20px; " onclick="if (this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display != '') { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = '';this.innerText = ''; this.value = 'Ocultar'; } else { this.parentNode.parentNode.getElementsByTagName('div')[1].getElementsByTagName('div')[0].style.display = 'none'; this.value = '+/-';}" type="button"> </div>
+						<div>
+						<div class="spoiler" style="display: none;">
+						<ul>
+							<li>Versão 1.1.3:<br>
+							Agora o addon guarda a localização do librtmp, de modo a que fique mais rápido&thinsp;&thinsp;&thinsp;&thinsp;<br>
+							Já não pede password sudo em sistemas sem password<br>
+							Fix Download APK<br>
+							Várias melhorias</li><br><br>
+
+							<li>Versão 1.1.2:<br>
+							Fix Android - Addon não funcionava em alguns aparelhos<br>
+							Melhoria em OSx - O addon agora obtém automaticamente a versão do XBMC<br>
+							Limpeza do código<br>
+							Vários fixes/melhorias</li><br><br>
+
+							<li>Versão 1.1.1:<br>
+							Fix para arquitecturas mac OS x64 </li><br><br>
+
+							<li>Versão 1.1.0:<br>
+							Adicionado suporte a Openelec (PC)<br>
+							Adicionada opção para forçar Openelec (Raspberry)</li><br><br>
+
+							<li>Versão 1.0.9<br>
+							macOS fix</li><br><br>
+
+							<li>Versão 1.0.8:<br>
+							Adicionado suporte a macOS<br>
+							Melhorias para openelec</li><br><br>
+
+							<li>Versão 1.0.7:<br>
+							Adicionada opção de download de apk para android<br>
+							Adicionado verificador de versão do librtmp ao início</li><br><br>
+
+							<li>Versão 1.0.6:<br>
+							Adicionado MD5 Checker - Verifica a versão actual<br>
+							(Obrigado Mafarricos!)</li><br><br>
+
+							<li>Versão 1.0.5:<br>
+							Fix para users com caracter especial</li><br><br>
+
+							<li>Versão 1.0.4<br>
+							Adicionada tradução / Added translation<br>
+							Minor fixes</li><br><br>
+
+							<li>Versão 1.0.3:<br>
+							Adicionado suporte a iOS<br>
+							Força permissões em todos os OS's<br>
+							Adicionada opção de Update/Restore</li><br><br>
+
+							<li>Versão 1.0.2:<br>
+							Adicionado suporte a raspberry - Openelec inclusive<br>
+							Corrigido bug em que era impossível actualizar librtmp em Linux<br>
+							Melhoramento na actualização do librtmp em Windows</li><br><br>
+
+							<li>Versão 1.0.1:<br>
+							Adicionado aviso para versões Helix (não instalar)<br>
+							Adicionado suporte a Linux</li><br><br>
+
+							<li>Versão 1.0.0:<br>
+							Primeira versão<br>
+							Suporte a Android e Windows</li><br><br>
+						</ul>
+
+						</div>
+						</div>
+			</td></tr></table>
+				
+		
+			<hr noshade><em><a href="http://forum.aminhacasadigital.com/viewtopic.php?f=2&t=1165"><p align="right" style="color:blue"><b>XBMC Tools</a> powered by <a href="http://forum.aminhacasadigital.com/memberlist.php?mode=viewprofile&u=3462">i96751414</a></b></p></em>
+		
+	</body>
+
+</html>

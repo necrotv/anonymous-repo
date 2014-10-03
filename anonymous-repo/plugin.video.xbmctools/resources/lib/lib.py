@@ -470,6 +470,7 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
+			self.xbmc_restart()
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def xbmc_restart(self):

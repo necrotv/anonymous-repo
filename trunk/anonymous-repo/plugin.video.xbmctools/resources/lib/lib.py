@@ -476,9 +476,8 @@ class librtmp:
 	def xbmc_restart(self):
 		if xbmc.getCondVisibility('system.platform.Android'):
 			app_id = self.android_xbmc_path().replace("/data/data/","").replace("/","")
-			bashCommand = "adb shell am force-stop "+app_id+"; adb shell am start -n "+app_id+"/.NativeActivity"
-			process = subprocess.Popen(bashCommand, stdout=subprocess.PIPE)
-			output = process.communicate()[0]
+			command = "adb shell am force-stop "+app_id+"; adb shell am start -n "+app_id+"/.NativeActivity"
+			(stdout, stderr) = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False).communicate()
 		else:
 			xbmc.executebuiltin("XBMC.RestartApp()")
 			if os.environ.get("OS", "win32") == "win32":
@@ -532,6 +531,10 @@ class librtmp:
 		f.close()
 		try: 
 			bits = re.compile('XBMC (.+?) build').findall(aux[3])[0]
+			if bits == "x32" or bits == "x64": return bits
+		except: pass
+		try: 
+			bits = re.compile('Kodi (.+?) build').findall(aux[3])[0]
 			if bits == "x32" or bits == "x64": return bits
 		except: pass
 		try:

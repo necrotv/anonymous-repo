@@ -471,7 +471,6 @@ class librtmp:
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 		else: dialog.ok(traducao(2014), traducao(2015))
-		xbmc.executebuiltin('XBMC.RestartApp()')
 		
 	def xbmc_restart(self):
 		if not xbmc.getCondVisibility('system.platform.windows'):

@@ -476,7 +476,7 @@ class librtmp:
 	def xbmc_restart(self):
 		if xbmc.getCondVisibility('system.platform.Android'):
 			app_id = self.android_xbmc_path().replace("/data/data/","").replace("/","")
-			command = "adb shell am force-stop "+app_id+"; adb shell am start -n "+app_id+"/.NativeActivity"
+			command = "adb shell am force-stop "+app_id#+"; adb shell am start -n "+app_id+"/.NativeActivity"
 			print "APP ID: "+app_id
 			os.system(command)
 		else:

@@ -429,7 +429,8 @@ class librtmp:
 			p = subprocess.Popen("sudo -S cp " + my_tmp + " " + keyboard_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 			self.remove_ficheiro(my_tmp)
-			dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+			xbmc.executebuiltin('ReloadSkin()')
+			dialog.ok(traducao(2026),traducao(2027))
 		else: dialog.ok(traducao(2014), traducao(2015))
 
 	#########################################	ANDROID
@@ -470,16 +471,9 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
-			self.xbmc_restart()
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def xbmc_restart(self):
-		if xbmc.getCondVisibility('system.platform.Android'):
-			app_id = self.android_xbmc_path().replace("/data/data/","").replace("/","")
-			command = "adb shell am force-stop "+app_id#+"; adb shell am start -n "+app_id+"/.NativeActivity"
-			print "APP ID: "+app_id
-			os.system(command)
-		else:
 			xbmc.executebuiltin("XBMC.RestartApp()")
 			if os.environ.get("OS", "win32") == "win32":
 				os.startfile(os.path.join(addonfolder,"resources","lib","windows.bat"))
@@ -615,7 +609,8 @@ class librtmp:
 			if not self.remove_ficheiro(keyboard_path): return
 			shutil.copy(my_tmp,keyboard_path)
 			self.remove_ficheiro(my_tmp)
-			dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+			xbmc.executebuiltin('ReloadSkin()')
+			dialog.ok(traducao(2026),traducao(2027))
 		else: dialog.ok(traducao(2014), traducao(2015))
 
 	def md5sum_verified(self,path):	#Obrigado Mafarricos!

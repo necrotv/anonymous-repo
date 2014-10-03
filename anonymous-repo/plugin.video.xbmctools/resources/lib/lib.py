@@ -470,6 +470,7 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
+			xbmc_restart()
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def android_xbmc_path(self):	#Obrigado enen92!
@@ -511,7 +512,10 @@ class librtmp:
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	#########################################	WINDOWS, IOS e MAC OSX
-
+	def xbmc_restart(self):
+		if not xbmc.getCondVisibility('system.platform.windows'):
+			xbmc.executebuiltin("RestartApp")
+	
 	def xbmc_bit_version(self):
 		log_path = xbmc.translatePath('special://logpath')
 		log = os.path.join(log_path, 'xbmc.log')

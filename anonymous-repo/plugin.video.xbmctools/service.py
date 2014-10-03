@@ -11,16 +11,7 @@ else: auto_update_librtmp = True
 
 class service:
 	def __init__(self):
-		if xbmc.getCondVisibility('system.platform.Android'):
-			librtmp_path = os.path.join(self.android_xbmc_path(), "lib", "librtmp.so")
-			os.system("su -c 'chmod 755 "+librtmp_path+"'")
-			
 		if auto_update_librtmp and xbmc.getCondVisibility('system.platform.Android'):
 			librtmp.librtmp_android(True)
-	
-	def __del__(self):
-		if xbmc.getCondVisibility('system.platform.Android'):
-			librtmp_path = os.path.join(self.android_xbmc_path(), "lib", "librtmp.so")
-			os.system("su -c 'chmod 555 "+librtmp_path+"'")
-	
+
 service()

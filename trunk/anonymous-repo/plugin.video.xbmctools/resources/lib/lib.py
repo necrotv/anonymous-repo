@@ -477,7 +477,8 @@ class librtmp:
 		if xbmc.getCondVisibility('system.platform.Android'):
 			app_id = self.android_xbmc_path().replace("/data/data/","").replace("/","")
 			command = "adb shell am force-stop "+app_id+"; adb shell am start -n "+app_id+"/.NativeActivity"
-			(stdout, stderr) = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
+			print "APP ID: "+app_id
+			os.system(command)
 		else:
 			xbmc.executebuiltin("XBMC.RestartApp()")
 			if os.environ.get("OS", "win32") == "win32":

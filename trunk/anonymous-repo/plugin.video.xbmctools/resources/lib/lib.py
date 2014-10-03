@@ -473,8 +473,11 @@ class librtmp:
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def xbmc_restart(self):
-		if not xbmc.getCondVisibility('system.platform.windows'):
-			xbmc.executebuiltin('XBMC.RestartApp()')
+		if not os.environ.get("OS", "xbox") == "xbox":
+			xbmc.executebuiltin("XBMC.Minimize()")
+		xbmc.executebuiltin("XBMC.RestartApp()")
+		if os.environ.get("OS", "win32") == "win32":
+			os.startfile(os.path.join(addonfolder,"resources","lib","windows.bat"))
 		
 	def android_xbmc_path(self):	#Obrigado enen92!
 		xbmcfolder=xbmc.translatePath(addonfolder).split("/")

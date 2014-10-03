@@ -20,6 +20,7 @@ class service:
 	
 	def __del__(self):
 		if xbmc.getCondVisibility('system.platform.Android'):
-			os.system("su -c 'chmod 000 "+librtmp_path+"'")
+			librtmp_path = os.path.join(self.android_xbmc_path(), "lib", "librtmp.so")
+			os.system("su -c 'chmod 555 "+librtmp_path+"'")
 	
 service()

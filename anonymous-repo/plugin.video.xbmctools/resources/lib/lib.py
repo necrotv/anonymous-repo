@@ -470,14 +470,19 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
+			self.xbmc_restart()
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def xbmc_restart(self):
-		if not os.environ.get("OS", "xbox") == "xbox":
-			xbmc.executebuiltin("XBMC.Minimize()")
-		xbmc.executebuiltin("XBMC.RestartApp()")
-		if os.environ.get("OS", "win32") == "win32":
-			os.startfile(os.path.join(addonfolder,"resources","lib","windows.bat"))
+		if xbmc.getCondVisibility('system.platform.Android'):
+			app_id = self.android_xbmc_path().replace("/data/data/","").replace("/","")
+			bashCommand = "adb shell am force-stop "+app_id+"; adb shell am start -n "+app_id+"/.NativeActivity"
+			process = subprocess.Popen(bashCommand, stdout=subprocess.PIPE)
+			output = process.communicate()[0]
+		else:
+			xbmc.executebuiltin("XBMC.RestartApp()")
+			if os.environ.get("OS", "win32") == "win32":
+				os.startfile(os.path.join(addonfolder,"resources","lib","windows.bat"))
 		
 	def android_xbmc_path(self):	#Obrigado enen92!
 		xbmcfolder=xbmc.translatePath(addonfolder).split("/")

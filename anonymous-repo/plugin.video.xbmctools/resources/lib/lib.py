@@ -471,10 +471,11 @@ class librtmp:
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 		else: dialog.ok(traducao(2014), traducao(2015))
+		xbmc.executebuiltin('XBMC.RestartApp()')
 		
 	def xbmc_restart(self):
 		if not xbmc.getCondVisibility('system.platform.windows'):
-			xbmc.executebuiltin("RestartApp")
+			xbmc.executebuiltin('XBMC.RestartApp()')
 		
 	def android_xbmc_path(self):	#Obrigado enen92!
 		xbmcfolder=xbmc.translatePath(addonfolder).split("/")

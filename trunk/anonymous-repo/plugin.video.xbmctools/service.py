@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime,xbmc,xbmcplugin,xbmcgui,xbmcaddon
+import datetime,xbmc,xbmcplugin,xbmcgui,xbmcaddon,os
 from resources.lib.lib import librtmp
 librtmp = librtmp()
 

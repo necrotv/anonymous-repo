@@ -475,10 +475,17 @@ class librtmp:
 		
 	def get_xbmb_apk(self):
 		output = os.popen("su -c 'ls /data/app-lib/'").read()
+		paths = output.replace(" ","").split("\n")
+		
 		print "QWERTY"
-		print output
-		return "teste"
-	
+		print paths
+		
+		try:
+			for x in range(0,len(paths)):
+				if "xbmc" in paths[x]: return paths[x]
+		except: pass
+		return "erro"
+
 	def change_from_apk(self,apkpath, filepath):
 		if not os.path.exists(apkpath): return False
 		xbmc.executebuiltin("ActivateWindow(busydialog)")

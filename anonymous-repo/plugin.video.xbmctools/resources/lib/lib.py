@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # Copyright 2014 Anonymous
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,tempfile,zipfile
 h = HTMLParser.HTMLParser()
 
 versao = '1.1.3'
@@ -472,6 +472,37 @@ class librtmp:
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 		else: dialog.ok(traducao(2014), traducao(2015))
+		
+	def get_xbmb_apk(self):
+		app_lib_path = "/data/app-lib/"
+		if not os.path.exists(app_lib_path): return "erro"
+		for f in os.listdir(app_lib_path):
+			file_path = os.path.join(app_lib_path, f)
+			if "xbmc" in f: return file_path
+		return "erro"
+	
+	def change_from_apk(self,apkpath, filepath):
+		if not os.path.exists(apkpath): return False
+		xbmc.executebuiltin("ActivateWindow(busydialog)")
+		tempdir = tempfile.mkdtemp()
+		flag = False
+		try:
+			tempname = os.path.join(tempdir, 'new.apk')
+			with zipfile.ZipFile(apkpath, 'r') as zipread:
+				with zipfile.ZipFile(tempname, 'w') as zipwrite:
+					for item in zipread.infolist():
+						if self.file_name(filepath) not in item.filename:
+							print(item.filename)
+							data = zipread.read(item.filename)
+							zipwrite.writestr(item, data)
+						else:
+							data = open(filepath, "rb").read()
+							zipwrite.writestr(item, data)
+			shutil.move(tempname, apkpath)
+			flag = True;
+		finally: shutil.rmtree(tempdir)
+		xbmc.executebuiltin("Dialog.Close(busydialog)")
+		return flag
 		
 	def xbmc_restart(self):
 			xbmc.executebuiltin("XBMC.RestartApp()")

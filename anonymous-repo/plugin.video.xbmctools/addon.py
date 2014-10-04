@@ -127,6 +127,7 @@ def CATEGORIES():
 	#ANDROID
 		mensagem_os("Android")
 		if xbmc_version < 14: addDir(traducao(2002),"android",1,artfolder + "keyboard.png")
+		addDir("Teste","-",100,artfolder + "apk.png",False)
 		addDir("Download APK","-",11,artfolder + "apk.png",False)
 		addDir(traducao(2003)+" [COLOR blue](XBMC Gotham 13)[/COLOR]","-",5,artfolder + "dll.png",False)
 		addDir(traducao(2004),"android",9,artfolder + "backup.png")
@@ -245,4 +246,5 @@ elif mode==8: librtmp.librtmp_openelec(url)
 elif mode==9: librtmp.backup(url)
 elif mode==10: librtmp.backup_(url)
 elif mode==11: librtmp.download_apk()
+elif mode==100: dalog.ok("teste",librtmp.get_xbmb_apk())
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

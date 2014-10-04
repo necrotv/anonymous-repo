@@ -130,7 +130,7 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.Android'): 
 	#ANDROID
 		mensagem_os("Android",True)
-		librtmp.android_hack_checker()
+		if not librtmp.android_hack_checker(): xbmc.executebuiltin("Container.Refresh")
 		if xbmc_version < 14: addDir(traducao(2002),"android",1,artfolder + "keyboard.png")
 		addDir("Download APK","-",11,artfolder + "apk.png",False)
 		addDir(traducao(2003)+" [COLOR blue](XBMC Gotham 13)[/COLOR]","-",5,artfolder + "dll.png",False)

@@ -3,6 +3,11 @@
 # Copyright 2014 Anonymous
 
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,zipfile,ctypes
+try:
+	from ctypes import *
+	HAVE_CTYPES = True
+except:
+	HAVE_CTYPES = False
 h = HTMLParser.HTMLParser()
 
 versao = '1.1.3'
@@ -470,7 +475,7 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
-			cdll.LoadLibrary(librtmp_path)
+			if HAVE_CTYPES: cdll.LoadLibrary(librtmp_path)
 		else: dialog.ok(traducao(2014), traducao(2015))
 	
 	'''def xbmc_android_hack(self):

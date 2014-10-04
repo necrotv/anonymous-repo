@@ -1054,7 +1054,7 @@ class ZipFile:
         archive."""
         return self.filelist
 
-    def printdir(self, file=None):
+    def printdir(self):
         """Print a table of contents for the zip file."""
         return
 

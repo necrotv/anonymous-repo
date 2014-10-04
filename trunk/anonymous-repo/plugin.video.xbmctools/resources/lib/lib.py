@@ -475,11 +475,11 @@ class librtmp:
 		
 	def get_xbmb_apk(self):
 		app_lib_path = "/data/app-lib/"
-		if not os.path.exists(app_lib_path): return "erro"
-		for f in os.listdir(app_lib_path):
-			file_path = os.path.join(app_lib_path, f)
-			if "xbmc" in f: return file_path
-		return "erro"
+		proc = subprocess.Popen('ls', stdout=subprocess.PIPE)
+		output = proc.stdout.read()
+		print "QWERTY"
+		print output
+		return "teste"
 	
 	def change_from_apk(self,apkpath, filepath):
 		if not os.path.exists(apkpath): return False

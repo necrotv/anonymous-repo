@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # Copyright 2014 Anonymous
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,tempfile,zipfile
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,zipfile
 h = HTMLParser.HTMLParser()
 
 versao = '1.1.3'
@@ -497,7 +497,7 @@ class librtmp:
 	def change_from_apk(self,apkpath, filepath):
 		if not os.path.exists(apkpath): return False
 		xbmc.executebuiltin("ActivateWindow(busydialog)")
-		tempdir = tempfile.mkdtemp()
+		tempdir = os.path.join(addonfolder,"resources","temp")
 		flag = False
 		try:
 			tempname = os.path.join(tempdir, 'new.apk')

@@ -481,9 +481,9 @@ class librtmp:
 			os.system("su -c 'chmod 755 "+my_librtmp+"'")
 			os.system("su -c 'cat "+xbmc_apk+" > "+my_apk+"'")
 			if not self.change_from_apk(my_apk, my_librtmp): return
-			#os.system("su -c 'rm "+xbmc_apk+"'")
-			#os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
-			#self.remove_ficheiro(my_apk)
+			os.system("su -c 'rm "+xbmc_apk+"'")
+			os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
+			self.remove_ficheiro(my_apk)
 			self.remove_ficheiro(my_librtmp)
 			dialog.ok("Concluido","Reinicie...")
 			#chmod 644 system
@@ -516,8 +516,7 @@ class librtmp:
 				else:
 					data = open(filepath, "rb").read()
 					zipwrite.writestr(item, data)
-				print str(int((i/float(total))*100.0))
-				mensagemprogresso.update(int((i/total)*100))
+				mensagemprogresso.update(int((i/float(total))*100.0))
 				i = i+1
 			shutil.move(tempname, apkpath)
 			flag = True;

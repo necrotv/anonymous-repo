@@ -2,8 +2,7 @@
 # -*- coding: UTF-8 -*-
 # Copyright 2014 Anonymous
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib
-from resources.lib import zipfile
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,zipfile
 h = HTMLParser.HTMLParser()
 
 versao = '1.1.3'
@@ -502,16 +501,16 @@ class librtmp:
 		flag = False
 		try:
 			tempname = os.path.join(tempdir, 'new.apk')
-			with zipfile.ZipFile(apkpath, 'r') as zipread:
-				with zipfile.ZipFile(tempname, 'w') as zipwrite:
-					for item in zipread.infolist():
-						if self.file_name(filepath) not in item.filename:
-							print(item.filename)
-							data = zipread.read(item.filename)
-							zipwrite.writestr(item, data)
-						else:
-							data = open(filepath, "rb").read()
-							zipwrite.writestr(item, data)
+			zipread=zipfile.ZipFile(apkpath, 'r')
+			zipwrite=zipfile.ZipFile(tempname, 'w')
+			for item in zipread.infolist():
+				if self.file_name(filepath) not in item.filename:
+					print(item.filename)
+					data = zipread.read(item.filename)
+					zipwrite.writestr(item, data)
+				else:
+					data = open(filepath, "rb").read()
+					zipwrite.writestr(item, data)
 			shutil.move(tempname, apkpath)
 			flag = True;
 		finally: shutil.rmtree(tempdir)

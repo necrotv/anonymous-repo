@@ -138,7 +138,7 @@ def CATEGORIES():
 		addDir(traducao(2004),"android",9,artfolder + "backup.png")
 		addLink('','','nothing')
 		librtmp.VersionChecker("android")
-		if not librtmp.android_hack_checker(): xbmc.executebuiltin("Container.Refresh")
+		if not librtmp.android_hack_checker() and android_hack: xbmc.executebuiltin("Container.Refresh")
 	#-------------------------------------------------------------------
 	elif xbmc.getCondVisibility('system.platform.IOS'): 
 	#IOS

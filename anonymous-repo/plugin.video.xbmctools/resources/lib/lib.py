@@ -379,7 +379,9 @@ class librtmp:
 			self.remove_ficheiro(my_tmp)
 			p = subprocess.Popen("sudo -S chmod 755 " + file_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
-			if self.md5sum_verified(file_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+			if self.md5sum_verified(file_path) == md5: 
+				dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+				xbmc.executebuiltin("Container.Refresh")
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
@@ -463,15 +465,37 @@ class librtmp:
 		print "librtmp_path: " + librtmp_path
 		
 		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+			if selfAddon.getSetting('android_hack') == "true":
+				remove_ficheiro(os.path.join(addonfolder,"resources","android_hack","librtmp.so"))
+				shutil.copy(my_librtmp,os.path.join(addonfolder,"resources","android_hack","librtmp.so"))
 			c1 = os.system("su -c 'rm "+librtmp_path+"'")
 			c2 = os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 			c3 = os.system("su -c 'chmod 755 "+librtmp_path+"'")
 			self.remove_ficheiro(my_librtmp)
-			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+			if self.md5sum_verified(librtmp_path) == md5: 
+				dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+				xbmc.executebuiltin("Container.Refresh")
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 		else: dialog.ok(traducao(2014), traducao(2015))
 	
+	def android_hack_on(self):
+		if not dialog.yesno(traducao(2016), traducao(2033),traducao(2019)): return
+		if not self.checksu():
+			dialog.ok(traducao(2014),traducao(2029))
+			return
+		my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
+		remove_ficheiro(my_librtmp)
+		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+			selfAddon.setSetting('android_hack',value='true')
+			xbmc.executebuiltin("Container.Refresh")
+			
+	def android_hack_off(self):
+		my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
+		remove_ficheiro(my_librtmp)
+		selfAddon.setSetting('android_hack',value='false')
+		xbmc.executebuiltin("Container.Refresh")
+		
 	'''def xbmc_android_hack(self):
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
 		my_apk = os.path.join(addonfolder,"resources","temp","xbmc.apk")
@@ -650,7 +674,9 @@ class librtmp:
 			shutil.copy(my_librtmp,librtmp_path)
 			self.remove_ficheiro(my_librtmp)
 			if url == "windows" or url == "armv7": os.chmod(librtmp_path,755)
-			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+			if self.md5sum_verified(librtmp_path) == md5: 
+				dialog.ok(traducao(2016), traducao(2026),traducao(2032))
+				xbmc.executebuiltin("Container.Refresh")
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 		else: dialog.ok(traducao(2014), traducao(2015))
 		

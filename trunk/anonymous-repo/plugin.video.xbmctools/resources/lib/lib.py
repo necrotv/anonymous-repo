@@ -479,6 +479,13 @@ class librtmp:
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 		else: dialog.ok(traducao(2014), traducao(2015))
 	
+	def android_hack_checker(self):
+		my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
+		if selfAddon.getSetting('android_hack') == "true" and not os.path.exists(my_librtmp):
+			selfAddon.setSetting('android_hack',value='false')
+			return False
+		return True
+	
 	def android_hack_on(self):
 		if not dialog.yesno(traducao(2016), traducao(2033),traducao(2019)): return
 		if not self.checksu():

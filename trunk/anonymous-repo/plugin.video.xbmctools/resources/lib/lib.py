@@ -507,6 +507,7 @@ class librtmp:
 			zipread=zipfile.ZipFile(apkpath, 'r')
 			zipwrite=zipfile.ZipFile(tempname, 'w')
 			total =len(zipread.infolist())
+			print "TOTAL: "+(str(total))
 			i = 1
 			for item in zipread.infolist():
 				if self.file_name(filepath) not in item.filename:

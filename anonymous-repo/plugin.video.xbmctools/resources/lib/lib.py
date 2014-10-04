@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # Copyright 2014 Anonymous
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,zipfile
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,zipfile,ctypes
 h = HTMLParser.HTMLParser()
 
 versao = '1.1.3'
@@ -196,7 +196,6 @@ class librtmp:
 		subprocess.call("reboot", shell=True)
 
 	def is_admin(self):
-		import ctypes
 		return ctypes.windll.shell32.IsUserAnAdmin() != 0
 		
 	def backup(self,url):
@@ -471,26 +470,27 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
+			cdll.LoadLibrary(librtmp_path)
 		else: dialog.ok(traducao(2014), traducao(2015))
-		
-	def xbmc_android_hack(self):
+	
+	'''def xbmc_android_hack(self):
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
 		my_apk = os.path.join(addonfolder,"resources","temp","xbmc.apk")
 		app_lib = self.get_xbmb_applib()
 		xbmc_apk = self.get_xbmb_apk()
 		if xbmc_apk == "erro" or app_lib == "erro": return
 		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
-			os.system("su -c 'cat "+my_librtmp+" > "+os.path.join(app_lib,"librtmp.so")+"'")
-			os.system("su -c 'chmod 755 "+os.path.join(app_lib,"librtmp.so")+"'")
+			#os.system("su -c 'cat "+my_librtmp+" > "+os.path.join(app_lib,"librtmp.so")+"'")
+			#os.system("su -c 'chmod 755 "+os.path.join(app_lib,"librtmp.so")+"'")
 			os.system("su -c 'chmod 755 "+my_librtmp+"'")
 			os.system("su -c 'cat "+xbmc_apk+" > "+my_apk+"'")
 			if not self.change_from_apk(my_apk, my_librtmp): return
-			os.system("su -c 'rm "+xbmc_apk+"'")
-			os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
+			#os.system("su -c 'rm "+xbmc_apk+"'")
+			#os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
 			self.remove_ficheiro(my_apk)
-			self.remove_ficheiro(my_librtmp)
-			os.system("su -c 'chown system.system "+xbmc_apk+"'")
-			os.system("su -c 'chmod 644 "+xbmc_apk+"'")
+			#self.remove_ficheiro(my_librtmp)
+			#os.system("su -c 'chown system.system "+xbmc_apk+"'")
+			#os.system("su -c 'chmod 644 "+xbmc_apk+"'")
 			os.system("su -c 'rm /data/dalvik-cache/*'")
 			os.system("su -c 'rm /cache/dalvik-cache/*'")
 			dialog.ok("Concluido","O Android vai reiniciar...")
@@ -539,7 +539,7 @@ class librtmp:
 			flag = True;
 		except: pass
 		mensagemprogresso.close()
-		return flag
+		return flag'''
 		
 	def xbmc_restart(self):
 			xbmc.executebuiltin("XBMC.RestartApp()")

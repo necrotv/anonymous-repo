@@ -15,7 +15,7 @@ else: android_hack = True
 class service:
 	def __init__(self):
 		if xbmc.getCondVisibility('system.platform.Android'):
-			if android_hack
+			if android_hack:
 				md5 = librtmp.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
 				librtmp_path = os.path.join(librtmp.android_xbmc_path(), "lib", "librtmp.so")
 				if not librtmp.md5sum_verified(librtmp_path) == md5:

@@ -485,14 +485,14 @@ class librtmp:
 			dialog.ok(traducao(2014),traducao(2029))
 			return
 		my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
-		remove_ficheiro(my_librtmp)
+		self.remove_ficheiro(my_librtmp)
 		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 			selfAddon.setSetting('android_hack',value='true')
 			xbmc.executebuiltin("Container.Refresh")
 			
 	def android_hack_off(self):
 		my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
-		remove_ficheiro(my_librtmp)
+		self.remove_ficheiro(my_librtmp)
 		selfAddon.setSetting('android_hack',value='false')
 		xbmc.executebuiltin("Container.Refresh")
 		

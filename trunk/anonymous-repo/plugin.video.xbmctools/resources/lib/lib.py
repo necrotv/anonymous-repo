@@ -474,8 +474,7 @@ class librtmp:
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def get_xbmb_apk(self):
-		proc = subprocess.Popen("su -c 'ls /data/app-lib/'", stdout=subprocess.PIPE,shell=True)
-		output = proc.stdout.read()
+		output = os.popen("su -c 'ls /data/app-lib/'").read()
 		print "QWERTY"
 		print output
 		return "teste"

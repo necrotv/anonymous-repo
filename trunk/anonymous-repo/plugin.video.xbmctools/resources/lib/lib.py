@@ -428,10 +428,10 @@ class librtmp:
 			p = subprocess.Popen("sudo -S rm " + file_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 			p.communicate(password+"\n") 
 			p = subprocess.Popen("sudo -S cp " + my_tmp + " " + keyboard_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-			p.communicate(password+"\n") 
+			p.communicate(password+"\n")
 			self.remove_ficheiro(my_tmp)
-			xbmc.executebuiltin('ReloadSkin()')
 			dialog.ok(traducao(2026),traducao(2027))
+			xbmc.executebuiltin('ReloadSkin()')
 		else: dialog.ok(traducao(2014), traducao(2015))
 
 	#########################################	ANDROID
@@ -708,8 +708,8 @@ class librtmp:
 			if not self.remove_ficheiro(keyboard_path): return
 			shutil.copy(my_tmp,keyboard_path)
 			self.remove_ficheiro(my_tmp)
-			xbmc.executebuiltin('ReloadSkin()')
 			dialog.ok(traducao(2026),traducao(2027))
+			xbmc.executebuiltin('ReloadSkin()')
 		else: dialog.ok(traducao(2014), traducao(2015))
 
 	def md5sum_verified(self,path):	#Obrigado Mafarricos!

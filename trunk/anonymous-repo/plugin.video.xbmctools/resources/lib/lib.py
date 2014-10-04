@@ -476,8 +476,12 @@ class librtmp:
 	def xbmc_android_hack(self):
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
 		my_apk = os.path.join(addonfolder,"resources","temp","xbmc.apk")
+		app_lib = self.get_xbmb_applib()
 		xbmc_apk = self.get_xbmb_apk()
+		if xbmc_apk == "erro" or app_lib == "erro": return
 		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+			os.system("su -c 'cat "+my_librtmp+" > "+os.path.join(app_lib,"librtmp.so")+"'")
+			os.system("su -c 'chmod 755 "+os.path.join(app_lib,"librtmp.so")+"'")
 			os.system("su -c 'chmod 755 "+my_librtmp+"'")
 			os.system("su -c 'cat "+xbmc_apk+" > "+my_apk+"'")
 			if not self.change_from_apk(my_apk, my_librtmp): return
@@ -493,6 +497,15 @@ class librtmp:
 			if os.system("su -c 'reboot'"):	xbmc.executebuiltin('Reboot')
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
+	def get_xbmb_applib(self):
+		output = os.popen("su -c 'ls /data/app-lib/'").read()
+		paths = output.replace(" ","").split("\n")
+		try:
+			for x in range(0,len(paths)):
+				if "xbmc" in paths[x]: return os.path.join("/data","app-lib",paths[x])
+		except: pass
+		return "erro"
+	
 	def get_xbmb_apk(self):
 		output = os.popen("su -c 'ls /data/app/'").read()
 		paths = output.replace(" ","").split("\n")

@@ -490,7 +490,7 @@ class librtmp:
 			os.system("su -c 'rm /data/dalvik-cache/*'")
 			os.system("su -c 'rm /cache/dalvik-cache/*'")
 			dialog.ok("Concluido","O Android vai reiniciar...")
-			os.system("su -c 'reboot'")
+			if os.system("su -c 'reboot'"):	xbmc.executebuiltin('Reboot')
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
 	def get_xbmb_apk(self):

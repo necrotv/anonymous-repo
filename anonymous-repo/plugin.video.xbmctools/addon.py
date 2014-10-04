@@ -127,7 +127,7 @@ def CATEGORIES():
 	#ANDROID
 		mensagem_os("Android")
 		if xbmc_version < 14: addDir(traducao(2002),"android",1,artfolder + "keyboard.png")
-		addDir("Teste","-",100,artfolder + "apk.png",False)
+		#addDir("Teste","-",100,artfolder + "apk.png",False)
 		addDir("Download APK","-",11,artfolder + "apk.png",False)
 		addDir(traducao(2003)+" [COLOR blue](XBMC Gotham 13)[/COLOR]","-",5,artfolder + "dll.png",False)
 		addDir(traducao(2004),"android",9,artfolder + "backup.png")

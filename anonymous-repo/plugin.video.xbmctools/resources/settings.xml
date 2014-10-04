@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-   <category label="Android">
+   <category label="2052">
       <setting id="auto_update_librtmp" type="bool" label="2058" visible="true" default="false"/>
    </category>
    <category label="RaspberryPI">

@@ -448,14 +448,13 @@ class librtmp:
 		if os.path.exists(librtmp_path) is False:
 			dialog.ok(traducao(2014), traducao(2022))
 			return
-			
 		if self.md5sum_verified(librtmp_path) == md5:
 			if autorun: return
 			if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
-		
+		if autorun:
+			if not dialog.yesno(traducao(2016),traducao(2060),traducao(2061)): return 
 		if not autorun:
 			if not dialog.yesno(traducao(2016), traducao(2033),traducao(2019)): return
-
 		if not self.checksu():
 			dialog.ok(traducao(2014),traducao(2029))
 			return

@@ -1282,9 +1282,9 @@ class ZipFile:
                 os.mkdir(targetpath)
             return targetpath
 
-        with self.open(member, pwd=pwd) as source, \
-             open(targetpath, "wb") as target:
-            shutil.copyfileobj(source, target)
+        with self.open(member, pwd=pwd) as source:
+			open(targetpath, "wb") as target:
+				shutil.copyfileobj(source, target)
 
         return targetpath
 

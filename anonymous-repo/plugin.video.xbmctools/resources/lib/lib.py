@@ -478,6 +478,7 @@ class librtmp:
 		my_apk = os.path.join(addonfolder,"resources","temp","xbmc.apk")
 		xbmc_apk = self.get_xbmb_apk()
 		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+			os.system("su -c 'chmod 755 "+my_librtmp+"'")
 			os.system("su -c 'cat "+xbmc_apk+" > "+my_apk+"'")
 			if not self.change_from_apk(my_apk, my_librtmp): return
 			#os.system("su -c 'rm "+xbmc_apk+"'")

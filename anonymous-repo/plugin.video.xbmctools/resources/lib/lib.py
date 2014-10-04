@@ -473,16 +473,24 @@ class librtmp:
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
 		else: dialog.ok(traducao(2014), traducao(2015))
 		
+	def xbmc_android_hack(self):
+		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")
+		my_apk = os.path.join(addonfolder,"resources","temp","xbmc.apk")
+		xbmc_apk = self.get_xbmb_apk()
+		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+			os.system("su -c 'cat "+xbmc_apk+" > "+my_apk+"'")
+			if not self.change_from_apk(my_apk, my_librtmp): return
+			os.system("su -c 'rm "+xbmc_apk+"'")
+			os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
+			dialog.ok("Concluido","Reinicie...")
+		else: return
+		
 	def get_xbmb_apk(self):
-		output = os.popen("su -c 'ls /data/app-lib/'").read()
+		output = os.popen("su -c 'ls /data/app/'").read()
 		paths = output.replace(" ","").split("\n")
-		
-		print "QWERTY"
-		print paths
-		
 		try:
 			for x in range(0,len(paths)):
-				if "xbmc" in paths[x]: return paths[x]
+				if "xbmc" in paths[x]: return os.path.join("/data","app",paths[x])
 		except: pass
 		return "erro"
 

@@ -470,7 +470,18 @@ class librtmp:
 			if self.md5sum_verified(librtmp_path) == md5: dialog.ok(traducao(2016), traducao(2026),traducao(2032))
 			else: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 			print "Return: " + str(c1) +" "+ str(c2) +" "+ str(c3)
+			self.reload_all_modules()
 		else: dialog.ok(traducao(2014), traducao(2015))
+	
+	def reload_all_modules(self):
+		modules = sys.modules.keys()
+		total = len(modules)
+		mensagemprogresso = xbmcgui.DialogProgress()
+		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
+		for x in range(0,total):
+			reload(modules[x])
+			mensagemprogresso.update(int(((x+1)/float(total))*100.0))
+		mensagemprogresso.close()
 	
 	'''def xbmc_android_hack(self):
 		my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.so")

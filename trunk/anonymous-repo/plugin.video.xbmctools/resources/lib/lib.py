@@ -496,7 +496,7 @@ class librtmp:
 
 	def change_from_apk(self,apkpath, filepath):
 		if not os.path.exists(apkpath): return False
-		#xbmc.executebuiltin("ActivateWindow(busydialog)")
+		xbmc.executebuiltin("ActivateWindow(busydialog)")
 		tempdir = os.path.join(addonfolder,"resources","temp")
 		flag = False
 		try:
@@ -514,7 +514,7 @@ class librtmp:
 			shutil.move(tempname, apkpath)
 			flag = True;
 		finally: shutil.rmtree(tempdir)
-		#xbmc.executebuiltin("Dialog.Close(busydialog)")
+		xbmc.executebuiltin("Dialog.Close(busydialog)")
 		return flag
 		
 	def xbmc_restart(self):

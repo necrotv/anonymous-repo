@@ -508,18 +508,15 @@ class librtmp:
 			zipread=zipfile.ZipFile(apkpath, 'r')
 			zipwrite=zipfile.ZipFile(tempname, 'w')
 			total =len(zipread.infolist())
-			print "TOTAL: "+(str(total))
 			i = 1
 			for item in zipread.infolist():
 				if self.file_name(filepath) not in item.filename:
-					print(item.filename)
 					data = zipread.read(item.filename)
 					zipwrite.writestr(item, data)
 				else:
-					print "||||||||"+item.filename+"||||||||"
 					data = open(filepath, "rb").read()
 					zipwrite.writestr(item, data)
-				print str(int((i/total)*100))
+				print str(int((i/float(total))*100.0))
 				mensagemprogresso.update(int((i/total)*100))
 				i = i+1
 			shutil.move(tempname, apkpath)

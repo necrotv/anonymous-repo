@@ -14,11 +14,11 @@ else: android_hack = True
 class service:
 	def __init__(self):
 		if xbmc.getCondVisibility('system.platform.Android'):
-			if auto_update_librtmp: librtmp.librtmp_android(True)
 			if android_hack:
 				my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
 				librtmp_path = os.path.join(self.android_xbmc_path(), "lib", "librtmp.so")
 				os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 				os.system("su -c 'chmod 755 "+librtmp_path+"'")
+			if auto_update_librtmp: librtmp.librtmp_android(True)
 
 service()

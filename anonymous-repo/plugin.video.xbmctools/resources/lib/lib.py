@@ -480,10 +480,10 @@ class librtmp:
 		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
 			os.system("su -c 'cat "+xbmc_apk+" > "+my_apk+"'")
 			if not self.change_from_apk(my_apk, my_librtmp): return
-			os.system("su -c 'rm "+xbmc_apk+"'")
-			os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
+			#os.system("su -c 'rm "+xbmc_apk+"'")
+			#os.system("su -c 'cat "+my_apk+" > "+xbmc_apk+"'")
 			self.remove_ficheiro(my_apk)
-			self.remove_ficheiro(my_librtmp)
+			#self.remove_ficheiro(my_librtmp)
 			dialog.ok("Concluido","Reinicie...")
 		else: return
 		
@@ -498,25 +498,30 @@ class librtmp:
 
 	def change_from_apk(self,apkpath, filepath):
 		if not os.path.exists(apkpath): return False
-		xbmc.executebuiltin("ActivateWindow(busydialog)")
-		tempdir = os.path.join(addonfolder,"resources","temp")
+		mensagemprogresso = xbmcgui.DialogProgress()
+		mensagemprogresso.create('XBMC Tools', traducao(3031),traducao(2013))
+		tempname = os.path.join(addonfolder,"resources","temp", 'new_temp.apk')
 		flag = False
 		try:
-			tempname = os.path.join(tempdir, 'new.apk')
 			zipread=zipfile.ZipFile(apkpath, 'r')
 			zipwrite=zipfile.ZipFile(tempname, 'w')
+			total =len(zipread.infolist())
+			i = 1
 			for item in zipread.infolist():
 				if self.file_name(filepath) not in item.filename:
 					print(item.filename)
 					data = zipread.read(item.filename)
 					zipwrite.writestr(item, data)
 				else:
+					print "||||||||"+item.filename+"||||||||"
 					data = open(filepath, "rb").read()
 					zipwrite.writestr(item, data)
+				mensagemprogresso.update(int((i/total)*100))
+				i = i+1
 			shutil.move(tempname, apkpath)
 			flag = True;
-		finally: shutil.rmtree(tempdir)
-		xbmc.executebuiltin("Dialog.Close(busydialog)")
+		except: pass
+		mensagemprogresso.close()
 		return flag
 		
 	def xbmc_restart(self):

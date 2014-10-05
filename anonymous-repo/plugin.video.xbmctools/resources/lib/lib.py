@@ -127,7 +127,7 @@ class librtmp:
 			return "erro"
 		return paths
 
-	def librtmp_openelec(self,url):
+	def librtmp_openelec(self,url,autorun=False):
 		if url == "raspberry":
 			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
 			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
@@ -149,7 +149,11 @@ class librtmp:
 				else: return
 			
 		if self.md5sum_verified("/storage/lib/librtmp.so.0") == md5:
+			if autorun: return
 			if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
+		
+		if autorun:
+			if not dialog.yesno(traducao(2016),traducao(2060),traducao(2061)): return
 		
 		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
 		
@@ -324,7 +328,7 @@ class librtmp:
 			dialog.ok(traducao(2026),traducao(2027))
 			return
 			
-	def librtmp_linux(self,url):
+	def librtmp_linux(self,url,autorun=False):
 		
 		if url == "raspberry":
 			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
@@ -350,14 +354,22 @@ class librtmp:
 		file_path, lib = self._librtmp_path()
 
 		if os.path.exists(file_path) is False:
-			dialog.ok(traducao(2014), traducao(2022))
-			return
+			if autorun and file_path == "":
+				self.set_librtmp_path()
+				file_path, lib = self._librtmp_path()
+			else:
+				dialog.ok(traducao(2014), traducao(2022))
+				return
 
 		librtmp_path = file_path.replace(lib,"")
 		my_tmp = os.path.join(addonfolder,"resources","temp",lib)
 		
 		if self.md5sum_verified(file_path) == md5:
+			if autorun: return
 			if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
+			
+		if autorun:
+			if not dialog.yesno(traducao(2016),traducao(2060),traducao(2061)): return
 		
 		if self.verifica_pass(""): password = ""
 		else:

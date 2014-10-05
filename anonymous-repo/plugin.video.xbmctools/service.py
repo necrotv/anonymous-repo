@@ -9,6 +9,8 @@ addonfolder = selfAddon.getAddonInfo('path')
 
 if selfAddon.getSetting('auto_update_librtmp') == "false": auto_update_librtmp = False
 else: auto_update_librtmp = True
+if selfAddon.getSetting('force-openelec') == "false": forcar_openelec = False
+else: forcar_openelec = True
 
 class service:
 	def __init__(self):
@@ -27,4 +29,17 @@ class service:
 			if auto_update_librtmp: librtmp.librtmp_updater("macos",True)
 		elif xbmc.getCondVisibility('system.platform.IOS'):
 			if auto_update_librtmp: librtmp.librtmp_updater("ios",True)
+		elif xbmc.getCondVisibility('system.platform.linux') and not xbmc.getCondVisibility('system.platform.Android'):
+			if os.uname()[4] == 'armv6l': 
+				if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec:
+					if auto_update_librtmp: librtmp.librtmp_openelec("raspberry",True)
+				else:
+					if auto_update_librtmp: librtmp.librtmp_linux("raspberry",True)
+			elif os.uname()[4] == 'armv7l': return
+			else: 
+				if re.search(os.uname()[1],"openelec",re.IGNORECASE): 
+					if auto_update_librtmp: librtmp.librtmp_openelec("-",True)
+				else:
+					if auto_update_librtmp: librtmp.librtmp_linux("linux",True)
+					
 service()

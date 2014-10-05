@@ -128,12 +128,11 @@ def CATEGORIES():
 	elif xbmc.getCondVisibility('system.platform.Android'): 
 	#ANDROID
 		mensagem_os("Android",True)
-		librtmp.android_hack_checker()
 		if xbmc_version < 14: addDir(traducao(2002),"android",1,artfolder + "keyboard.png")
 		addDir("Download APK","-",11,artfolder + "apk.png",False)
 		addDir(traducao(2003)+" [COLOR blue](XBMC Gotham 13)[/COLOR]","-",5,artfolder + "dll.png",False)
-		if selfAddon.getSetting('android_hack') == "false": addDir(traducao(2059)+" [COLOR red](Off)[/COLOR]","-",13,artfolder + "hack.png",False)
-		else: addDir(traducao(2059)+" [COLOR blue](On)[/COLOR]","-",12,artfolder + "hack.png",False)
+		if librtmp.android_hack_checker(): addDir(traducao(2059)+" [COLOR blue](On)[/COLOR]","-",12,artfolder + "hack.png",False)
+		else: addDir(traducao(2059)+" [COLOR red](Off)[/COLOR]","-",13,artfolder + "hack.png",False)
 		addDir(traducao(2004),"android",9,artfolder + "backup.png")
 		addLink('','','nothing')
 		librtmp.VersionChecker("android")

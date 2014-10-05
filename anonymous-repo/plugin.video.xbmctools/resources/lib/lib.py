@@ -5,7 +5,6 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,os,sys,time,subprocess,shutil,hashlib,zipfile,ctypes
 h = HTMLParser.HTMLParser()
 
-versao = '1.1.3'
 addon_id = 'plugin.video.xbmctools'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -826,4 +825,3 @@ class librtmp:
 		liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
 		ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta,totalItems=total)
 		return ok
-

@@ -9,13 +9,11 @@ addonfolder = selfAddon.getAddonInfo('path')
 
 if selfAddon.getSetting('auto_update_librtmp') == "false": auto_update_librtmp = False
 else: auto_update_librtmp = True
-if selfAddon.getSetting('android_hack') == "false": android_hack = False
-else: android_hack = True
 
 class service:
 	def __init__(self):
 		if xbmc.getCondVisibility('system.platform.Android'):
-			if android_hack and librtmp.android_hack_checker():
+			if librtmp.android_hack_checker():
 				md5 = librtmp.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
 				librtmp_path = os.path.join(librtmp.android_xbmc_path(), "lib", "librtmp.so")
 				if not librtmp.md5sum_verified(librtmp_path) == md5:

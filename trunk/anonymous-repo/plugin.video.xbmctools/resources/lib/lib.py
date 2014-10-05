@@ -637,10 +637,10 @@ class librtmp:
 			else: return "erro"
 		except: return "erro"
 
-	def librtmp_updater(self,url):
+	def librtmp_updater(self,url,autorun = False):
 		xbmc_folder = xbmc.translatePath("special://xbmc")
 		if url == "windows": 
-			if not self.is_admin():
+			if not self.is_admin() and not autorun:
 				dialog.ok(traducao(2014),traducao(2028))
 				return
 			librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
@@ -674,7 +674,14 @@ class librtmp:
 			return
 			
 		if self.md5sum_verified(librtmp_path) == md5:
-			if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return 
+			if autorun: return
+			if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
+		if autorun:
+			if not dialog.yesno(traducao(2016),traducao(2060),traducao(2061)): return
+			if url == "windows": 
+				if not self.is_admin():
+					dialog.ok(traducao(2014),traducao(2028))
+					return
 			
 		if self.download(my_librtmp,download_url):
 			if not self.remove_ficheiro(librtmp_path): return

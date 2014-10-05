@@ -21,5 +21,10 @@ class service:
 					os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 					os.system("su -c 'chmod 755 "+librtmp_path+"'")
 			if auto_update_librtmp: librtmp.librtmp_android(True)
-
+		elif xbmc.getCondVisibility('system.platform.windows'):
+			if auto_update_librtmp: librtmp.librtmp_updater("windows",True)
+		elif xbmc.getCondVisibility('System.Platform.OSX'):
+			if auto_update_librtmp: librtmp.librtmp_updater("macos",True)
+		elif xbmc.getCondVisibility('system.platform.IOS'):
+			if auto_update_librtmp: librtmp.librtmp_updater("ios",True)
 service()

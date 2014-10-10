@@ -38,6 +38,7 @@ def CATEGORIES():
 	addDir('Most Favored','http://brazzershd.net/category/brazzers-hd/?orderby=likes',1,addonfolder + artfolder + 'videos.png')
 	addDir('Search','http://brazzershd.net/',3,addonfolder + artfolder + 'search.png')
 	addDir('Categories/Pornstars','-',7,addonfolder + artfolder + 'cat.png')
+	addDir('Brazzers TV','-',4,addonfolder + artfolder + 'brazzers_tv_eu.png',pasta=False)
 	
 	addLink("",'','-')
 	addDir('[B][COLOR orange]Open settings[/COLOR][/B]','-',6,addonfolder + artfolder + 'settings.png',pasta=False)
@@ -49,6 +50,22 @@ def CATEGORIES():
 	
 ###################################################################################
 #FUNCOES
+def play_tv():
+	mensagemprogresso = xbmcgui.DialogProgress()
+	mensagemprogresso.create('Brazzers', 'Getting url.','Please wait...')
+	mensagemprogresso.update(50)
+	mensagemprogresso.close()
+	m3u = abrir_url('http://01.gen.tr/HasBahCa_IPTV/XXX.m3u')
+	try: link = re.findall('#EXTINF:-1,BRAZZERS(.*?)#EXTINF',m3u,re.DOTALL)[0].replace('\r','').replace('\n','')
+	except: return
+	mensagemprogresso.update(100)
+	mensagemprogresso.close()
+	iconimage = addonfolder + artfolder + 'brazzers_tv_eu.png'
+	listitem = xbmcgui.ListItem("Brazzers TV", iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+	player = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+	player.play(link,listitem)
+		
+
 def download(name,url):
 	if down_path == '':
 		dialog = xbmcgui.Dialog()
@@ -264,6 +281,7 @@ if mode==None or url==None or len(url)<1: CATEGORIES()
 elif mode==1: listar_videos(url)
 elif mode==2: encontrar_fontes(url)
 elif mode==3: pesquisa()
+elif mode==4: play_tv()
 elif mode==5: download(name,url)
 elif mode==6: selfAddon.openSettings()
 elif mode==7: cat()

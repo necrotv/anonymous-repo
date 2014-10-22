@@ -237,13 +237,13 @@ def obtem_url_videomega(url):
 	except: url_legendas = '-'
 	return [url_video,url_legendas]
 
-def videowoodtv(url):
+def videowood(url):
 	if not "embed" in url: url = 'http://videowood.tv/embed/' + re.compile('src="http://videowood.tv/embed/(.+?)"').findall(abrir_url(url))[0]
 	codigo_fonte = abrir_url(url)
 	file = re.compile('file: "(.+?)"').findall(codigo_fonte)[0]
 	#swf = re.compile('flashplayer: "(.+?)"').findall(codigo_fonte)[0]
 	srt = re.compile("addSubtitles\('(.+?)'").findall(codigo_fonte)[0]
-	return [file,url_legendas]
+	return [file,srt]
 	
 def player(name,url,iconimage):
 	mensagemprogresso = xbmcgui.DialogProgress()
@@ -255,12 +255,14 @@ def player(name,url,iconimage):
 	try: url_video = re.compile('frameborder=".+?" height=".+?" scrolling=".+?" src="(.+?)"').findall(codigo_fonte)[0]
 	except: 
 		try: url_video = re.compile("width='.+?' height='.+?' scrolling='.+?' frameborder='.+?' src='(.+?)'").findall(codigo_fonte)[0]
-		except: 
-			try:
-				js = re.compile("<script type='text/javascript' src='(.+?)'").findall(codigo_fonte)[0]
-				ref = re.compile('var ref="(.+?)";').findall(abrir_url(js))[0]
-				url_video = 'http://videomega.tv/iframe.php?ref=' + ref
-			except: return
+		except:
+			try: url_video = re.compile('width=".+?" height=".+?".+?frameborder=".+?" src="(.+?)"').findall(codigo_fonte)[0]
+			except: 
+				try:
+					js = re.compile("<script type='text/javascript' src='(.+?)'").findall(codigo_fonte)[0]
+					ref = re.compile('var ref="(.+?)";').findall(abrir_url(js))[0]
+					url_video = 'http://videomega.tv/iframe.php?ref=' + ref
+				except: return
 
 	mensagemprogresso.update(66)
 	

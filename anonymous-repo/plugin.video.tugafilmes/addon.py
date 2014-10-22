@@ -237,6 +237,14 @@ def obtem_url_videomega(url):
 	except: url_legendas = '-'
 	return [url_video,url_legendas]
 
+def videowoodtv(url):
+	if not "embed" in url: url = 'http://videowood.tv/embed/' + re.compile('src="http://videowood.tv/embed/(.+?)"').findall(abrir_url(url))[0]
+	codigo_fonte = abrir_url(url)
+	file = re.compile('file: "(.+?)"').findall(codigo_fonte)[0]
+	#swf = re.compile('flashplayer: "(.+?)"').findall(codigo_fonte)[0]
+	srt = re.compile("addSubtitles\('(.+?)'").findall(codigo_fonte)[0]
+	return [file,url_legendas]
+	
 def player(name,url,iconimage):
 	mensagemprogresso = xbmcgui.DialogProgress()
 	mensagemprogresso.create('Tuga-Filmes', 'A resolver link','Por favor aguarde...')
@@ -244,9 +252,9 @@ def player(name,url,iconimage):
 	
 	matriz = []
 	codigo_fonte = abrir_url(url)
-	try: url_video = re.compile('<iframe frameborder=".+?" height=".+?" scrolling=".+?" src="(.+?)"').findall(codigo_fonte)[0]
+	try: url_video = re.compile('frameborder=".+?" height=".+?" scrolling=".+?" src="(.+?)"').findall(codigo_fonte)[0]
 	except: 
-		try: url_video = re.compile("<iframe width='.+?' height='.+?' scrolling='.+?' frameborder='.+?' src='(.+?)'").findall(codigo_fonte)[0]
+		try: url_video = re.compile("width='.+?' height='.+?' scrolling='.+?' frameborder='.+?' src='(.+?)'").findall(codigo_fonte)[0]
 		except: 
 			try:
 				js = re.compile("<script type='text/javascript' src='(.+?)'").findall(codigo_fonte)[0]
@@ -258,7 +266,8 @@ def player(name,url,iconimage):
 	
 	if 'videomega' in url_video: matriz = obtem_url_videomega(url_video)
 	elif 'dropvideo' in url_video: matriz = obtem_url_dropvideo(url_video)
-	else: matriz[0] = matriz[1] = '-'
+	elif 'videowood' in url_video: matriz = videowood(url_video)
+	else: return
 	
 	url = matriz[0]
 	if url=='-': return

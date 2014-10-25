@@ -18,7 +18,7 @@
 
 ##############BIBLIOTECAS A IMPORTAR E DEFINICOES####################
 
-import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,xbmcvfs,time,os
+import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,xbmcvfs,time,os,requests
 h = HTMLParser.HTMLParser()
 
 addon_id = 'plugin.video.manualdomundo'
@@ -139,7 +139,7 @@ def playimage(url):
 		try:os.remove(os.path.join(pastaperfil,'temp'+ext))
 		except:pass	
 	mypath = os.path.join(pastaperfil,extfic)
-	import requests
+	#import requests
 	with open(mypath, 'wb') as handle:
 		response = requests.get(url, stream=True)
 		if not response.ok: 

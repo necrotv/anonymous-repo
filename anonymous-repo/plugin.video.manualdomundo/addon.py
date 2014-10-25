@@ -134,7 +134,10 @@ def playimage(url):
 	extfic = ''
 	for x in range(0,len(extensao)):
 		if re.search(extensao[x],url): extfic='temp' + extensao[x]
-	if extfic == '': return
+	if extfic == '': 
+		print 'Extensão desconhecida'
+		xbmc.executebuiltin("Dialog.Close(busydialog)")
+		return
 	for ext in extensao:
 		try:os.remove(os.path.join(pastaperfil,'temp'+ext))
 		except:pass	
@@ -143,7 +146,7 @@ def playimage(url):
 	with open(mypath, 'wb') as handle:
 		response = requests.get(url, stream=True)
 		if not response.ok: 
-			print 'ERRO'
+			print 'Response Error'
 			xbmc.executebuiltin("Dialog.Close(busydialog)")
 			return
 		for block in response.iter_content(1024):

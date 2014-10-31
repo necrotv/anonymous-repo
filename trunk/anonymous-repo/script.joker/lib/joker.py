@@ -113,7 +113,7 @@ class joker:
 			xbmcgui.Dialog().ok("Error:", "Unable to open torrent!")
 			print 'Error opening url'
 			self._end()
-		'''
+
 	def _start(self):
 		print '==============================================================================='
 		print '===                                  Joker                                  ==='

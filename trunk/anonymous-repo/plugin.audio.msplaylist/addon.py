@@ -21,7 +21,6 @@ import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,socket,tim
 socket.setdefaulttimeout( 10 )  # timeout in seconds
 h = HTMLParser.HTMLParser()
 
-versao = selfAddon.getAddonInfo('version')
 addon_id = 'plugin.audio.msplaylist'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -34,6 +33,7 @@ if selfAddon.getSetting('autoplay') == 'true': autoplay = True
 prog_down = False
 if selfAddon.getSetting('prog_down') == 'true': prog_down = True
 traducaoma= selfAddon.getLocalizedString
+versao = selfAddon.getAddonInfo('version')
 
 def traducao(texto):
       return traducaoma(texto).encode('utf-8')

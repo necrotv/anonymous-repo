@@ -69,3 +69,5 @@ name="Dire Straits - Money For Nothing" url="http://pub.emuxperts.net/Music/Misc
 name="Dire Straits - Sultans Of Swing" url="http://www.synthesisradio.com/dailyguru/DSSultans.mp3"
 name="Avenged Sevenfold - Afterlife" url="http://w.are.free.fr/Avenged%20Sevenfold%20-%20Afterlife%20Album%20Version.mp3"
 name="Chumbawamba - Tubthumping" url="http://slnh.com.cn/09.Tubthumping.mp3"
+name="Audioslave - Like A Stone" url="http://ab.refcoord.com//as-like%20stone.mp3"
+name="System Of A Down - Hypnotize" url="http://a.tumblr.com/tumblr_lizsahSFpR1qbpu9zo1_r1.mp3"

@@ -1,19 +1,19 @@
 #EXTM3U 
-#EXTINF:0, XXL 
+#EXTINF:-1, XXL 
 http://dt3zwsgl95oj4.cloudfront.net/live2/xxl.smil/manifest.m3u8 
-#EXTINF:0, Dorcel 
+#EXTINF:-1, Dorcel 
 http://dt3zwsgl95oj4.cloudfront.net/live2/dorceltv.smil/manifest.m3u8 
-#EXTINF:0, Ночной Клуб 
+#EXTINF:-1, Ночной Клуб 
 http://iptv.multi-net.ru:80/udp/239.255.4.1:1234 
-#EXTINF:0, TV Русская ночь 
+#EXTINF:-1, TV Русская ночь 
 http://iptv.multi-net.ru:80/udp/239.255.4.2:1234 
-#EXTINF:0, FRENCHLOVER 
+#EXTINF:-1, FRENCHLOVER 
 http://iptv.multi-net.ru:80/udp/239.255.4.4:1234 
-#EXTINF:0, Искушение ТВ 
+#EXTINF:-1, Искушение ТВ 
 http://iptv.multi-net.ru:80/udp/239.255.4.5:1234 
-#EXTINF:0, O-la-la! 
+#EXTINF:-1, O-la-la! 
 http://iptv.multi-net.ru:80/udp/239.255.4.6:1234 
-#EXTINF:0, Brazzers TV Europe 
+#EXTINF:-1, Brazzers TV Europe 
 http://iptv.multi-net.ru:80/udp/239.255.4.7:1234 
 #EXTINF:-1,Bella Club 
 rtsp://46.249.213.87/broadcast/bellaluz-tablet.3gp 

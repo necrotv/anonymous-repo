@@ -1,14 +1,4 @@
 #EXTM3U 
-#EXTINF:-1,Ночной Клуб 
-http://iptv.multi-net.ru:80/udp/239.255.4.1:1234 
-#EXTINF:-1,TV Русская ночь 
-http://iptv.multi-net.ru:80/udp/239.255.4.2:1234 
-#EXTINF:-1,FRENCHLOVER 
-http://iptv.multi-net.ru:80/udp/239.255.4.4:1234 
-#EXTINF:-1,Искушение ТВ 
-http://iptv.multi-net.ru:80/udp/239.255.4.5:1234 
-#EXTINF:-1,O-la-la! 
-http://iptv.multi-net.ru:80/udp/239.255.4.6:1234 
 #EXTINF:0, XXL 
 http://dt3zwsgl95oj4.cloudfront.net/live2/xxl.smil/manifest.m3u8 
 #EXTINF:0, Dorcel 

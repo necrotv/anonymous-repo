@@ -15,9 +15,9 @@
     <summary lang="en">Adult channels</summary>
     <summary lang="pt">Canais para adultos</summary>
     <description lang="en">Adults only! You may only view the contents of this addon if you are at least 18 years of age, or at least the age of majority in the jurisdiction where you reside or from which you access this content.</description>
-    <description lang="pt">Adultos apenas! Conteúdo visível apenas a maiores de idade.</description>
+    <description lang="pt">Adultos apenas! Conteudo visivel apenas a maiores de idade.</description>
 	<disclaimer lang="en">The owners and submitters to this addon do not host or distribute any of the content displayed nor do they have any affiliation with the content providers.</disclaimer>
-	<disclaimer lang="pt">Os proprietários deste addon não hospedam ou distribuem o conteúdo exibido nem têm qualquer afiliação com os provedores do conteúdo.</disclaimer>
+	<disclaimer lang="pt">Os proprietarios deste addon nao hospedam ou distribuem o conteudo exibido nem tem qualquer afiliacao com os provedores do conteudo.</disclaimer>
     <platform>all</platform>
   </extension>
 </addon>

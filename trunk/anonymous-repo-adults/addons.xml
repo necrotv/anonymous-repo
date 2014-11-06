@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.brazzers" name="Brazzers" version="1.0.4" provider-name="Anonymous">
+<addon id="plugin.video.adultstv" name="Adults TV" version="0.0.1" provider-name="Anonymous">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.t0mm0.common"/>
+	<import addon="script.module.urlresolver" version="2.4.0"/>
+	<import addon="script.module.simplejson"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="resources/lib/main.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <language>en</language>
+    <platform>all</platform>
+    <summary lang="en">Adult channels</summary>
+    <summary lang="pt">Canais para adultos</summary>
+    <description lang="en">Adults only! You may only view the contents of this addon if you are at least 18 years of age, or at least the age of majority in the jurisdiction where you reside or from which you access this content.</description>
+    <description lang="pt">Adultos apenas! ConteÃºdo visÃ­vel apenas a maiores de idade.</description>
+	<disclaimer lang="en">The owners and submitters to this addon do not host or distribute any of the content displayed nor do they have any affiliation with the content providers.</disclaimer>
+	<disclaimer lang="pt">Os proprietÃ¡rios deste addon nÃ£o hospedam ou distribuem o conteÃºdo exibido nem tÃªm qualquer afiliaÃ§Ã£o com os provedores do conteÃºdo.</disclaimer>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.brazzers" name="Brazzers" version="1.0.5" provider-name="Anonymous">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
@@ -14,10 +37,11 @@
     <description lang="en">Adults only! You may only view the contents of this addon if you are at least 18 years of age, or at least the age of majority in the jurisdiction where you reside or from which you access this content.</description>
     <disclaimer>The owners and submitters to this addon do not host or distribute any of the content displayed nor do they have any affiliation with the content providers.</disclaimer>
 	<platform>all</platform>
+	<broken>Addon deprecated - use Adults TV</broken>
   </extension>
 </addon>
 
-<addon id="plugin.video.freehdporn" name="Free HD Porn" version="1.0.3" provider-name="Anonymous">
+<addon id="plugin.video.freehdporn" name="Free HD Porn" version="1.0.4" provider-name="Anonymous">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
@@ -31,6 +55,7 @@
     <description lang="en">Adults only! You may only view the contents of this addon if you are at least 18 years of age, or at least the age of majority in the jurisdiction where you reside or from which you access this content.</description>
     <disclaimer>The owners and submitters to this addon do not host or distribute any of the content displayed nor do they have any affiliation with the content providers.</disclaimer>
 	<platform>all</platform>
+	<broken>Addon deprecated - Use Adults TV addon</broken>
   </extension>
 </addon>
 

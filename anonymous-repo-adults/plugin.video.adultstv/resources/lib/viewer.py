@@ -8,6 +8,7 @@ import sys
 import os
 import xbmcaddon
 import urllib2
+import re
 
 addon_id = 'plugin.video.adultstv'
 selfAddon = xbmcaddon.Addon(id=addon_id)
@@ -27,7 +28,7 @@ class Viewer:
 			self.text(texto,traducao(1004))
 		elif sys.argv[1] == "version":
 			try:
-				codigo_fonte=abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo-adults/plugin.video.adultstv/addon.xml')
+				codigo_fonte=self.abrir_url('http://anonymous-repo.googlecode.com/svn/trunk/anonymous-repo-adults/plugin.video.adultstv/addon.xml')
 				match=re.compile('version="(.+?)"').findall(codigo_fonte)[1]
 			except: match='error'
 			if match=='error': xbmcgui.Dialog().ok(traducao(2010),traducao(2059),traducao(2060))

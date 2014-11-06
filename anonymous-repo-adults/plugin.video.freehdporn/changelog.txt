@@ -1,3 +1,6 @@
+Version 1.0.4:
+Addon deprecated
+
 Version 1.0.3:
 Fix - Site Updates
 

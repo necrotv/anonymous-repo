@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.adultstv" name="Adults TV" version="0.0.1" provider-name="Anonymous">
+<addon id="plugin.video.adultstv" name="Adults TV" version="0.0.2" provider-name="Anonymous">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
 	<import addon="script.module.t0mm0.common"/>
@@ -16,9 +16,9 @@
     <summary lang="en">Adult channels</summary>
     <summary lang="pt">Canais para adultos</summary>
     <description lang="en">Adults only! You may only view the contents of this addon if you are at least 18 years of age, or at least the age of majority in the jurisdiction where you reside or from which you access this content.</description>
-    <description lang="pt">Adultos apenas! ConteÃºdo visÃ­vel apenas a maiores de idade.</description>
+    <description lang="pt">Adultos apenas! Conteudo visivel apenas a maiores de idade.</description>
 	<disclaimer lang="en">The owners and submitters to this addon do not host or distribute any of the content displayed nor do they have any affiliation with the content providers.</disclaimer>
-	<disclaimer lang="pt">Os proprietÃ¡rios deste addon nÃ£o hospedam ou distribuem o conteÃºdo exibido nem tÃªm qualquer afiliaÃ§Ã£o com os provedores do conteÃºdo.</disclaimer>
+	<disclaimer lang="pt">Os proprietarios deste addon nao hospedam ou distribuem o conteudo exibido nem tem qualquer afiliacao com os provedores do conteudo.</disclaimer>
     <platform>all</platform>
   </extension>
 </addon>

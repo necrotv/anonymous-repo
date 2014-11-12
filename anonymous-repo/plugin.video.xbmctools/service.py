@@ -20,6 +20,7 @@ class service:
 				librtmp_path = os.path.join(librtmp.android_xbmc_path(), "lib", "librtmp.so")
 				if not librtmp.md5sum_verified(librtmp_path) == md5:
 					my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
+					xbmc.sleep(1000)
 					os.system("su -c 'cat "+my_librtmp+" > "+librtmp_path+"'")
 					os.system("su -c 'chmod 755 "+librtmp_path+"'")
 			if auto_update_librtmp: librtmp.librtmp_android(True)

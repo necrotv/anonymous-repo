@@ -79,7 +79,7 @@ def traducao(texto):
 
 def CATEGORIES():
 	pdf._mensagem_inicial()
-	#cbx.clean_temp()
+	cbx.clean_temp()
 	addDir(traducao(2000),'-',4,artfolder + 'open.png',False)
 	addDir(traducao(2008),'-',6,artfolder + 'opencbx.png',False)
 	addLink('','','-')

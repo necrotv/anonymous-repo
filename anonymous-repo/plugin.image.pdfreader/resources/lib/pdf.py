@@ -70,8 +70,10 @@ class pdf:
 
 	def pdf_read(self,name,url,videoaddon=False):	# Read and play pdf
 		if videoaddon: 
+			xbmc.executebuiltin("ActivateWindow(busydialog)")
 			xbmc.executebuiltin('XBMC.RunAddon(plugin.image.pdfreader)')
-			#xbmc.sleep(100)
+			xbmc.sleep(2000)
+			xbmc.executebuiltin("Dialog.Close(busydialog)")
 		name = re.sub('[^a-z A-Z0-9\n\.]', '', name)
 		self._mensagem_inicial()
 		self.clean_temp()
@@ -281,8 +283,10 @@ class pdf:
 class cbx:
 	def cbx_read(self,name,url,videoaddon=False):
 		if videoaddon: 
+			xbmc.executebuiltin("ActivateWindow(busydialog)")
 			xbmc.executebuiltin('XBMC.RunAddon(plugin.image.pdfreader)')
-			#xbmc.sleep(100)
+			xbmc.sleep(2000)
+			xbmc.executebuiltin("Dialog.Close(busydialog)")
 		self.clean_temp()
 		xbmc.executebuiltin('XBMC.Extract('+url+','+temp+')')
 		xbmc.executebuiltin('XBMC.Container.Update(%s?mode=5&url=%s&name=%s)' % ('plugin://plugin.image.pdfreader/', urllib.quote_plus(url),name))

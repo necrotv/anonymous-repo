@@ -165,12 +165,13 @@ class pdf:
 			else:
 				if thumbs2 == '0': aux = name+'-'+str(dim)+'.'+type
 				else: aux = name+'_'+str(dim)+'_%d=%d' % (random.randint(1, 10000), random.randint(1, 10000)) + '.'+type
-			image_path = os.path.join(save_path,aux)
-			imagefile = file(image_path, "wb")
-			imagefile.write(image)
-			imagefile.close()
-			images_name.append(aux)
-			dim += 1
+			if sys.getsizeof(image) > 10000 or selfAddon.getSetting('limite')=='false':
+				image_path = os.path.join(save_path,aux)
+				imagefile = file(image_path, "wb")
+				imagefile.write(image)
+				imagefile.close()
+				images_name.append(aux)
+				dim += 1
 			i = iend
 		f = open(temp+'names.txt',"w")
 		for image_name in images_name:

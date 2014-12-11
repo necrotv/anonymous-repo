@@ -103,11 +103,17 @@ class utilis:
 	Ex: 'x32' or 'x64'
 	If an error occurs, it returns 'Error'
 	'''
-		
+	
+	def _version(self):
+		try: ver = int(xbmc.getInfoLabel("System.BuildVersion")[0:2])
+		except: ver = -1
+		return ver
+	
 	def xbmc_bit_version(self):
 		try:
 			log_path = xbmc.translatePath('special://logpath')
-			log = os.path.join(log_path, 'xbmc.log')
+			if self._version() < 14: log = os.path.join(log_path, 'xbmc.log')
+			else: log = os.path.join(log_path, 'kodi.log')
 			f = open(log,"r")
 			aux = f.readlines()
 			f.close()

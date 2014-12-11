@@ -21,13 +21,12 @@ class librtmp:
 
 	def VersionChecker(self,system):
 		if system == "ios":
-			librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
+			#librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
+			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
 			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
 		elif system == "macos":
-			librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
-			print '/////////////////// TESTE ///////////////////'
-			print librtmp_path
-			print xbmc.translatePath("special://frameworks")
+			#librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
 			if selfAddon.getSetting('mac_bits') == "0": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
 			elif selfAddon.getSetting('mac_bits') == "1": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 			else: return
@@ -283,11 +282,15 @@ class librtmp:
 				librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
 				bak_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll.bak")
 			if "ios" in url:
-				librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
-				bak_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib.bak")
+				#librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
+				#bak_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib.bak")
+				librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
+				bak_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib.bak")
 			if "macos" in url:
-				librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
-				bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
+				#librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+				#bak_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib.bak")
+				librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
+				bak_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib.bak")
 			if "armv7" in url:
 				librtmp_path, lib = _librtmp_path()
 				bak_path = librtmp_path.replace(lib,lib+'.bak')
@@ -644,9 +647,15 @@ class librtmp:
 		
 	#########################################	WINDOWS, IOS e MAC OSX
 	
+	def _version(self):
+		try: ver = int(xbmc.getInfoLabel("System.BuildVersion")[0:2])
+		except: ver = -1
+		return ver
+	
 	def xbmc_bit_version(self):
 		log_path = xbmc.translatePath('special://logpath')
-		log = os.path.join(log_path, 'xbmc.log')
+		if self._version() < 14: log = os.path.join(log_path, 'xbmc.log')
+		else: log = os.path.join(log_path, 'kodi.log')
 		f = open(log,"r")
 		aux = f.readlines()
 		f.close()
@@ -676,7 +685,8 @@ class librtmp:
 			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Windows/librtmp.dll"
 			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/windows.xml.md5")
 		elif url == "ios":
-			librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
+			#librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
+			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
 			my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/iOS/librtmp.0.dylib"
 			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
@@ -688,7 +698,8 @@ class librtmp:
 				download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
 				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 			else: return
-			librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+			#librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
 			my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 		elif url == "armv7":
 			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"

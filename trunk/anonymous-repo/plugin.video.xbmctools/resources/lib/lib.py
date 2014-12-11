@@ -209,7 +209,7 @@ class librtmp:
 	def backup(self,url):
 		self.addDir("Backup",url + " backup",10,artfolder + "backup.png",False)
 		self.addDir("Restore",url + " restore",10,artfolder + "backup.png",False)
-		self.addDir("Apagar backup",url + " remove",10,artfolder + "backup.png",False)
+		self.addDir(traducao(2063),url + " remove",10,artfolder + "backup.png",False)
 		
 	def backup_(self,url):
 		if "backup" in url:

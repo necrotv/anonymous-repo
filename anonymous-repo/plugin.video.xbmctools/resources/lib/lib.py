@@ -25,6 +25,9 @@ class librtmp:
 			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
 		elif system == "macos":
 			librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
+			print '/////////////////// TESTE ///////////////////'
+			print librtmp_path
+			print xbmc.translatePath("special://frameworks")
 			if selfAddon.getSetting('mac_bits') == "0": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
 			elif selfAddon.getSetting('mac_bits') == "1": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
 			else: return

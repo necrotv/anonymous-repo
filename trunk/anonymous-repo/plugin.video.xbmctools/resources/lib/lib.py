@@ -76,7 +76,9 @@ class librtmp:
 		file_path = selfAddon.getSetting('librtmp_path')
 		if "librtmp.so.0" in file_path: lib = "librtmp.so.0"
 		elif "librtmp.so.1" in file_path: lib = "librtmp.so.1"
-		else: lib = "erro"
+		else: 
+			file_path = "erro"
+			lib = "erro"
 		return file_path,lib
 
 	def set_librtmp_path(self):
@@ -220,7 +222,9 @@ class librtmp:
 			if not dialog.yesno(traducao(2016), traducao(2021),traducao(2019)): return
 
 		if "linux" in url or "raspberry" in url or "openelec" in url:
-			if "openelec" in url: librtmp_path = "/storage/lib/librtmp.so.0"
+			if "openelec" in url: 
+				librtmp_path = "/storage/lib/librtmp.so.0"
+				lib = "librtmp.so.0"
 			else:
 				librtmp_path, lib = self._librtmp_path()
 			
@@ -228,7 +232,7 @@ class librtmp:
 				dialog.ok(traducao(2014), traducao(2022))
 				return
 				
-			if ("remove" in url or "restore" in url) and not os.path.exists(librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak")): 
+			if ("remove" in url or "restore" in url) and not os.path.exists(librtmp_path.replace(lib,lib+".bak")): 
 				dialog.ok(traducao(2016), traducao(2023))
 				return
 			

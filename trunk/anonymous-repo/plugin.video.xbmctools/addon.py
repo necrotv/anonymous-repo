@@ -110,7 +110,7 @@ def CATEGORIES():
 				librtmp.VersionChecker("raspberry")'''
 		else: 
 			#LINUX
-			if re.search(os.uname()[1],"openelec",re.IGNORECASE): 
+			if re.search(os.uname()[1],"openelec",re.IGNORECASE) or forcar_openelec: 
 				mensagem_os("Openelec",True)
 				addDir(traducao(2003),"-",8,artfolder + "dll.png",False)
 				addDir(traducao(2004),"openelec",9,artfolder + "backup.png")

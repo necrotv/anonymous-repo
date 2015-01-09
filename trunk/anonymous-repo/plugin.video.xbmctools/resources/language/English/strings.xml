@@ -65,4 +65,6 @@
 	<string id="2061">Update?</string>
 	<string id="2062">Time till the hack be applied</string>
 	<string id="2063">Delete Backup</string>
+	<string id="2064">Addon settings</string>
+	<string id="2065">Force shutdown (Win/Linux/OSx)</string>
 </strings>

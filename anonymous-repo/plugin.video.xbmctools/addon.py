@@ -23,7 +23,7 @@ from resources.lib.lib import librtmp
 librtmp = librtmp()
 h = HTMLParser.HTMLParser()
 
-versao = '1.1.5'
+versao = '1.1.6'
 addon_id = 'plugin.video.xbmctools'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -147,6 +147,7 @@ def CATEGORIES():
 	#-------------------------------------------------------------------
 	else: erro_os()
 	
+	addDir(traducao(2064),"-",14,artfolder + "settings.png", False)
 	disponivel=versao_disponivel() # nas categorias
 	if disponivel==versao: addLink('[B][COLOR white]'+traducao(2005)+' (' + versao + ')[/COLOR][/B]','',artfolder + 'versao.png')
 	elif disponivel=='Erro ao verificar a versão!': addLink('[B][COLOR white]' + traducao(2006) + '[/COLOR][/B]','',artfolder + 'versao.png')
@@ -256,5 +257,6 @@ elif mode==10: librtmp.backup_(url)
 elif mode==11: librtmp.download_apk()
 elif mode==12: librtmp.android_hack_off()
 elif mode==13: librtmp.android_hack_on()
+elif mode==14: selfAddon.openSettings()
 	
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

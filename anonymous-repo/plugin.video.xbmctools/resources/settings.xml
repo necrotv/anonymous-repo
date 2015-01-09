@@ -2,6 +2,7 @@
 <settings>
    <category label="2052">
       <setting id="auto_update_librtmp" type="bool" label="2058" visible="true" default="false"/>
+      <setting id="force-shutdown" type="bool" label="2065" visible="true" default="false"/>
    </category>
    <category label="Android">
       <setting id="start_time" label="2062" type="slider" default="1" range="0,10" option="int" />

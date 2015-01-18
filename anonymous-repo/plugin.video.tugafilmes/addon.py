@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,time,os,json
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.4'
+versao = '1.0.5'
 addon_id = 'plugin.video.tugafilmes'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')

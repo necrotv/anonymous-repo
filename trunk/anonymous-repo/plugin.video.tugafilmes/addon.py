@@ -21,7 +21,7 @@
 import urllib,urllib2,re,xbmcplugin,xbmcgui,xbmc,xbmcaddon,HTMLParser,time,os,json
 h = HTMLParser.HTMLParser()
 
-versao = '1.0.8'
+versao = '1.0.9'
 addon_id = 'plugin.video.tugafilmes'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addonfolder = selfAddon.getAddonInfo('path')
@@ -305,6 +305,12 @@ def videomega_resolver(referer):
 	
 	url = 'http://videomega.tv/cdn.php?ref='+ref+'&width=638&height=431&val=1'
 	iframe_html = abrir_url_tommy(url,ref_data)
+	url_video = re.compile('<source src="(.+?)"').findall(iframe_html)[0]
+	try: url_legendas = re.compile('<track kind="captions" src="(.+?)"').findall(iframe_html)[0]
+	except: url_legendas = '-'
+	return [url_video,url_legendas]
+	
+	'''
 	code = re.compile('document.write\(unescape\("(.+?)"\)\)\;').findall(iframe_html)
 	id = re.compile('<div id="(.+?)" name="adblock"').findall(iframe_html)[0]
 	texto = ''
@@ -327,6 +333,7 @@ def videomega_resolver(referer):
 			  'User-Agent':'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
 			  'Referer':'http://videomega.tv/player/jwplayer.flash.swf'}
 	return [url_video+headers_str(ref_data),url_legendas]
+	'''
 
 def headers_str(headers):
 	start = True

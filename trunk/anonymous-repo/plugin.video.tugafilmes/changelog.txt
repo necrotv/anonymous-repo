@@ -1,4 +1,7 @@
-﻿Versão 1.0.7:
+﻿Versão 1.0.8:
+Correcção no servidor videomega
+
+Versão 1.0.7:
 Pequenas correcções nos servidores
 
 Versão 1.0.6:

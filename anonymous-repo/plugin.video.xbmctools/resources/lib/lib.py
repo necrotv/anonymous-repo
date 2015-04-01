@@ -12,10 +12,32 @@ if not os.path.exists(addonfolder): addonfolder = addonfolder.decode('utf-8')
 artfolder = addonfolder + '/resources/img/'
 dialog = xbmcgui.Dialog()
 xbmc_version = int(xbmc.getInfoLabel("System.BuildVersion" )[0:2])
-traducaoma= selfAddon.getLocalizedString
+
+md5_ios 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5"
+md5_mac86 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5"
+md5_mac64 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5"
+md5_win 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/windows.xml.md5"
+md5_android = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5"
+md5_rasp 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5"
+md5_lin86 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5"
+md5_lin64 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5"
+
+lib_rasp 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
+lib_lin86 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
+lib_lin64 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
+lib_android = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"
+lib_win 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Windows/librtmp.dll"
+lib_ios 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/iOS/librtmp.0.dylib"
+lib_mac86 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
+lib_mac64 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
+
+qwerty_xml 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
+abcde_xml 	= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
+
+apk_url		= "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/url.txt"
 
 def traducao(texto):
-	return traducaoma(texto).encode('utf-8')
+	return selfAddon.getLocalizedString(texto).encode('utf-8')
 
 class librtmp:
 
@@ -23,36 +45,36 @@ class librtmp:
 		if system == "ios":
 			#librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
+			md5 = self.abrir_url(md5_ios)
 		elif system == "macos":
 			#librtmp_path = os.path.join(xbmc.translatePath("special://xbmc").replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
-			if selfAddon.getSetting('mac_bits') == "0": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
-			elif selfAddon.getSetting('mac_bits') == "1": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
+			if selfAddon.getSetting('mac_bits') == "0": md5 = self.abrir_url(md5_mac86)
+			elif selfAddon.getSetting('mac_bits') == "1": md5 = self.abrir_url(md5_mac64)
 			else: return
 		elif system == "windows":
 			librtmp_path = os.path.join(xbmc.translatePath("special://xbmc"), "system/players/dvdplayer/librtmp.dll")
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/windows.xml.md5")
+			md5 = self.abrir_url(md5_win)
 		elif system == "android":
 			xbmc_path = self.android_xbmc_path()
 			librtmp_path = os.path.join(xbmc_path, "lib","librtmp.so")
 			aux = os.path.join(xbmc_path, "lib", "libxbrtmp.so")
 			if os.path.exists(aux): librtmp_path = aux
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
+			md5 = self.abrir_url(md5_android)
 		elif system == "openelec":
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
+			md5 = self.abrir_url(md5_rasp)
 			librtmp_path = "/storage/lib/librtmp.so.0"
 		elif system == "openelec pc":
-			if os.uname()[4] == "i686" or os.uname()[4] == "i386": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
-			elif os.uname()[4] == "x86_64": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
+			if os.uname()[4] == "i686" or os.uname()[4] == "i386": md5 = self.abrir_url(md5_lin86)
+			elif os.uname()[4] == "x86_64": md5 = self.abrir_url(md5_lin64)
 			else: return
 			librtmp_path = "/storage/lib/librtmp.so.0"
 		elif system == "linux" or system == "raspberry":
 			librtmp_path, lib = self._librtmp_path()
-			if system == "raspberry": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
+			if system == "raspberry": md5 = self.abrir_url(md5_rasp)
 			elif system == "linux": 
-				if os.uname()[4] == "i686" or os.uname()[4] == "i386": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
-				elif os.uname()[4] == "x86_64": md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
+				if os.uname()[4] == "i686" or os.uname()[4] == "i386": md5 = self.abrir_url(md5_lin86)
+				elif os.uname()[4] == "x86_64": md5 = self.abrir_url(md5_lin64)
 				else: return
 				
 		if self.md5sum_verified(librtmp_path) == md5: self.addLink("[B][COLOR blue]"+traducao(2049)+"[/COLOR][/B]",'',artfolder + "check.png")
@@ -135,46 +157,46 @@ class librtmp:
 
 	def librtmp_openelec(self,url,autorun=False):
 		if url == "raspberry":
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
-			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
+			md5 = self.abrir_url(md5_rasp)
+			url_download = lib_rasp
 		else:
 			if os.uname()[4] == "i686" or os.uname()[4] == "i386": 
-				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
-				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
+				url_download = lib_lin86
+				md5 = self.abrir_url(md5_lin86)
 			elif os.uname()[4] == "x86_64": 
-				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
-				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
+				url_download = lib_lin64
+				md5 = self.abrir_url(md5_lin64)
 			else:
 				ret = dialog.select(traducao(2030), ['x86', 'x64'])
 				if ret == 0:
-					url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
-					md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
+					url_download = lib_lin86
+					md5 = self.abrir_url(md5_lin86)
 				elif ret == 1: 
-					url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
-					md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
+					url_download = lib_lin64
+					md5 = self.abrir_url(md5_lin64)
 				else: return
-			
-		if self.md5sum_verified("/storage/lib/librtmp.so.0") == md5:
+		lib_name = selfAddon.getSetting("openelec-lib")
+		if self.md5sum_verified("/storage/lib/"+lib_name) == md5:
 			if autorun: return
 			if not dialog.yesno(traducao(2016),traducao(2044),traducao(2045)): return
 		
 		if autorun:
 			if not dialog.yesno(traducao(2016),traducao(2060),traducao(2061)): return
 		
-		my_tmp = os.path.join(addonfolder,"resources","temp","librtmp.so.0")
+		my_tmp = os.path.join(addonfolder,"resources","temp",lib_name)
 		
 		if not self.download(my_tmp,url_download):
 			dialog.ok(traducao(2014), traducao(2015))
 			return;
 			
-		if os.path.exists("/storage/lib/librtmp.so.0") and os.path.exists("/var/tmp/libhack/3rdparty/librtmp.so.0"):
+		if os.path.exists("/storage/lib/" + lib_name) and os.path.exists("/var/tmp/libhack/3rdparty/" + lib_name):
 			if not dialog.yesno(traducao(2016),traducao(2053),traducao(2054)):
-				subprocess.call("rm /storage/lib/librtmp.so.0", shell=True)
-				subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)
-				subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)
+				subprocess.call("rm /storage/lib/" + lib_name, shell=True)
+				subprocess.call("cp " + my_tmp + " /storage/lib/" + lib_name, shell=True)
+				subprocess.call("chmod 755 /storage/lib/" + lib_name, shell=True)
 				subprocess.call("rm " + my_tmp, shell=True)
 				
-				if self.md5sum_verified("/storage/lib/librtmp.so.0") != md5: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
+				if self.md5sum_verified("/storage/lib/" + lib_name) != md5: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 				
 				dialog.ok(traducao(2016),traducao(2017))
 				subprocess.call("reboot", shell=True)
@@ -190,17 +212,17 @@ class librtmp:
 		mensagemprogresso.update(39)
 		subprocess.call("curl -L http://is.gd/GJdaEY -o /storage/.config/mktmplib", shell=True)
 		mensagemprogresso.update(52)
-		subprocess.call("cp " + my_tmp + " /storage/lib/librtmp.so.0", shell=True)
+		subprocess.call("cp " + my_tmp + " /storage/lib/" + lib_name, shell=True)
 		mensagemprogresso.update(65)
-		subprocess.call("chmod 755 /storage/lib/librtmp.so.0", shell=True)
+		subprocess.call("chmod 755 /storage/lib/" + lib_name, shell=True)
 		mensagemprogresso.update(78)
-		subprocess.call("ln -s /storage/lib/librtmp.so.0 /storage/lib/librtmp.so", shell=True)
+		subprocess.call("ln -s /storage/lib/" + lib_name + " /storage/lib/librtmp.so", shell=True)
 		mensagemprogresso.update(90)
 		subprocess.call("rm " + my_tmp, shell=True)
 		mensagemprogresso.update(100)
 		mensagemprogresso.close()
 		
-		if self.md5sum_verified("/storage/lib/librtmp.so.0") != md5: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
+		if self.md5sum_verified("/storage/lib/" + lib_name) != md5: dialog.ok(traducao(2014),traducao(2042),traducao(2043))
 		
 		dialog.ok(traducao(2016),traducao(2017))
 		subprocess.call("reboot", shell=True)
@@ -223,8 +245,8 @@ class librtmp:
 
 		if "linux" in url or "raspberry" in url or "openelec" in url:
 			if "openelec" in url: 
-				librtmp_path = "/storage/lib/librtmp.so.0"
-				lib = "librtmp.so.0"
+				librtmp_path = "/storage/lib/" + selfAddon.getSetting("openelec-lib")
+				lib = selfAddon.getSetting("openelec-lib")
 			else:
 				librtmp_path, lib = self._librtmp_path()
 			
@@ -349,23 +371,23 @@ class librtmp:
 	def librtmp_linux(self,url,autorun=False):
 		
 		if url == "raspberry":
-			url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
+			url_download = lib_rasp
+			md5 = self.abrir_url(md5_rasp)
 		elif url == "linux":
 			if os.uname()[4] == "i686" or os.uname()[4] == "i386": 
-				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
-				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
+				url_download = lib_lin86
+				md5 = self.abrir_url(md5_lin86)
 			elif os.uname()[4] == "x86_64": 
-				url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
-				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
+				url_download = lib_lin64
+				md5 = self.abrir_url(md5_lin64)
 			else:
 				ret = dialog.select(traducao(2030), ['x86', 'x64'])
 				if ret == 0:
-					url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x86&ATV1/librtmp.so.0"
-					md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x86.xml.md5")
+					url_download = lib_lin86
+					md5 = self.abrir_url(md5_lin86)
 				elif ret == 1: 
-					url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Linux/x64/librtmp.so.0"
-					md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/linux_x64.xml.md5")
+					url_download = lib_lin64
+					md5 = self.abrir_url(md5_lin64)
 				else: return
 		else: return
 			
@@ -451,8 +473,8 @@ class librtmp:
 				dialog.ok(traducao(2014), traducao(2025))
 				return
 		
-		if url == "qwerty": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
-		elif url == "abcde": url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
+		if url == "qwerty": url_download = qwerty_xml
+		elif url == "abcde": url_download = abcde_xml
 		
 		if self.download(my_tmp,url_download):
 			p = subprocess.Popen("sudo -S rm " + file_path, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -477,7 +499,7 @@ class librtmp:
 		aux = os.path.join(xbmc_path, "lib", "libxbrtmp.so")
 		if os.path.exists(aux): librtmp_path = aux
 			
-		md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/android.xml.md5")
+		md5 = self.abrir_url(md5_android)
 		
 		if os.path.exists(librtmp_path) is False:
 			dialog.ok(traducao(2014), traducao(2022))
@@ -497,7 +519,7 @@ class librtmp:
 		print "my_librtmp: " + my_librtmp
 		print "librtmp_path: " + librtmp_path
 		
-		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+		if self.download(my_librtmp,lib_android):
 			if selfAddon.getSetting('android_hack') == "true":
 				librtmp_hack_path = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
 				os.system("su -c 'rm "+librtmp_hack_path+"'")
@@ -528,7 +550,7 @@ class librtmp:
 			return
 		my_librtmp = os.path.join(addonfolder,"resources","android_hack","librtmp.so")
 		self.remove_ficheiro(my_librtmp)
-		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+		if self.download(my_librtmp,lib_android):
 			selfAddon.setSetting('android_hack',value='true')
 			xbmc.executebuiltin("Container.Refresh")
 			
@@ -544,7 +566,7 @@ class librtmp:
 		app_lib = self.get_xbmb_applib()
 		xbmc_apk = self.get_xbmb_apk()
 		if xbmc_apk == "erro" or app_lib == "erro": return
-		if self.download(my_librtmp,"http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Android/librtmp.so"):
+		if self.download(my_librtmp,lib_android):
 			#os.system("su -c 'cat "+my_librtmp+" > "+os.path.join(app_lib,"librtmp.so")+"'")
 			#os.system("su -c 'chmod 755 "+os.path.join(app_lib,"librtmp.so")+"'")
 			os.system("su -c 'chmod 755 "+my_librtmp+"'")
@@ -641,7 +663,7 @@ class librtmp:
 		if not os.path.exists(dir):
 			dialog.ok(traducao(2014),traducao(2046))
 			return
-		url = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/apk/url.txt")
+		url = self.abrir_url(apk_url)
 		url = self.get_mediafire_url(url)
 		if url == "erro":
 			dialog.ok(traducao(2014), traducao(2015))
@@ -686,28 +708,28 @@ class librtmp:
 				return
 			librtmp_path = os.path.join(xbmc_folder, "system/players/dvdplayer/librtmp.dll")
 			my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.dll")
-			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/Windows/librtmp.dll"
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/windows.xml.md5")
+			download_url = lib_win
+			md5 = self.abrir_url(md5_win)
 		elif url == "ios":
 			#librtmp_path = os.path.join(xbmc_folder.replace('XBMCData/XBMCHome','Frameworks'),"librtmp.0.dylib")
 			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
 			my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
-			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/iOS/librtmp.0.dylib"
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/ios.xml.md5")
+			download_url = lib_ios
+			md5 = self.abrir_url(md5_ios)
 		elif url == "macos":
 			if selfAddon.getSetting('mac_bits') == "0":
-				download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x86/librtmp.0.dylib"
-				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x86.xml.md5")
+				download_url = lib_mac86
+				md5 = self.abrir_url(md5_mac86)
 			elif selfAddon.getSetting('mac_bits') == "1":
-				download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/macOS/x64/librtmp.0.dylib"
-				md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/macos_x64.xml.md5")
+				download_url = lib_mac64
+				md5 = self.abrir_url(md5_mac64)
 			else: return
 			#librtmp_path = os.path.join(xbmc_folder.replace('Resources/XBMC','Libraries'),"librtmp.0.dylib")
 			librtmp_path = os.path.join(xbmc.translatePath("special://frameworks"),"librtmp.0.dylib")
 			my_librtmp = os.path.join(addonfolder,"resources","temp","librtmp.0.dylib")
 		elif url == "armv7":
-			download_url = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/RaspberryPI/librtmp.so.0"
-			md5 = self.abrir_url("http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/librtmp/md5/raspberry.xml.md5")
+			download_url = lib_rasp
+			md5 = self.abrir_url(md5_rasp)
 			librtmp_path, lib = self._librtmp_path()
 			my_librtmp = os.path.join(addonfolder,"resources","temp",lib)
 		else: return
@@ -751,8 +773,8 @@ class librtmp:
 			dialog.ok(traducao(2014), traducao(2034))
 			return
 			
-		if "qwerty" in url: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/qwerty/DialogKeyboard.xml"
-		elif "abcde" in url: url_download = "http://anonymous-repo.googlecode.com/svn/trunk/xbmc-tools/keyboard/abcd/DialogKeyboard.xml"
+		if "qwerty" in url: url_download = qwerty_xml
+		elif "abcde" in url: url_download = abcde_xml
 		else: return
 			
 		if self.download(my_tmp,url_download):

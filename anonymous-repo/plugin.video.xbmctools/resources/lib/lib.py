@@ -271,12 +271,12 @@ class librtmp:
 						dialog.ok(traducao(2014), traducao(2025))
 						return
 			if "openelec" in url:
-				if "remove" in url or "backup" in url: subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
-				if "backup" in url: subprocess.call("cp " + librtmp_path + " " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
+				if "remove" in url or "backup" in url: subprocess.call("rm " + librtmp_path.replace(lib,lib+".bak"), shell=True)
+				if "backup" in url: subprocess.call("cp " + librtmp_path + " " + librtmp_path.replace(lib,lib+".bak"), shell=True)
 				if "restore" in url: 
 					subprocess.call("rm " + librtmp_path, shell=True)
-					subprocess.call("cp " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak") + " " + librtmp_path, shell=True)
-					subprocess.call("rm " + librtmp_path.replace("librtmp.so.0","librtmp.so.0.bak"), shell=True)
+					subprocess.call("cp " + librtmp_path.replace(lib,lib+".bak") + " " + librtmp_path, shell=True)
+					subprocess.call("rm " + librtmp_path.replace(lib,lib+".bak"), shell=True)
 					subprocess.call("chmod 755 " + librtmp_path, shell=True)
 				dialog.ok(traducao(2026),traducao(2027))
 				return
